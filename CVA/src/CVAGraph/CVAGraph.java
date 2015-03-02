@@ -33,8 +33,6 @@ public class CVAGraph{
 		this.cvaGraph.addAttribute("ui.quality");
 		this.cvaGraph.addAttribute("ui.antialias");
 		
-		this.load(path, this.cvaGraph);
-		
 	}
 	
 	/**
@@ -85,29 +83,6 @@ public class CVAGraph{
 	
 	public Graph getGraph(){
 		return this.cvaGraph;
-	}
-	public void save(String path) {
-		FileSinkDGS fs = new FileSinkDGS();
-		try {
-			fs.writeAll(cvaGraph, path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	private void load(String path, Graph g)throws IOException{
-
-		FileSource fs = 
-				FileSourceFactory.sourceFor(path);
-		System.out.println(path);	 
-		fs.addSink(g);
-		 
-
-		fs.readAll(path);
-
-		fs.removeSink(g);
-
 	}
 
 	
