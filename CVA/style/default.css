@@ -1,0 +1,14 @@
+node{
+    fill-color: white;
+    stroke-color: black;
+    size: 15px;
+}
+edge{
+	fill-color:black;
+}
+edge.attack{
+	fill-color:red;
+}
+edge.defend{
+	fill-color:blue;
+}
