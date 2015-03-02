@@ -4,5 +4,6 @@ public class Test {
 	
 	public Test(int ok){
 		this.attr = ok;
+		System.out.println("hello world!");
 	}
 }
