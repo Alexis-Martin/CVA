@@ -10,8 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import CVAGraph.CVAGraph;
+import CVAGraph.GSAGraph;
 import CVAGraph.CVAGraphViewer;
+import CVAGraph.GSArgument;
 
 
 
@@ -29,22 +30,25 @@ public class Main {
 	    
 	    
 	    
-		CVAGraph mygraph =  new CVAGraph("Test");
+		GSAGraph mygraph =  new GSAGraph("Test");
 
-		String a = mygraph.addArgument(null);
-		String b = mygraph.addArgument(null);
-		String c = mygraph.addArgument(null);
+		GSArgument a = mygraph.addArgument(null);
+		GSArgument b = mygraph.addArgument(null);
+		GSArgument c = mygraph.addArgument(null);
 		
-		mygraph.addAttack(a, b);
-		mygraph.addAttack(b, c);
-		mygraph.addDefense(c, a);
+		mygraph.addAttack(a.getId(), b.getId());
+		mygraph.addAttack(b.getId(), c.getId());
+		mygraph.addDefense(c.getId(), a.getId());
 	
-		try {
+
+		/*
+	try {
 			CVAGraphIO.write("Test/GrapheNumero1", mygraph);
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
+*/
 		CVAGraphViewer cvagv = new CVAGraphViewer(mygraph.getGraph()); 
 	    fenetre.getContentPane().add((Component) cvagv.getView(),BorderLayout.CENTER);
 	    

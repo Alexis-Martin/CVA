@@ -1,6 +1,9 @@
 package CVAGraph;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -11,23 +14,25 @@ import org.graphstream.stream.file.FileSinkDOT;
 import org.graphstream.stream.file.FileSource;
 import org.graphstream.stream.file.FileSourceFactory;
 
-public class CVAGraph{
+public class GSAGraph implements AGraph{
 	int nodeId = 0;
 	int edgeId = 0;
 	MultiGraph cvaGraph;
-	public CVAGraph(String id) {
+	public GSAGraph(String id) {
 		this.cvaGraph =  new MultiGraph(id);
+		cvaGraph.setNodeFactory(new GSArgumentFactory());
 		this.cvaGraph.addAttribute("ui.stylesheet", "url(style/default.css)");
 		this.cvaGraph.addAttribute("ui.quality");
 		this.cvaGraph.addAttribute("ui.antialias");
 		
 	}
-	public CVAGraph(CVAGraph g){
+	public GSAGraph(GSAGraph g){
 		
 		this.cvaGraph = g.cvaGraph;
 		
+		
 	}
-	public CVAGraph(String id, String path)throws IOException{
+	public GSAGraph(String id, String path)throws IOException{
 		this.cvaGraph = new MultiGraph(id);
 		this.cvaGraph.addAttribute("ui.stylesheet", "url(style/default.css)");
 		this.cvaGraph.addAttribute("ui.quality");
@@ -41,21 +46,22 @@ public class CVAGraph{
 	 *
 	 * @return The Id of the node
 	 */
-	public String addArgument(String description){
+	public GSArgument addArgument(){
+		return addArgument(null);
+	}
+	
+	public GSArgument addArgument(String description){
 		
-		Node node = this.addArgumentById(""+nodeId);
+		GSArgument node = cvaGraph.addNode(""+nodeId);
 		nodeId++;
 		
-		if(description!=null)node.addAttribute("description", description);
+		if(description!=null)
+			node.addAttribute("description", description);
 		
 		
-		return node.getId();
+		return node;
 	}
-	private Node addArgumentById(String id){
-		
-		return cvaGraph.addNode(id);
-		
-	}
+	
 	
 	
 	
@@ -83,6 +89,50 @@ public class CVAGraph{
 	
 	public Graph getGraph(){
 		return this.cvaGraph;
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Collection<Argument> getArguments() {
+		return (Collection) cvaGraph.getNodeSet();
+	}
+	@Override
+	public void setArgumentAttribute(String idArgument, String nameAttribute,
+			Object valueAttribute) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setDefenseAttribute(String idArgument, String nameAttribute,
+			Object valueAttribute) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setAttackAttribute(String idArgument, String nameAttribute,
+			Object valueAttribute) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Object getArgumentAttribute(String idArgument, String nameAttribute) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object getDefenseAttribute(String idArgument, String nameAttribute) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object getAttackAttribute(String idArgument, String nameAttribute) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Object getUtility(String idArgument, double utility) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

@@ -12,7 +12,7 @@ import org.graphstream.stream.file.FileSourceDGS;
 import org.graphstream.stream.file.FileSourceDOT;
 import org.graphstream.stream.file.FileSourceFactory;
 
-import CVAGraph.CVAGraph;
+import CVAGraph.GSAGraph;
 
 public class CVAGraphIO {
 	
@@ -27,7 +27,7 @@ public class CVAGraphIO {
 
 	
 	
-	public static void write(String path, CVAGraph cva, int type) throws IOException{
+	public static void write(String path, GSAGraph cva, int type) throws IOException{
 		FileSink fs;
 		
 		switch(type){
@@ -47,12 +47,12 @@ public class CVAGraphIO {
 
 		
 	}
-	public static void write(String path, CVAGraph cva ) throws IOException{
+	public static void write(String path, GSAGraph cva ) throws IOException{
 		write(path, cva, Type.DGS);
 	}
 	
 	
-	public void read(String path, CVAGraph cva, int type) throws IOException, LoadingTypeException{
+	public void read(String path, GSAGraph cva, int type) throws IOException, LoadingTypeException{
 		FileSource fs;
 		
 		switch(type){
@@ -72,7 +72,7 @@ public class CVAGraphIO {
 		fs.removeSink(cva.getGraph());
 		
 	}
-	public void read(String path, CVAGraph cva) throws IOException, LoadingTypeException{
+	public void read(String path, GSAGraph cva) throws IOException, LoadingTypeException{
 		
 		FileSource fs = FileSourceFactory.sourceFor(path);
 		fs.addSink(cva.getGraph()); 
