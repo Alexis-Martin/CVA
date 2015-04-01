@@ -18,7 +18,7 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	@Override
 	public void init() {
-		if(epsilon == 0)
+		if(epsilon == 0 || epsilon > 1)
 			epsilon = 0.0001; 
 		
 		AGraph graph = super.getGraph();
@@ -30,6 +30,14 @@ public class Categoriser extends AbstractAlgorithm {
 	@Override
 	public void run() {
 		algo();
+		AGraph graph = super.getGraph();
+	
+		String chiffre = "" + epsilon;
+		int produit = (int) Math.pow(10, chiffre.split("\\.")[1].length());
+		for(Argument a : graph.getArguments()){
+			a.setUtility((double)((int)(a.getUtility()*produit))/produit);
+		}
+		
 	}
 	
 	private void algo(){
@@ -54,4 +62,6 @@ public class Categoriser extends AbstractAlgorithm {
 		if(!finish)
 			algo();
 	}
+	
+	
 }
