@@ -24,7 +24,7 @@ public class CVAGraphIO {
 	}
 	
 
-
+ 
 	
 	
 	public static void write(String path, GSAGraph cva, int type) throws IOException{

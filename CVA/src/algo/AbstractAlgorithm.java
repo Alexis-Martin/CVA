@@ -6,6 +6,7 @@ abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
 	private AGraph graph;
 	
+	@SuppressWarnings("unused")
 	private AbstractAlgorithm(){}
 	
 	public AbstractAlgorithm(AGraph graph, String name){

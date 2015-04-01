@@ -1,7 +1,5 @@
 package algo;
 
-import java.util.Iterator;
-
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 
@@ -11,7 +9,7 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	public Categoriser(AGraph graph, String name){
 		this(graph, name, 0);	
-	}
+	} 
 	
 	public Categoriser(AGraph graph, String name, double epsilon){
 		super(graph, name);
