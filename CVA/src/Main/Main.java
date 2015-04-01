@@ -57,7 +57,7 @@ public class Main {
 		categoriser.run();
 		List<Argument> list = mygraph.getUtilities();
 		if(list.size() != 0)
-			System.out.print(list.get(0));
+			System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
 		for(int i = 1; i < list.size(); i++){
 			if(list.get(i).getUtility() < list.get(i-1).getUtility())
 				System.out.print(" < ");
