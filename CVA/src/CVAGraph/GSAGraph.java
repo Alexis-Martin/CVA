@@ -1,9 +1,13 @@
 package CVAGraph;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -54,12 +58,22 @@ public class GSAGraph implements AGraph{
 	
 	public GSArgument addArgument(String description){
 		
-		GSArgument node = cvaGraph.addNode(""+nodeId);
+		GSArgument node = addArgument("" + nodeId, description);
 		nodeId++;
+		
+		return node;
+	}
+	
+	public GSArgument addArgument(String id, String description){
+		if(cvaGraph.getNode(id) != null){
+			return null;
+		}
+		
+		GSArgument node = cvaGraph.addNode(id);
+	
 		
 		if(description!=null)
 			node.addAttribute("description", description);
-		
 		
 		return node;
 	}
@@ -67,21 +81,33 @@ public class GSAGraph implements AGraph{
 	
 	
 	
-	
-	public AEdge addAttack(String nodeIdA, String nodeIdB){
+	public GSAEdge addAttack(String nodeIdA, String nodeIdB){
 		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "attack");
 		edge.setAttribute("role", "attack");
 		return edge;
 	}
-	public AEdge addDefense(String nodeIdA, String nodeIdB){
+	public GSAEdge addDefense(String nodeIdA, String nodeIdB){
 		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "defend");
 		edge.setAttribute("role", "defend");
 		return edge;
 	}
+	
+	@Override
+	public GSAEdge addAttack(Argument argument1, Argument argument2) {
+
+		return addAttack(argument1.getId(), argument2.getId());
+	}
+	@Override
+	public GSAEdge addDefense(Argument argument1, Argument argument2) {
+		
+		return addDefense(argument1.getId(), argument2.getId());
+	}
+	
+	
 	/**
 	 * Tool visualization of the graph into a separate window
 	 **/
@@ -135,6 +161,23 @@ public class GSAGraph implements AGraph{
 	public Object getUtility(String idArgument, double utility) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<Argument> getUtilities() {
+		Iterator<GSArgument> it = cvaGraph.getNodeIterator();
+		List<Argument> a = new ArrayList<Argument>();
+		while(it.hasNext()){
+			Argument arg = it.next();
+			if(a.size() == 0)
+				a.add(arg);
+			
+			for(int i = 0; i < a.size(); i++){
+				if(a.get(i).getUtility() <= arg.getUtility()){
+					a.add(i, arg);
+				}
+			}
+		}
+		return a;
 	}
 	
 

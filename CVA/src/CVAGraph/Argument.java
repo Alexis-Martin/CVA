@@ -5,6 +5,9 @@ import java.util.Iterator;
 
 
 public interface Argument {
+	
+	public String getId();
+	
 	public void setUtility(double utility);
 	
 	public double getUtility();

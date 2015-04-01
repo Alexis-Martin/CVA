@@ -39,10 +39,10 @@ public class Categoriser extends AbstractAlgorithm {
 		AGraph graph = super.getGraph();
 		for(Argument a : graph.getArguments()){
 			double att = 1;
-			Iterator<Argument> it =  a.getNeighbor();
-			while(it.hasNext()){
-				Argument neighbor = it.next();
-				att += neighbor.getUtility();
+			 
+			for(Argument arg : a.getAttackers()){
+			
+				att += arg.getUtility();
 			}
 			
 			double utility = 1 / att;

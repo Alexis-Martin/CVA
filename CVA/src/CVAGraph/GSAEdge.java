@@ -18,8 +18,22 @@ public class GSAEdge extends AbstractEdge implements AEdge {
 	}
 
 	@Override
-	public String getRole(String role) {
-		return (String)this.getAttribute(role);
+	public String getRole() {
+		return (String)this.getAttribute("role");
+	}
+
+	@Override
+	public boolean isAttack() {
+		if(getRole().equals("attack"))
+			return true;
+		return false;
+	}
+
+	@Override
+	public boolean isDefend() {
+		if(getRole().equals("defend"))
+			return true;
+		return false;
 	}
 
 }

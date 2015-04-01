@@ -1,6 +1,7 @@
 package CVAGraph;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.graphstream.graph.implementations.AbstractGraph;
@@ -29,13 +30,17 @@ public class GSArgument extends SingleNode implements Argument{
 	public double getUtility() {
 		return (Double)this.getAttribute("utility");
 	}
-
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Collection<Argument> getAttackers() {
-		//for(Edge)
-		super.getEnteringEdgeSet();
-		// TODO Auto-generated method stub
-		return null;
+		Collection<GSAEdge> edges = (Collection)this.getEnteringEdgeSet();
+		Collection<Argument> ret = new HashSet<Argument>();
+		for(GSAEdge edge : edges){
+			if(edge.isAttack())
+				ret.add((Argument) edge.getSourceNode());
+		}
+		return ret;
 	}
 	
 
