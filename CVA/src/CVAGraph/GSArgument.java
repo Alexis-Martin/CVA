@@ -1,5 +1,6 @@
 package CVAGraph;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.graphstream.graph.implementations.AbstractGraph;
@@ -27,6 +28,14 @@ public class GSArgument extends SingleNode implements Argument{
 	@Override
 	public double getUtility() {
 		return (Double)this.getAttribute("utility");
+	}
+
+	@Override
+	public Collection<Argument> getAttackers() {
+		//for(Edge)
+		super.getEnteringEdgeSet();
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -13,9 +13,9 @@ public interface AGraph {
 	
 	public Argument addArgument(String description);	
 	
-	public String addAttack(String argument1, String argument2);
+	public AEdge addAttack(String argument1, String argument2);
 	
-	public String addDefense(String argument1, String argument2);
+	public AEdge addDefense(String argument1, String argument2);
 	
 	public Collection<Argument> getArguments();
 	

@@ -9,5 +9,7 @@ public interface Argument {
 	
 	public double getUtility();
 	public Iterator<Argument> getNeighbor();
+	
+	public Collection<Argument> getAttackers();
 
 }

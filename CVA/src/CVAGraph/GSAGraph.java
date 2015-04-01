@@ -21,6 +21,8 @@ public class GSAGraph implements AGraph{
 	public GSAGraph(String id) {
 		this.cvaGraph =  new MultiGraph(id);
 		cvaGraph.setNodeFactory(new GSArgumentFactory());
+		cvaGraph.setEdgeFactory(new GSAEdgeFactory());
+		
 		this.cvaGraph.addAttribute("ui.stylesheet", "url(style/default.css)");
 		this.cvaGraph.addAttribute("ui.quality");
 		this.cvaGraph.addAttribute("ui.antialias");
@@ -66,19 +68,19 @@ public class GSAGraph implements AGraph{
 	
 	
 	
-	public String addAttack(String nodeIdA, String nodeIdB){
-		Edge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
+	public AEdge addAttack(String nodeIdA, String nodeIdB){
+		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "attack");
 		edge.setAttribute("role", "attack");
-		return edge.getId();
+		return edge;
 	}
-	public String addDefense(String nodeIdA, String nodeIdB){
-		Edge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
+	public AEdge addDefense(String nodeIdA, String nodeIdB){
+		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "defend");
 		edge.setAttribute("role", "defend");
-		return edge.getId();
+		return edge;
 	}
 	/**
 	 * Tool visualization of the graph into a separate window
@@ -134,6 +136,7 @@ public class GSAGraph implements AGraph{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 	
 }
