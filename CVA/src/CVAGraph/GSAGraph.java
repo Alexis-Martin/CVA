@@ -168,12 +168,13 @@ public class GSAGraph implements AGraph{
 		List<Argument> a = new ArrayList<Argument>();
 		while(it.hasNext()){
 			Argument arg = it.next();
-			System.out.println(arg);
 			int position = 0;
 			for(int i = 0; i < a.size(); i++){
 				if(a.get(i).getUtility() >= arg.getUtility()){
 					position = i+1;
 				}
+				else
+					break;
 			}
 			a.add(position, arg);
 		}

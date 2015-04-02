@@ -20,6 +20,14 @@ abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public abstract void run();
 
+	public final void execute(){
+		init();
+		run();
+		end();
+	}
+	
+	
+	public abstract void end();
 	@Override
 	public String getName(){
 		return name;

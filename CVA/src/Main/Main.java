@@ -53,8 +53,7 @@ public class Main {
 		mygraph.addAttack(d, e);
 		
 		Algorithm categoriser = new Categoriser(mygraph, "Categoriser");
-		categoriser.init();
-		categoriser.run();
+		categoriser.execute();
 		List<Argument> list = mygraph.getUtilities();
 		if(list.size() != 0)
 			System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
