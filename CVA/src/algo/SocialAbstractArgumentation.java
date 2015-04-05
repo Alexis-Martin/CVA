@@ -46,16 +46,20 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		AGraph graph = super.getGraph();
 		HashMap<Argument,Double> utilities = new HashMap<Argument,Double>();
 		for(Argument a : graph.getArguments()){
-			double attP = 0;
-			double attM = 1;
-			for(Argument arg : a.getAttackers()){
-			
-				attP += arg.getUtility();
-				attM *= arg.getUtility();
+
+			double result = 1;
+			for(Argument argA : a.getAttackers()){
+				if(a.getAttackers().size() == 1)
+					result = 1-argA.getUtility();
+				
+				for(Argument argB : a.getAttackers())
+					if(!argA.equals(argB))
+						result *= 1- (argA.getUtility()+argB.getUtility() - argA.getUtility()*argB.getUtility());
 				
 			}
 			
-			double utility = (1/(1+this.param))*(1-(attP-attM));
+			
+			double utility = (1/(1+this.param))*result;
 				
 			if(a.getUtility() > utility + epsilon || a.getUtility() < utility - epsilon){
 				finish = false;

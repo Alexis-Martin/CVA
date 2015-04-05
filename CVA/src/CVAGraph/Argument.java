@@ -14,5 +14,6 @@ public interface Argument {
 	public Iterator<Argument> getNeighbor();
 	
 	public Collection<Argument> getAttackers();
+	public Collection<Argument> getDefenders();
 
 }

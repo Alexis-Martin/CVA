@@ -42,6 +42,17 @@ public class GSArgument extends SingleNode implements Argument{
 		}
 		return ret;
 	}
+
+	@Override
+	public Collection<Argument> getDefenders() {
+		Collection<GSAEdge> edges = (Collection)this.getEnteringEdgeSet();
+		Collection<Argument> ret = new HashSet<Argument>();
+		for(GSAEdge edge : edges){
+			if(edge.isDefend())
+				ret.add((Argument) edge.getSourceNode());
+		}
+		return ret;
+	}
 	
 
 }

@@ -3,6 +3,7 @@ package in_out;
 import java.io.IOException;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.stream.file.FileSink;
 import org.graphstream.stream.file.FileSinkDGS;
 import org.graphstream.stream.file.FileSinkDOT;
@@ -12,6 +13,8 @@ import org.graphstream.stream.file.FileSourceDGS;
 import org.graphstream.stream.file.FileSourceDOT;
 import org.graphstream.stream.file.FileSourceFactory;
 
+import Adapter.AGraphAdapter;
+import CVAGraph.AGraph;
 import CVAGraph.GSAGraph;
 
 public class CVAGraphIO {
@@ -27,7 +30,7 @@ public class CVAGraphIO {
  
 	
 	
-	public static void write(String path, GSAGraph cva, int type) throws IOException{
+	public static void write(String path, AGraph g, int type) throws IOException{
 		FileSink fs;
 		
 		switch(type){
@@ -43,16 +46,16 @@ public class CVAGraphIO {
 		}
 
 
-		fs.writeAll(cva.getGraph(), path);
+		fs.writeAll(AGraphAdapter.agraphToGraphstream(g, "save_graphe"), path);
 
 		
 	}
-	public static void write(String path, GSAGraph cva ) throws IOException{
-		write(path, cva, Type.DGS);
+	public static void write(String path, AGraph g ) throws IOException{
+		write(path, g , Type.DGS);
 	}
 	
 	
-	public void read(String path, GSAGraph cva, int type) throws IOException, LoadingTypeException{
+	public AGraph read(String path, int type) throws IOException, LoadingTypeException{
 		FileSource fs;
 		
 		switch(type){
@@ -66,18 +69,21 @@ public class CVAGraphIO {
 			default : fs = new FileSourceDGS();
 			
 		}
-
-		fs.addSink(cva.getGraph()); 
+		MultiGraph g =new MultiGraph("load_graph");
+		fs.addSink(g); 
 		fs.readAll(path);
-		fs.removeSink(cva.getGraph());
+		fs.removeSink(g);
+		return AGraphAdapter.graphstreamToAGraph(g);
 		
 	}
-	public void read(String path, GSAGraph cva) throws IOException, LoadingTypeException{
+	public AGraph read(String path) throws IOException, LoadingTypeException{
 		
 		FileSource fs = FileSourceFactory.sourceFor(path);
-		fs.addSink(cva.getGraph()); 
+		MultiGraph g =new MultiGraph("load_graph");
+		fs.addSink(g); 
 		fs.readAll(path);
-		fs.removeSink(cva.getGraph());
+		fs.removeSink(g);
+		return AGraphAdapter.graphstreamToAGraph(g);
 		
 	}
 }
