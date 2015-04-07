@@ -11,6 +11,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import algo.Algorithm;
 import algo.Categoriser;
@@ -29,17 +31,25 @@ import IHMGraph.IHMGraph;
 public class Main {
 
 	public static void main(String argv[]){
-		/*JFrame fenetre;
-	    
-	fenetre = new JFrame();
-		fenetre.setVisible(true);
-		fenetre.setSize(600, 400);
-		fenetre.setLayout(new BorderLayout());
-		JPanel jpg = new JPanel();
-		jpg.setSize(400, fenetre.getSize().height);
-		jpg.add(new JLabel("Test"));
-		fenetre.getContentPane().add(jpg,BorderLayout.WEST);
-*/		AGraph mygraph = null;
+		
+		 try {
+	            // Set cross-platform Java L&F (also called "Metal")
+	        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	       // handle exception
+	    }
+	    catch (ClassNotFoundException e) {
+	       // handle exception
+	    }
+	    catch (InstantiationException e) {
+	       // handle exception
+	    }
+	    catch (IllegalAccessException e) {
+	       // handle exception
+	    }
+		 
+		AGraph mygraph = null;
 		try {
 			mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
 		} catch (IOException e1) {
