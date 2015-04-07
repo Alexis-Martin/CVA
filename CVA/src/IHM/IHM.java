@@ -19,7 +19,7 @@ import CVAGraph.AGraph;
 import CVAGraph.Argument;
 import IHMGraph.GSGraphicGraph;
 import IHMGraph.IGraphicGraph;
-import IHMGraph.IHMGraph;
+
 
 	public class IHM {
 
