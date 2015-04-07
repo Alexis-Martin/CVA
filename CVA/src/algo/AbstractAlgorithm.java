@@ -10,8 +10,8 @@ abstract class AbstractAlgorithm implements Algorithm {
 	private AbstractAlgorithm(){}
 	
 	public AbstractAlgorithm(AGraph graph, String name){
-		this.name = name;
 		this.graph = graph;
+		this.name = name;
 		
 	}
 	@Override

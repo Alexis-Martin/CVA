@@ -123,45 +123,7 @@ public class GSAGraph implements AGraph{
 	public Collection<Argument> getArguments() {
 		return (Collection) cvaGraph.getNodeSet();
 	}
-	@Override
-	public void setArgumentAttribute(String idArgument, String nameAttribute,
-			Object valueAttribute) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setDefenseAttribute(String idArgument, String nameAttribute,
-			Object valueAttribute) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void setAttackAttribute(String idArgument, String nameAttribute,
-			Object valueAttribute) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public Object getArgumentAttribute(String idArgument, String nameAttribute) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Object getDefenseAttribute(String idArgument, String nameAttribute) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Object getAttackAttribute(String idArgument, String nameAttribute) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Object getUtility(String idArgument, double utility) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public List<Argument> getUtilities() {
 		Iterator<GSArgument> it = cvaGraph.getNodeIterator();

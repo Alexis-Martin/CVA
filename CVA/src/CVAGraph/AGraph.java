@@ -23,28 +23,4 @@ public interface AGraph {
 	
 	public List<Argument> getUtilities();
 
-	
-	/**
-	 * accesseurs pour les différents attributs
-	 * @param idArgument
-	 * @param nameAttribute
-	 * @param valueAttribute
-	 */
-	public void setArgumentAttribute(String idArgument, String nameAttribute, Object valueAttribute);
-
-	public void setDefenseAttribute(String idArgument, String nameAttribute, Object valueAttribute);
-
-	public void setAttackAttribute(String idArgument, String nameAttribute, Object valueAttribute);
-	
-	public Object getArgumentAttribute(String idArgument, String nameAttribute);
-
-	public Object getDefenseAttribute(String idArgument, String nameAttribute);
-
-	public Object getAttackAttribute(String idArgument, String nameAttribute);
-	
-	public Object getUtility(String idArgument, double utility);
-	
-	public void quickVisualisation();
-	
-
 }
