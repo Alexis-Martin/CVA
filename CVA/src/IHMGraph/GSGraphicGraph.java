@@ -58,7 +58,7 @@ public class GSGraphicGraph  implements IGraphicGraph{
 	
 	@Override
 	public void refresh() {
-		
+		this.updateStyle();
 
 		
 	}
@@ -126,12 +126,7 @@ public class GSGraphicGraph  implements IGraphicGraph{
 		for(Node node: nodes){
 			node.addAttribute("ui.style","size:"+((int)(a*(double)node.getAttribute("utility")+b))+";" );
 			System.out.println(((int)(a*(double)node.getAttribute("utility")+b)));
-			node.addAttribute("ui.style", "text-color:white;");
-			node.addAttribute("ui.style", "text-background-mode:plain;");
-			node.addAttribute("ui.style", "text-background-color:grey;");
-			node.addAttribute("ui.style", "stroke-mode: plain;");
-			node.addAttribute("ui.style", "stroke-color: black;");
-			node.addAttribute("ui.style", "stroke-width: 5;");
+
 			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
 			
 		}

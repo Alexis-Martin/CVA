@@ -25,7 +25,7 @@ import IHMGraph.IGraphicGraph;
 
 		private JSplitPane mainWindow;
 		private  AGraph mygraph;
-
+		private IGraphicGraph igg;
 		public IHM()
 		{
 			final JSplitPane mainWindow = new JSplitPane(); 
@@ -41,6 +41,7 @@ import IHMGraph.IGraphicGraph;
 			menuBar.add(menuMenu);
 			JMenuItem load = new JMenuItem("Charger Graphe",KeyEvent.VK_C);
 			menuMenu.add(load); 
+			igg =null ;
 			load.addActionListener(
 					new ActionListener() {
 						  public void actionPerformed(ActionEvent e)
@@ -55,7 +56,7 @@ import IHMGraph.IGraphicGraph;
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
-								IGraphicGraph igg =  new GSGraphicGraph(mygraph);
+								igg =  new GSGraphicGraph(mygraph);
 								mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
 			                }
 					}
@@ -85,6 +86,7 @@ import IHMGraph.IGraphicGraph;
 				public void actionPerformed(ActionEvent e){
 					Algorithm c = new Categoriser(mygraph,"Categoriser");
 					c.execute();
+					igg.refresh();
 					List<Argument> list = mygraph.getUtilities();
 					if(list.size() != 0)
 						System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
