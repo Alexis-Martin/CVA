@@ -1,15 +1,15 @@
 DGS004
 null 0 0
 an "a"
-cn "a"  "utility":0.760500
+cn "a"  "utility":0.0
 an "b"
-cn "b"  "utility":0.163300
+cn "b"  "utility":0.0
 an "c"
-cn "c"  "utility":0.249300
+cn "c"  "utility":0.0
 an "d"
-cn "d"  "utility":0.476100
+cn "d"  "utility":0.0
 an "e"
-cn "e"  "utility":0.476100
+cn "e"  "utility":0.0
 ae "b_to_a" "b" > "a"
 ce "b_to_a"  "role":"attack"
 ae "c_to_b" "c" > "b"

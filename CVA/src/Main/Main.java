@@ -34,7 +34,7 @@ public class Main {
 		
 	
 		 
-		AGraph mygraph = null;
+		/*AGraph mygraph = null;
 		try {
 			mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
 		} catch (IOException e1) {
@@ -45,8 +45,8 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-		Algorithm categoriser = new SocialAbstractArgumentation(mygraph, "Categoriser");
-		categoriser.execute();
+		//Algorithm categoriser = new SocialAbstractArgumentation(mygraph, "Categoriser");
+		//categoriser.execute();
 		/*List<Argument> list = mygraph.getUtilities();
 		if(list.size() != 0)
 			System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
