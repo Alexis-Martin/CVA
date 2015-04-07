@@ -1,0 +1,26 @@
+DGS004
+null 0 0
+an "a"
+cn "a"  "utility":0.760500
+an "b"
+cn "b"  "utility":0.163300
+an "c"
+cn "c"  "utility":0.249300
+an "d"
+cn "d"  "utility":0.476100
+an "e"
+cn "e"  "utility":0.476100
+ae "b_to_a" "b" > "a"
+ce "b_to_a"  "role":"attack"
+ae "c_to_b" "c" > "b"
+ce "c_to_b"  "role":"attack"
+ae "a_to_b" "a" > "b"
+ce "a_to_b"  "role":"attack"
+ae "e_to_c" "e" > "c"
+ce "e_to_c"  "role":"attack"
+ae "d_to_c" "d" > "c"
+ce "d_to_c"  "role":"attack"
+ae "e_to_d" "e" > "d"
+ce "e_to_d"  "role":"attack"
+ae "d_to_e" "d" > "e"
+ce "d_to_e"  "role":"attack"

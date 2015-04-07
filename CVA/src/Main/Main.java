@@ -1,6 +1,7 @@
 package Main;
 
 import in_out.CVAGraphIO;
+import in_out.LoadingTypeException;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -38,22 +39,16 @@ public class Main {
 		jpg.setSize(400, fenetre.getSize().height);
 		jpg.add(new JLabel("Test"));
 		fenetre.getContentPane().add(jpg,BorderLayout.WEST);
-*/
-		AGraph mygraph =  new GSAGraph("Test");
-
-		Argument a = mygraph.addArgument("a", "a");
-		Argument b = mygraph.addArgument("b", "b");
-		Argument c = mygraph.addArgument("c", "c");
-		Argument d = mygraph.addArgument("d", "d");
-		Argument e = mygraph.addArgument("e", "e");
-		
-		mygraph.addAttack(a, b);
-		mygraph.addAttack(b, a);
-		mygraph.addAttack(c, b);
-		mygraph.addAttack(d, c);
-		mygraph.addAttack(e, c);
-		mygraph.addAttack(e, d);
-		mygraph.addAttack(d, e);
+*/		AGraph mygraph = null;
+		try {
+			mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (LoadingTypeException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		Algorithm categoriser = new SocialAbstractArgumentation(mygraph, "Categoriser");
 		categoriser.execute();
@@ -71,6 +66,8 @@ public class Main {
 		IHMGraph ihmgraph =  new IHMGraph(mygraph);
 		IHM ihm = new IHM();	
 		ihm.addGraphVisu((Component) ihmgraph.getView());
+
+
 		/*
 	try {
 			CVAGraphIO.write("Test/GrapheNumero1", mygraph);

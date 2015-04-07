@@ -55,7 +55,7 @@ public class CVAGraphIO {
 	}
 	
 	
-	public AGraph read(String path, int type) throws IOException, LoadingTypeException{
+	public static AGraph read(String path, int type) throws IOException, LoadingTypeException{
 		FileSource fs;
 		
 		switch(type){
@@ -76,7 +76,7 @@ public class CVAGraphIO {
 		return AGraphAdapter.graphstreamToAGraph(g);
 		
 	}
-	public AGraph read(String path) throws IOException, LoadingTypeException{
+	public static AGraph read(String path) throws IOException, LoadingTypeException{
 		
 		FileSource fs = FileSourceFactory.sourceFor(path);
 		MultiGraph g =new MultiGraph("load_graph");
