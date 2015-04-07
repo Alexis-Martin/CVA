@@ -2,13 +2,17 @@ package IHM;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.* ; 
 
+import IHMGraph.IHMGraph;
+
 	public class IHM {
 
-		private Box layoutPrincipal;
+		private JSplitPane mainWindow;
 
 		public IHM()
 		{
@@ -24,7 +28,7 @@ import javax.swing.* ;
 			menuBar.add(menuMenu);
 			JMenuItem fonction1 = new JMenuItem("Fonction1",KeyEvent.VK_T);
 			menuMenu.add(fonction1);
-			testOnglet onglet1 = new testOnglet(); 
+			final testOnglet onglet1 = new testOnglet(); 
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
@@ -32,26 +36,35 @@ import javax.swing.* ;
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
 			
-			Box layoutPrincipal = Box.createHorizontalBox();
 			
-			
-			//testOnglet onglet = new testOnglet(); 
 			JPanel ongletPanel = new JPanel() ; 
-			OngletCreater onglets = new OngletCreater();
+			final OngletCreater onglets = new OngletCreater();
 			onglets.setPreferredSize(new Dimension(300,300));
 			ongletPanel.add(onglets); 
-			layoutPrincipal.add(ongletPanel);
-			//testOnglet onglet2 = new testOnglet(); 
-			//layoutPrincipal.add(onglet2);
-			layoutPrincipal.add(Box.createHorizontalGlue());
+
+			
+			JSplitPane mainWindow = new JSplitPane(); 
+
+			mainWindow.setLeftComponent(ongletPanel);
+
+			
+			fonction1.addActionListener(
+		            new ActionListener(){
+		                public void actionPerformed(ActionEvent e)
+		                {
+		                 onglets.addOnglet(onglet1);
+		                }});
 			
 			
 			
-			frame.add(layoutPrincipal);
-			this.layoutPrincipal = layoutPrincipal;
+			
+			frame.add(mainWindow);
+			this.mainWindow = mainWindow; 
+
 		}
+		
 		public void addGraphVisu(Component component){
-			this.layoutPrincipal.add(component);
+			this.mainWindow.setRightComponent(component);
 		}
 
 }
