@@ -8,6 +8,8 @@ import javax.swing.* ;
 
 	public class IHM {
 
+		private Box layoutPrincipal;
+
 		public IHM()
 		{
 		
@@ -46,6 +48,10 @@ import javax.swing.* ;
 			
 			
 			frame.add(layoutPrincipal);
-		
+			this.layoutPrincipal = layoutPrincipal;
 		}
+		public void addGraphVisu(Component component){
+			this.layoutPrincipal.add(component);
+		}
+
 }

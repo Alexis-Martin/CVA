@@ -21,6 +21,7 @@ import CVAGraph.GSAGraph;
 import CVAGraph.CVAGraphViewer;
 import CVAGraph.GSArgument;
 import IHM.IHM;
+import IHMGraph.IHMGraph;
 
 
 
@@ -67,8 +68,9 @@ public class Main {
 			
 			System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
 		}
+		IHMGraph ihmgraph =  new IHMGraph(mygraph);
 		IHM ihm = new IHM();	
-		
+		ihm.addGraphVisu((Component) ihmgraph.getView());
 		/*
 	try {
 			CVAGraphIO.write("Test/GrapheNumero1", mygraph);

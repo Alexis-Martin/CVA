@@ -58,12 +58,12 @@ public class AGraphAdapter {
 			Collection<Argument> defenders = arg.getDefenders();
 			Node node = gstream.getNode(arg.getId());
 			for(Argument argAttackers : attackers){
-				Edge edge = gstream.addEdge(arg.getId()+"_to_"+argAttackers.getId(), arg.getId(), argAttackers.getId());
+				Edge edge = gstream.addEdge(argAttackers.getId()+"_to_"+arg.getId(),argAttackers.getId(), arg.getId(), true );
 				edge.addAttribute("role", "attack");
 				
 			}
-			for(Argument argAttackers : defenders){
-				Edge edge = gstream.addEdge(arg.getId()+"_to_"+argAttackers.getId(), arg.getId(), argAttackers.getId());
+			for(Argument argDefenders : defenders){
+				Edge edge = gstream.addEdge(argDefenders.getId()+"_to_"+arg.getId(),argDefenders.getId(), arg.getId(), true );
 				edge.addAttribute("role", "defend");
 				
 			}
