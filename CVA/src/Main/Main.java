@@ -47,7 +47,7 @@ public class Main {
 		
 		Algorithm categoriser = new SocialAbstractArgumentation(mygraph, "Categoriser");
 		categoriser.execute();
-		List<Argument> list = mygraph.getUtilities();
+		/*List<Argument> list = mygraph.getUtilities();
 		if(list.size() != 0)
 			System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
 		for(int i = 1; i < list.size(); i++){
@@ -57,7 +57,7 @@ public class Main {
 				System.out.print(" = ");
 			
 			System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
-		}
+		}*/
 		IHMGraph ihmgraph =  new IHMGraph(mygraph);
 		IHM ihm = new IHM();	
 		//ihm.addGraphVisu((Component) ihmgraph.getView());
