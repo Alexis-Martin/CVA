@@ -30,13 +30,11 @@ public class OngletCategoriser extends Onglet {
 		JLabel infos = new JLabel("Informations sur l'algorithme"); 
 		Informations.add(infos); 
 		Informations.setPreferredSize(new Dimension(200,70));
-		
-		JButton run = new JButton("Run"); 
+
 		
 		layoutPrincipal.add(prop); 
 		layoutPrincipal.add(propertiesBox); 
 		layoutPrincipal.add(Informations); 
-		layoutPrincipal.add(run); 
 		
 		this.add(layoutPrincipal);
 	}
