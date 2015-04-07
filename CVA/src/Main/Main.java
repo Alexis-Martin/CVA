@@ -32,22 +32,7 @@ public class Main {
 
 	public static void main(String argv[]){
 		
-		 try {
-	            // Set cross-platform Java L&F (also called "Metal")
-	        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-	    } 
-	    catch (UnsupportedLookAndFeelException e) {
-	       // handle exception
-	    }
-	    catch (ClassNotFoundException e) {
-	       // handle exception
-	    }
-	    catch (InstantiationException e) {
-	       // handle exception
-	    }
-	    catch (IllegalAccessException e) {
-	       // handle exception
-	    }
+	
 		 
 		AGraph mygraph = null;
 		try {

@@ -16,7 +16,7 @@ import IHMGraph.IHMGraph;
 
 		public IHM()
 		{
-		
+			//mouhahaha
 			JFrame frame = new JFrame("interface");
 			frame.setSize(900, 600);
 			frame.setVisible(true);
