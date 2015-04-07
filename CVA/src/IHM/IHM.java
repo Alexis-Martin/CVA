@@ -17,6 +17,8 @@ import algo.Algorithm;
 import algo.Categoriser;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
+import IHMGraph.GSGraphicGraph;
+import IHMGraph.IGraphicGraph;
 import IHMGraph.IHMGraph;
 
 	public class IHM {
@@ -53,8 +55,8 @@ import IHMGraph.IHMGraph;
 									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
-								IHMGraph ihmgraph =  new IHMGraph(mygraph);
-								mainWindow.setRightComponent((Component) ihmgraph.getView());
+								IGraphicGraph igg =  new GSGraphicGraph(mygraph);
+								mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
 			                }
 					}
 					); 
