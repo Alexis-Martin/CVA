@@ -1,7 +1,9 @@
 node{
-    fill-color: white;
+    fill-color: blue;
+    stroke-mode: plain;
     stroke-color: black;
-    size: 15px;
+    stroke-width: 1px;
+
 }
 edge{
 	fill-color:black;
