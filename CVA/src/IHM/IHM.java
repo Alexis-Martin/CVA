@@ -1,13 +1,18 @@
 package IHM;
 
+import in_out.CVAGraphIO;
+import in_out.LoadingTypeException;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.* ; 
 
+import CVAGraph.AGraph;
 import IHMGraph.IHMGraph;
 
 	public class IHM {
@@ -16,7 +21,8 @@ import IHMGraph.IHMGraph;
 
 		public IHM()
 		{
-			//mouhahaha
+			final JSplitPane mainWindow = new JSplitPane(); 
+			mainWindow.setRightComponent(null);
 			JFrame frame = new JFrame("interface");
 			frame.setSize(900, 600);
 			frame.setVisible(true);
@@ -26,12 +32,35 @@ import IHMGraph.IHMGraph;
 			
 			JMenu menuMenu = new JMenu("Menu");
 			menuBar.add(menuMenu);
-			JMenuItem fonction1 = new JMenuItem("Fonction1",KeyEvent.VK_T);
-			menuMenu.add(fonction1);
+			JMenuItem load = new JMenuItem("Charger Graphe",KeyEvent.VK_C);
+			menuMenu.add(load); 
+			load.addActionListener(
+					new ActionListener() {
+						  public void actionPerformed(ActionEvent e)
+			                {
+							  AGraph mygraph = null;
+								try {
+									mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								} catch (LoadingTypeException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								IHMGraph ihmgraph =  new IHMGraph(mygraph);
+								mainWindow.setRightComponent((Component) ihmgraph.getView());
+			                }
+					}
+					); 
+			
+			
 			final OngletCategoriser onglet1 = new OngletCategoriser(); 
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
+			JMenuItem categoriser = new JMenuItem("Categoriser",KeyEvent.VK_T);
+			menuAlgorithmes.add(categoriser);
 			
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
@@ -43,12 +72,12 @@ import IHMGraph.IHMGraph;
 			ongletPanel.add(onglets); 
 
 			
-			JSplitPane mainWindow = new JSplitPane(); 
+			
 
 			mainWindow.setLeftComponent(ongletPanel);
 
 			
-			fonction1.addActionListener(
+			categoriser.addActionListener(
 		            new ActionListener(){
 		                public void actionPerformed(ActionEvent e)
 		                {

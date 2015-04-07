@@ -60,7 +60,7 @@ public class Main {
 		}
 		IHMGraph ihmgraph =  new IHMGraph(mygraph);
 		IHM ihm = new IHM();	
-		ihm.addGraphVisu((Component) ihmgraph.getView());
+		//ihm.addGraphVisu((Component) ihmgraph.getView());
 
 
 		/*
