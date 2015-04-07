@@ -73,4 +73,36 @@ public class AGraphAdapter {
 		//BUILDING NODES
 		return gstream;
 	}
+	public static Graph agraphToGraphstream(AGraph g, String name,boolean saveResult){
+		MultiGraph gstream = new MultiGraph(name);
+		Collection<Argument> args = g.getArguments();
+		for(Argument arg : args){
+			Node node = gstream.addNode(arg.getId());
+			if(saveResult)
+				node.addAttribute("utility", arg.getUtility());
+			else
+				node.addAttribute("utility", 0.0);
+
+		}
+		for(Argument arg :args){
+			Collection<Argument> attackers = arg.getAttackers();
+			Collection<Argument> defenders = arg.getDefenders();
+			Node node = gstream.getNode(arg.getId());
+			for(Argument argAttackers : attackers){
+				Edge edge = gstream.addEdge(argAttackers.getId()+"_to_"+arg.getId(),argAttackers.getId(), arg.getId(), true );
+				edge.addAttribute("role", "attack");
+				
+			}
+			for(Argument argDefenders : defenders){
+				Edge edge = gstream.addEdge(argDefenders.getId()+"_to_"+arg.getId(),argDefenders.getId(), arg.getId(), true );
+				edge.addAttribute("role", "defend");
+				
+			}
+		}
+		//NOT finish
+		
+		//BUILDING NODES
+		return gstream;
+	}
+
 }

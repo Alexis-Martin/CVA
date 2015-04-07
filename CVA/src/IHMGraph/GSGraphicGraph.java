@@ -33,10 +33,11 @@ public class GSGraphicGraph  implements IGraphicGraph{
         this.viewer.enableAutoLayout();
         this.viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
         this.setDefaultCSS("style/default.css");
-        
-        this.setMinimumNodeSize(5);
+        System.out.println("ICICICII");
+        this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
         this.updateStyle();
+        
 
     }
  
@@ -106,7 +107,7 @@ public class GSGraphicGraph  implements IGraphicGraph{
 		double min=0;
 		double max=0;
 		for(int i=0;i<utilities.size();i++){
-
+			this.graphstream.getNode(utilities.get(i).getId()).setAttribute("utility",utilities.get(i).getUtility() );
 			if(i==0){
 				min=utilities.get(0).getUtility();
 				max=utilities.get(0).getUtility();
@@ -118,14 +119,23 @@ public class GSGraphicGraph  implements IGraphicGraph{
 				max = utilities.get(i).getUtility();
 					
 		}
+		System.out.println(min);
+		System.out.println(max);		
 		
 		//we determine an affine function for the size of the node aX+b 
-		double a = ((double)this.minimumNodeSize-(double)this.maximumNodeSize)/(min-max);
-		double b = ((double)this.minimumNodeSize)-a*min; 
+		double a = 0;
+		double b = (this.maximumNodeSize+this.minimumNodeSize)/2;
+		if(min!=max){
+			a = ((double)this.minimumNodeSize-(double)this.maximumNodeSize)/(min-max);
+			b = ((double)this.minimumNodeSize)-a*min; 
+		}
+
+		System.out.println("fdssdfq"+(double)this.minimumNodeSize);
 		Collection<Node> nodes = this.graphstream.getNodeSet();
 		for(Node node: nodes){
-			node.addAttribute("ui.style","size:"+((int)(a*(double)node.getAttribute("utility")+b))+";" );
-			System.out.println(((int)(a*(double)node.getAttribute("utility")+b)));
+			Double sizeNode = new Double( a*(double)node.getAttribute("utility")+b);
+			node.addAttribute("ui.style","size:"+sizeNode.intValue()+";" );
+			System.out.println(sizeNode );
 
 			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
 			
