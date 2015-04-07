@@ -12,8 +12,9 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	double param;
 	int currentArg, totalArg;
 	ArrayList<HashMap<Argument,Double>> steps;
+	
 	public SocialAbstractArgumentation(AGraph graph, String name){
-		this(graph, name, 0, 0.0001);	
+		this(graph, name, 0, 0.1);	
 	}
 	public SocialAbstractArgumentation(AGraph graph, String name, double epsilon, double param) {
 		super(graph, name);
@@ -41,7 +42,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	
 	//In Case Of acyclic graph we have to obtain the rigth order of th graph
 	
-	public void algo(){
+	private void algo(){
 		boolean finish = true;
 		AGraph graph = super.getGraph();
 		HashMap<Argument,Double> utilities = new HashMap<Argument,Double>();
@@ -51,10 +52,10 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 			for(Argument argA : a.getAttackers()){
 				if(a.getAttackers().size() == 1)
 					result = 1-argA.getUtility();
-				
-				for(Argument argB : a.getAttackers())
-					if(!argA.equals(argB))
-						result *= 1- (argA.getUtility()+argB.getUtility() - argA.getUtility()*argB.getUtility());
+				else
+					for(Argument argB : a.getAttackers())
+						if(!argA.equals(argB))
+							result *= 1- (argA.getUtility()+argB.getUtility() - argA.getUtility()*argB.getUtility());
 				
 			}
 			
@@ -74,11 +75,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		if(!finish)
 			algo();
 	}
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return this.getName();
-	}
+
 
 	public void getStep(int i){
 		HashMap<Argument, Double> col = this.steps.get(i);

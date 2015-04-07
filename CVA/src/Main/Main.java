@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import algo.Algorithm;
 import algo.Categoriser;
+import algo.SocialAbstractArgumentation;
 
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
@@ -52,14 +53,14 @@ public class Main {
 		mygraph.addAttack(e, d);
 		mygraph.addAttack(d, e);
 		
-		Algorithm categoriser = new Categoriser(mygraph, "Categoriser");
+		Algorithm categoriser = new SocialAbstractArgumentation(mygraph, "Categoriser");
 		categoriser.execute();
 		List<Argument> list = mygraph.getUtilities();
 		if(list.size() != 0)
 			System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
 		for(int i = 1; i < list.size(); i++){
 			if(list.get(i).getUtility() < list.get(i-1).getUtility())
-				System.out.print(" < ");
+				System.out.print(" > ");
 			else
 				System.out.print(" = ");
 			
