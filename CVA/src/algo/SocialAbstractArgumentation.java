@@ -49,13 +49,15 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		for(Argument a : graph.getArguments()){
 
 			double result = 1;
-			for(Argument argA : a.getAttackers()){
-				if(a.getAttackers().size() == 1)
-					result = 1-argA.getUtility();
+	
+			ArrayList<Argument>  args = new ArrayList<Argument>();
+			args.addAll(a.getAttackers());
+			for(int i=0; i<args.size();i++){
+				if(args.size() == 1)
+					result = 1-args.get(0).getUtility();
 				else
-					for(Argument argB : a.getAttackers())
-						if(!argA.equals(argB))
-							result *= 1- (argA.getUtility()+argB.getUtility() - argA.getUtility()*argB.getUtility());
+					for(int j = i+1;j<args.size();j++)
+						result *= 1- (args.get(i).getUtility()+args.get(j).getUtility() - args.get(i).getUtility()*args.get(j).getUtility());
 				
 			}
 			
