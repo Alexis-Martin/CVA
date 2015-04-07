@@ -28,7 +28,7 @@ import IHMGraph.IHMGraph;
 			menuBar.add(menuMenu);
 			JMenuItem fonction1 = new JMenuItem("Fonction1",KeyEvent.VK_T);
 			menuMenu.add(fonction1);
-			final testOnglet onglet1 = new testOnglet(); 
+			final OngletCategoriser onglet1 = new OngletCategoriser(); 
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);

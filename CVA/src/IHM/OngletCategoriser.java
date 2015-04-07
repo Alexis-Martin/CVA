@@ -3,14 +3,14 @@ import java.awt.Dimension;
 
 import javax.swing.*;
 
-public class testOnglet extends JPanel {
+public class OngletCategoriser extends Onglet {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	testOnglet()
+	public OngletCategoriser()
 	{
 
 		

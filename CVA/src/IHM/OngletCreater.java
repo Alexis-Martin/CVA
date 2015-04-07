@@ -15,7 +15,7 @@ public class OngletCreater extends JTabbedPane {
 	}
 
 	
-	public void addOnglet(testOnglet toAdd)
+	public void addOnglet(Onglet toAdd)
 	{
 		this.addTab("Onglet", toAdd);
 	}
