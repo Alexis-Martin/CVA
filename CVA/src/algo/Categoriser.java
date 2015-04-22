@@ -3,9 +3,9 @@ package algo;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 
-public class Categoriser extends AbstractAlgorithm {
-
-	double epsilon;
+public class Categoriser extends AbstractAlgorithm {	
+	
+	private final String epsilon = "epsilon";
 	
 	public Categoriser(AGraph graph, String name){
 		this(graph, name, 0);	
@@ -13,13 +13,14 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	public Categoriser(AGraph graph, String name, double epsilon){
 		super(graph, name);
-		this.epsilon = epsilon; 
+		addParam(new Parameter("epsilon", epsilon));
 	}
 	
 	@Override
 	public void init() {
-		if(epsilon == 0 || epsilon > 1)
-			epsilon = 0.0001; 
+		Parameter eps = getParam(epsilon);
+		if(eps.getValue() == 0 || eps.getValue() > 1)
+			eps.setValue(0.0001); 
 		
 		AGraph graph = super.getGraph();
 		for(Argument a : graph.getArguments()){
@@ -45,6 +46,7 @@ public class Categoriser extends AbstractAlgorithm {
 	}
 	
 	private void algo(){
+		double eps = getParam(epsilon).getValue();
 		boolean finish = true;
 		AGraph graph = super.getGraph();
 		for(Argument a : graph.getArguments()){
@@ -57,7 +59,7 @@ public class Categoriser extends AbstractAlgorithm {
 			
 			double utility = 1 / att;
 				
-			if(a.getUtility() > utility + epsilon || a.getUtility() < utility - epsilon){
+			if(a.getUtility() > utility + eps || a.getUtility() < utility - eps){
 				finish = false;
 			}
 			a.setUtility(utility);

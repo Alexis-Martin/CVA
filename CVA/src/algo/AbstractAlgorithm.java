@@ -1,10 +1,13 @@
 package algo;
 
+import java.util.HashMap;
+
 import CVAGraph.AGraph;
 
 abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
 	private AGraph graph;
+	private HashMap<String, Parameter> params;
 	
 	@SuppressWarnings("unused")
 	private AbstractAlgorithm(){}
@@ -37,4 +40,19 @@ abstract class AbstractAlgorithm implements Algorithm {
 		return graph;
 	}
 
+	
+	@Override
+	public HashMap<String, Parameter> getParams(){
+		return params;
+	}
+	
+	@Override
+	public void addParam(Parameter param){
+		this.params.put(param.getName(), param);
+	}
+	
+	@Override
+	public Parameter getParam(String name){
+		return this.params.get(name);
+	}
 }
