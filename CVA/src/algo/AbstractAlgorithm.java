@@ -9,12 +9,14 @@ abstract class AbstractAlgorithm implements Algorithm {
 	private AGraph graph;
 	private HashMap<String, Parameter> params;
 	
-	@SuppressWarnings("unused")
+
 	private AbstractAlgorithm(){}
 	
 	public AbstractAlgorithm(AGraph graph, String name){
+		this();
 		this.graph = graph;
 		this.name = name;
+		params = new HashMap<String, Parameter>();
 		
 	}
 	@Override

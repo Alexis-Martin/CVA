@@ -34,10 +34,12 @@ public class Categoriser extends AbstractAlgorithm {
 		
 	}
 	
+	@Override
 	public void end(){
 		AGraph graph = super.getGraph();
+		Parameter eps = getParam(epsilon);
 		
-		String chiffre = "" + epsilon;
+		String chiffre = "" + eps;
 		int produit = (int) Math.pow(10, chiffre.split("\\.")[1].length());
 		for(Argument a : graph.getArguments()){
 			a.setUtility((double)((int)(a.getUtility()*produit))/produit);
