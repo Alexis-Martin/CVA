@@ -64,6 +64,7 @@ import IHMGraph.IGraphicGraph;
 			
 			
 			final OngletCategoriser onglet1 = new OngletCategoriser(); 
+			final LeftComponent left = new LeftComponent() ; 
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
@@ -104,14 +105,20 @@ import IHMGraph.IGraphicGraph;
 			
 			
 
-			mainWindow.setLeftComponent(leftBox);
+			mainWindow.setLeftComponent(left);
 
 			
 			categoriser.addActionListener(
 		            new ActionListener(){
 		                public void actionPerformed(ActionEvent e)
 		                {
-		                 onglets.addOnglet(onglet1);
+		                	if (mygraph != null)
+		                	{
+		                		Algorithm c = new Categoriser(mygraph,"Categoriser");
+		                		left.switchAlgo(c);
+		                		System.out.print("loadedAlgo");
+		                		left.switchGraph(mygraph);
+		                	}
 		                }});
 			
 			
