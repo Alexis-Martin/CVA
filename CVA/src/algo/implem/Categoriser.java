@@ -1,5 +1,7 @@
-package algo;
+package algo.implem;
 
+import algo.AbstractAlgorithm;
+import algo.Parameter;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 
@@ -7,19 +9,15 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	private final String epsilon = "epsilon";
 	
-	public Categoriser(AGraph graph, String name){
-		this(graph, name, 0);	
-	} 
-	
-	public Categoriser(AGraph graph, String name, double epsilon){
-		super(graph, name);
-		addParam(new Parameter("epsilon", epsilon));
+	public Categoriser(){
+		super("Categoriser");
+		addParam(new Parameter(epsilon, 0.0001));
 	}
 	
 	@Override
 	public void init() {
 		Parameter eps = getParam(epsilon);
-		if(eps.getValue() == 0 || eps.getValue() > 1)
+		if((double) eps.getValue() == 0 || (double) eps.getValue() > 1)
 			eps.setValue(0.0001); 
 		
 		AGraph graph = super.getGraph();
@@ -30,6 +28,7 @@ public class Categoriser extends AbstractAlgorithm {
 
 	@Override
 	public void run() {
+		System.out.println("epsilon : "+this.getParam(epsilon).printVal());
 		algo();
 		
 	}
@@ -48,7 +47,7 @@ public class Categoriser extends AbstractAlgorithm {
 	}
 	
 	private void algo(){
-		double eps = getParam(epsilon).getValue();
+		double eps = (double) getParam(epsilon).getValue();
 		boolean finish = true;
 		AGraph graph = super.getGraph();
 		for(Argument a : graph.getArguments()){

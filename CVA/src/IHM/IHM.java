@@ -13,8 +13,9 @@ import java.util.List;
 
 import javax.swing.* ; 
 
+import algo.AbstractAlgorithm;
 import algo.Algorithm;
-import algo.Categoriser;
+import algo.implem.Categoriser;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 import IHMGraph.GSGraphicGraph;
@@ -30,9 +31,8 @@ import IHMGraph.IGraphicGraph;
 		{
 			final JSplitPane mainWindow = new JSplitPane(); 
 			mainWindow.setRightComponent(null);
-			JFrame frame = new JFrame("interface");
+			JFrame frame = new JFrame("Calcul de valeur d'arguments");
 			frame.setSize(900, 600);
-			frame.setVisible(true);
 			
 			JMenuBar menuBar = new JMenuBar();
 			frame.setJMenuBar(menuBar);
@@ -63,17 +63,30 @@ import IHMGraph.IGraphicGraph;
 					); 
 			
 			
-			final OngletCategoriser onglet1 = new OngletCategoriser(); 
-			final LeftComponent left = new LeftComponent() ; 
+			final LeftComponent left = new LeftComponent();
+			mainWindow.setLeftComponent(left);
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
-			JMenuItem categoriser = new JMenuItem("Categoriser",KeyEvent.VK_T);
-			menuAlgorithmes.add(categoriser);
+			List<Algorithm> algos = AbstractAlgorithm.getAlgos();
+			for(final Algorithm algo : algos){
+				JMenuItem algoItem = new JMenuItem(algo.getName(),KeyEvent.VK_T);
+				algoItem.addActionListener(
+			            new ActionListener(){
+			                public void actionPerformed(ActionEvent e)
+			                {
+			                	if (mygraph != null)
+			                	{
+			                		left.switchAlgo(algo);
+			                		System.out.print("Algo "+algo.getName()+" loaded");
+			                		left.switchGraph(mygraph);
+			                	}
+			                }});
+				menuAlgorithmes.add(algoItem);
+			}
 			
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
-			
 			
 			JPanel ongletPanel = new JPanel() ; 
 			final OngletCreater onglets = new OngletCreater();
@@ -85,9 +98,10 @@ import IHMGraph.IGraphicGraph;
 			leftBox.add(run);
 			run.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					Algorithm c = new Categoriser(mygraph,"Categoriser");
-					c.execute();
+					left.run();
 					igg.refresh();
+					
+					
 					List<Argument> list = mygraph.getUtilities();
 					if(list.size() != 0)
 						System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
@@ -101,32 +115,10 @@ import IHMGraph.IGraphicGraph;
 					}
 				}
 			});
-
-			
-			
-
-			mainWindow.setLeftComponent(left);
-
-			
-			categoriser.addActionListener(
-		            new ActionListener(){
-		                public void actionPerformed(ActionEvent e)
-		                {
-		                	if (mygraph != null)
-		                	{
-		                		Algorithm c = new Categoriser(mygraph,"Categoriser");
-		                		left.switchAlgo(c);
-		                		System.out.print("loadedAlgo");
-		                		left.switchGraph(mygraph);
-		                	}
-		                }});
-			
-			
-			
 			
 			frame.add(mainWindow);
 			this.mainWindow = mainWindow; 
-
+			frame.setVisible(true);
 		}
 		
 		public void addGraphVisu(Component component){

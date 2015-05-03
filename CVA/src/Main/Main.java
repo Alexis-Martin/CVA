@@ -15,9 +15,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import algo.Algorithm;
-import algo.Categoriser;
-import algo.SocialAbstractArgumentation;
-
+import algo.implem.Categoriser;
+import algo.implem.SocialAbstractArgumentation;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 import CVAGraph.GSAGraph;

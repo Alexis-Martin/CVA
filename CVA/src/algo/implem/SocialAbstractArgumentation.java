@@ -1,9 +1,9 @@
-package algo;
+package algo.implem;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
+import algo.AbstractAlgorithm;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 
@@ -13,14 +13,10 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	int currentArg, totalArg;
 	ArrayList<HashMap<Argument,Double>> steps;
 	
-	public SocialAbstractArgumentation(AGraph graph, String name){
-		this(graph, name, 0, 0.1);	
+	public SocialAbstractArgumentation(){
+		super("Social Abstract Argumentation");
 	}
-	public SocialAbstractArgumentation(AGraph graph, String name, double epsilon, double param) {
-		super(graph, name);
-		this.epsilon = epsilon;
-		this.param = param;
-	}
+	
 	@Override
 	public void init() {
 		

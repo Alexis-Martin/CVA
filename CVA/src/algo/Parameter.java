@@ -2,23 +2,27 @@ package algo;
 
 public class Parameter {
 	String name;
-	double value;
+	Object value;
 	String description;
 	
-	public Parameter(String name, double value){
+	public Parameter(String name, Object value){
 		this.name = name;
 		this.value = value;
 	}
 	
-	public double getValue(){
+	public Object getValue(){
 		return value;
 	}
 	
-	public void setValue(double v){
+	public void setValue(Object v){
 		this.value = v;
 	}
 	
 	public String getName(){
 		return name;
+	}
+	
+	public String printVal(){
+		return ""+value;
 	}
 }

@@ -24,15 +24,15 @@ import CVAGraph.Argument;
 import IHMGraph.GSGraphicGraph;
 import IHMGraph.IGraphicGraph;
 import algo.Algorithm;
-import algo.Categoriser;
 import algo.Parameter;
+import algo.implem.Categoriser;
 
 public class LeftComponent extends JPanel {
 	
 	ArrayList<String> results ;
 	Algorithm algo ;
 	IGraphicGraph igg;
-	AGraph mygraph ; 
+	AGraph mygraph = null; 
 	JPanel parametersArea ;
 	JTextArea resultArea ; 
 	JButton run ;
@@ -43,7 +43,9 @@ public class LeftComponent extends JPanel {
 		this.algo = null ; 
 		this.results = new ArrayList<String>(); 
 		this.parametersArea = new JPanel(); 
-		this.resultArea = new JTextArea() ; 
+		this.resultArea = new JTextArea() ;
+		resultArea.setEditable(false);
+		resultArea.setLineWrap(true);
 		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		Box layoutPrincipal = Box.createVerticalBox();
 
@@ -52,9 +54,9 @@ public class LeftComponent extends JPanel {
 		
 		////////// PROPERTIES BOX ///////////
 		Box propertiesBox = Box.createVerticalBox();
-		JLabel prop = new JLabel ("Propriétés");
+		JLabel prop = new JLabel ("PropriÃ©tÃ©s");
 		propertiesBox.add(prop);
-		parametersArea.add(new JLabel("No Parameters"));
+		parametersArea.add(new JLabel("Pas de paramÃ¨tres"));
 		propertiesBox.add(parametersArea); 
 		/*E.setPreferredSize(new Dimension(100,20));
 		propertiesBox.add(E); 
@@ -92,16 +94,18 @@ public class LeftComponent extends JPanel {
 		
 	}
 	
-	// La fonction qui permet de changer l'algorithme courant mais aussi d'en ajouter un au départ
+	// La fonction qui permet de changer l'algorithme courant mais aussi d'en ajouter un au dï¿½part
 	public void switchAlgo (Algorithm al)
 	{
 		this.algo = al ; 
+		MajInterface();
 	}
 	
 	public void switchGraph (AGraph gr)
 	{
 		this.mygraph = gr ; 
 		igg =  new GSGraphicGraph(mygraph);
+		MajInterface();
 	}
 	
 	public boolean canRun ()
@@ -113,19 +117,11 @@ public class LeftComponent extends JPanel {
 	{
 		if (canRun())
 		{
-			algo.execute();
+			HashMap<String,Parameter> params = algo.getParams(); 
+			
+			algo.execute(this.mygraph);
 			igg.refresh();
-			List<Argument> list = mygraph.getUtilities();
-			if(list.size() != 0)
-				System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
-			for(int i = 1; i < list.size(); i++){
-				if(list.get(i).getUtility() < list.get(i-1).getUtility())
-					System.out.print(" > ");
-				else
-					System.out.print(" = ");
-				
-				System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
-		}}
+		}
 		else
 		{
 			System.out.print("can't run");
@@ -137,33 +133,29 @@ public class LeftComponent extends JPanel {
 				results.add("There is no loaded graph");
 			System.out.print("There is no loaded graph");
 		}
-		MajInterface() ;
+		MajInterface();
 	}
 	
-	// Une fonction qui remet les composants du LeftComponent à jour
-	// pour qu'ils correspondent à l'algo courant 
-	// Elle combine la fonction qui mets les résultats à jour avec celle qui mets les paramètres à jour
+	// Une fonction qui remet les composants du LeftComponent ï¿½ jour
+	// pour qu'ils correspondent ï¿½ l'algo courant 
+	// Elle combine la fonction qui mets les rï¿½sultats ï¿½ jour avec celle qui mets les paramï¿½tres ï¿½ jour
 	public void MajInterface ()
 	{
 		MajParametres();
+		MajResultats();
 		
 	}
 	
 	public void MajParametres () 
 	{
 		//JPanel newArea = new JPanel() ;
-		HashMap<String,Parameter> params = algo.getParams() ; 
-		int i ; 
-		ArrayList<Box> boxList = new ArrayList<Box>() ;
-		ArrayList<JLabel> labelList = new ArrayList<JLabel>() ;
-		ArrayList<JTextField> fieldList = new ArrayList<JTextField>() ;
-		Set<String> keys = params.keySet();
+		HashMap<String,Parameter> params = algo.getParams();
 		parametersArea.removeAll();
 		
 		for (Entry<String, Parameter> entry : params.entrySet()) {
 		    String list = entry.getKey();
 		    JLabel tmpLabel = new JLabel(list); 
-		    JTextField tmpField = new JTextField(Double.toString(entry.getValue().getValue())); 
+		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
 			Box tmpBox = Box.createHorizontalBox(); 
 			tmpBox.add(tmpLabel);
 			tmpBox.add(tmpField);
@@ -187,9 +179,29 @@ public class LeftComponent extends JPanel {
 	
 	public void MajResultats () 
 	{
-		
+		if(mygraph == null){
+			return;
+		}
+		List<Argument> list = mygraph.getUtilities();
+		String res = "";
+		if(list.size() != 0)
+			res+=  "(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")";
+		for(int i = 1; i < list.size(); i++){
+			if(list.get(i).getUtility() < list.get(i-1).getUtility())
+				res+= " > ";
+			else
+				res+= " = ";
+			
+			res+="(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")";
+		}
+		resultArea.setText("");
+		resultArea.append(res);
 	}
 	
-	
+	private HashMap<String,Parameter> getParams(){
+		HashMap<String,Parameter> params = new HashMap<String,Parameter>();
+		
+		return params;
+	}
 
 }

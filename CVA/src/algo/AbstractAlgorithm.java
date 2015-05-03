@@ -1,20 +1,23 @@
 package algo;
 
+import helper.FileHelper;
+
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import CVAGraph.AGraph;
 
-abstract class AbstractAlgorithm implements Algorithm {
+public abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
 	private AGraph graph;
 	private HashMap<String, Parameter> params;
 	
 
-	private AbstractAlgorithm(){}
+	public AbstractAlgorithm(){}
 	
-	public AbstractAlgorithm(AGraph graph, String name){
-		this();
-		this.graph = graph;
+	public AbstractAlgorithm(String name){
 		this.name = name;
 		params = new HashMap<String, Parameter>();
 		
@@ -25,7 +28,8 @@ abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public abstract void run();
 
-	public final void execute(){
+	public final void execute(AGraph g){
+		this.graph = g;
 		init();
 		run();
 		end();
@@ -56,5 +60,32 @@ abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public Parameter getParam(String name){
 		return this.params.get(name);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<Algorithm> getAlgos(){
+		File dir = FileHelper.getResource("src/algo/implem");
+		List<Algorithm> algos = new ArrayList<Algorithm>();
+		for (final File entryFile : dir.listFiles()){
+			String classFile = entryFile.getName();
+			if(classFile.contains(".java")){
+				String className = classFile.split("\\.")[0];
+				try {
+					Class<Algorithm> algo = (Class<Algorithm>) Class.forName("algo.implem."+className);
+					Algorithm alg = algo.newInstance();
+					algos.add(alg);
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}	
+		return algos;
 	}
 }
