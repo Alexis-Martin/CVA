@@ -13,5 +13,4 @@ public interface Algorithm {
 	public HashMap<String, Parameter> getParams();
 	public void addParam(Parameter param);
 	public Parameter getParam(String name);
-	
 } 

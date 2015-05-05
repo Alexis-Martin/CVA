@@ -18,14 +18,16 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	
 	@Override
 	public void init() {
+		HashMap<String, Double> s = new HashMap<String, Double>();
 		
 		if(epsilon == 0.0 || epsilon > 1)
 			epsilon = 0.0001; 
 		
-		AGraph graph = super.getGraph();
-		for(Argument a : graph.getArguments()){
-			a.setUtility(0.0);
+		super.clearSteps();
+		for(Argument a : super.getGraph().getArguments()){
+			s.put(a.getId(), 0.0);
 		}
+		super.addStep(s);
 	}
 
 	@Override
@@ -39,24 +41,28 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	private void algo(){
 		boolean finish = true;
 		AGraph graph = super.getGraph();
-
+		HashMap<String, Double> s = new HashMap<String, Double>();
+		
 		for(Argument a : graph.getArguments()){
 			double result = 1.0;
 			ArrayList<Argument>  args = new ArrayList<Argument>();
 			
 			args.addAll(a.getAttackers());
 			if(!args.isEmpty())
-				result = args.get(0).getUtility();
+				result = super.getLastU(args.get(0).getId());
 			for(int i=1; i<args.size();i++){
-				result = result+args.get(i).getUtility()-result*args.get(i).getUtility();
+				result += super.getLastU(args.get(i).getId()) - result*super.getLastU(args.get(i).getId());
 			}
 			double utility = (1.0/(1.0+this.xhi))*(1-result);
 				
-			if(a.getUtility() > utility + epsilon || a.getUtility() < utility - epsilon){
+			if(super.getLastU(a.getId()) > utility + epsilon || super.getLastU(a.getId()) < utility - epsilon){
 				finish = false;
 			}
-			a.setUtility(utility);
+			s.put(a.getId(), utility);
 		}
+		
+		super.addStep(s);
+		
 		if(!finish)
 			algo();
 	}
@@ -64,6 +70,10 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	@Override
 	public void end() {
 		AGraph graph = super.getGraph();
+		
+		for(Argument a : graph.getArguments()){
+			a.setUtility(super.getLastU(a.getId()));
+		}
 		
 		String chiffre = "" + epsilon;
 		int produit = (int) Math.pow(10, chiffre.split("\\.")[1].length());

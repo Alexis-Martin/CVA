@@ -13,15 +13,14 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
 	private AGraph graph;
 	private HashMap<String, Parameter> params;
-	
-
-	public AbstractAlgorithm(){}
+	private List<HashMap<String, Double>> steps;
 	
 	public AbstractAlgorithm(String name){
 		this.name = name;
 		params = new HashMap<String, Parameter>();
-		
+		steps = new ArrayList<HashMap<String, Double>>();
 	}
+	
 	@Override
 	public abstract void init();
 
@@ -87,5 +86,21 @@ public abstract class AbstractAlgorithm implements Algorithm {
 			}
 		}	
 		return algos;
+	}
+	
+	protected void clearSteps(){
+		steps.clear();
+	}
+	
+	protected double getU(int step, String a){
+		return steps.get(step).get(a);
+	}
+	
+	protected double getLastU(String a){
+		return this.getU(this.steps.size()-1, a);
+	}
+	
+	protected void addStep(HashMap<String, Double> s){
+		this.steps.add(s);
 	}
 }
