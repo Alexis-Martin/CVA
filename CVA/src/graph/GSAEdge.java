@@ -1,4 +1,4 @@
-package CVAGraph;
+package graph;
 
 import org.graphstream.graph.implementations.AbstractEdge;
 import org.graphstream.graph.implementations.AbstractNode;

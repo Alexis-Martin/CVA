@@ -1,11 +1,12 @@
 package algo.implem;
 
+import graph.AGraph;
+import graph.Argument;
+
 import java.util.HashMap;
 
 import algo.AbstractAlgorithm;
 import algo.Parameter;
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
 
 public class Categoriser extends AbstractAlgorithm {	
 	

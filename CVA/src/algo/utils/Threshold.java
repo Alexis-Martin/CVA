@@ -1,6 +1,6 @@
 package algo.utils;
 
-import CVAGraph.AGraph;
+import graph.AGraph;
 
 public class Threshold {
 	public static double longestCycle(AGraph graph){

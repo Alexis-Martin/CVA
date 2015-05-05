@@ -1,4 +1,4 @@
-package CVAGraph;
+package graph;
 
 import java.util.Collection;
 import java.util.Iterator;

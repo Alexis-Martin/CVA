@@ -1,4 +1,4 @@
-package in_out;
+package io;
 
 public class LoadingTypeException extends Exception{
 	

@@ -1,4 +1,4 @@
-package CVAGraph;
+package graph;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,6 +42,7 @@ public class GSArgument extends SingleNode implements Argument{
 		return ret;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Collection<Argument> getDefenders() {
 		Collection<GSAEdge> edges = (Collection)this.getEnteringEdgeSet();

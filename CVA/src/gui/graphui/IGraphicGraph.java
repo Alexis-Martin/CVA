@@ -1,8 +1,8 @@
-package IHMGraph;
+package gui.graphui;
+
+import graph.AGraph;
 
 import java.awt.Component;
-
-import CVAGraph.AGraph;
 
 public interface IGraphicGraph {
 	

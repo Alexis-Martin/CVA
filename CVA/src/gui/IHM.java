@@ -1,10 +1,12 @@
-package IHM;
+package gui;
 
-import in_out.CVAGraphIO;
-import in_out.LoadingTypeException;
+import graph.AGraph;
+import gui.graphui.GSGraphicGraph;
+import gui.graphui.IGraphicGraph;
+import io.CVAGraphIO;
+import io.LoadingTypeException;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,16 +17,13 @@ import javax.swing.* ;
 
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
-import CVAGraph.AGraph;
-import IHMGraph.GSGraphicGraph;
-import IHMGraph.IGraphicGraph;
 
 
 	public class IHM {
 
 		private JSplitPane mainWindow;
 		private  AGraph mygraph;
-		private IGraphicGraph igg;
+		private IGraphicGraph igg = null;
 		public IHM()
 		{
 			final JSplitPane mainWindow = new JSplitPane(); 
@@ -42,13 +41,33 @@ import IHMGraph.IGraphicGraph;
 			menuBar.add(menuMenu);
 			JMenuItem g1 = new JMenuItem("Charger Graphe 1",KeyEvent.VK_C);
 			menuMenu.add(g1); 
-			igg =null ;
 			g1.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e)
 	            {
 				  mygraph = null;
 					try {
-						mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
+						mygraph = CVAGraphIO.read("savefile/graph_exemple_1.dgs");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (LoadingTypeException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					igg = new GSGraphicGraph(mygraph);
+					left.switchGraph(mygraph);
+					mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
+	            }
+			});
+			
+			JMenuItem g2 = new JMenuItem("Charger Graphe 2",KeyEvent.VK_C);
+			menuMenu.add(g2); 
+			g2.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e)
+	            {
+				  mygraph = null;
+					try {
+						mygraph = CVAGraphIO.read("savefile/graph_exemple_2.dgs");
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

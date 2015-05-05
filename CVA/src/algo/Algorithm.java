@@ -1,8 +1,8 @@
 package algo;
 
-import java.util.HashMap;
+import graph.AGraph;
 
-import CVAGraph.AGraph;
+import java.util.HashMap;
 
 public interface Algorithm {
 	

@@ -1,0 +1,53 @@
+DGS004
+null 0 0
+an "g"
+cn "g"  "description":"g"
+cn "g"  "utility":0.000000
+an "e"
+cn "e"  "description":"e"
+cn "e"  "utility":0.000000
+an "c"
+cn "c"  "description":"c"
+cn "c"  "utility":0.000000
+an "f"
+cn "f"  "description":"f"
+cn "f"  "utility":0.000000
+an "d"
+cn "d"  "description":"d"
+cn "d"  "utility":0.000000
+an "a"
+cn "a"  "description":"a"
+cn "a"  "utility":0.000000
+an "j"
+cn "j"  "description":"j"
+cn "j"  "utility":0.000000
+an "h"
+cn "h"  "description":"h"
+cn "h"  "utility":0.000000
+an "k"
+cn "k"  "description":"k"
+cn "k"  "utility":0.000000
+an "b"
+cn "b"  "description":"b"
+cn "b"  "utility":0.000000
+an "i"
+cn "i"  "description":"i"
+cn "i"  "utility":0.000000
+ae "g->e" "g" > "e"
+ce "g->e"  "role":"attack"
+ae "e->c" "e" > "c"
+ce "e->c"  "role":"attack"
+ae "f->d" "f" > "d"
+ce "f->d"  "role":"attack"
+ae "c->a" "c" > "a"
+ce "c->a"  "role":"attack"
+ae "d->a" "d" > "a"
+ce "d->a"  "role":"attack"
+ae "j->h" "j" > "h"
+ce "j->h"  "role":"attack"
+ae "k->h" "k" > "h"
+ce "k->h"  "role":"attack"
+ae "h->b" "h" > "b"
+ce "h->b"  "role":"attack"
+ae "i->b" "i" > "b"
+ce "i->b"  "role":"attack"

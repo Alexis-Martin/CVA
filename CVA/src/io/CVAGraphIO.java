@@ -1,8 +1,10 @@
-package in_out;
+package io;
+
+import graph.AGraph;
+import graph.adapter.AGraphAdapter;
 
 import java.io.IOException;
 
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.stream.file.FileSink;
 import org.graphstream.stream.file.FileSinkDGS;
@@ -12,10 +14,6 @@ import org.graphstream.stream.file.FileSource;
 import org.graphstream.stream.file.FileSourceDGS;
 import org.graphstream.stream.file.FileSourceDOT;
 import org.graphstream.stream.file.FileSourceFactory;
-
-import Adapter.AGraphAdapter;
-import CVAGraph.AGraph;
-import CVAGraph.GSAGraph;
 
 public class CVAGraphIO {
 	

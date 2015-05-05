@@ -1,14 +1,13 @@
 package algo;
 
+import graph.AGraph;
+import graph.Argument;
 import helper.FileHelper;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
 
 public abstract class AbstractAlgorithm implements Algorithm {
 	private String name;

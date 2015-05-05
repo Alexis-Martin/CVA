@@ -1,22 +1,14 @@
-package CVAGraph;
+package graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.stream.file.FileSinkDGS;
-import org.graphstream.stream.file.FileSinkDOT;
-import org.graphstream.stream.file.FileSource;
-import org.graphstream.stream.file.FileSourceFactory;
 
 public class GSAGraph implements AGraph{
 	int nodeId = 0;

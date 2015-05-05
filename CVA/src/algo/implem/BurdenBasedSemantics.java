@@ -1,8 +1,9 @@
 package algo.implem;
 
+import graph.Argument;
+
 import java.util.HashMap;
 
-import CVAGraph.Argument;
 import algo.AbstractAlgorithm;
 import algo.utils.Threshold;
 
@@ -48,6 +49,7 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 
 	@Override
 	public void end() {
+		//TODO:preferences a la fin dependent des iterations d'avant (voir papier)
 		for(Argument a : super.getGraph().getArguments()){
 			a.setUtility((-1)*super.getLastU(a.getId()));
 		}

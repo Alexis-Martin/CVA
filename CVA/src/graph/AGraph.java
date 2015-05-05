@@ -1,12 +1,7 @@
-package CVAGraph;
+package graph;
 
 import java.util.Collection;
 import java.util.List;
-
-
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 
 public interface AGraph {
 

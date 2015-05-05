@@ -1,11 +1,12 @@
 package algo.implem;
 
+import graph.AGraph;
+import graph.Argument;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import algo.AbstractAlgorithm;
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
 
 public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	double epsilon = 0.0;

@@ -1,4 +1,4 @@
-package CVAGraph;
+package graph;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.NodeFactory;

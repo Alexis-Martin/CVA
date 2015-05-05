@@ -1,10 +1,12 @@
-package IHM;
+package gui;
 
 import javax.swing.*;
 
 
 public class OngletCreater extends JTabbedPane {
-	
+	private static final long serialVersionUID = -680418971863629867L;
+
+
 	public OngletCreater()
 	{
 	/*	testOnglet onglet1 = new testOnglet(); 

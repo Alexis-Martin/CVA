@@ -1,4 +1,9 @@
-package Adapter;
+package graph.adapter;
+
+import graph.AGraph;
+import graph.Argument;
+import graph.GSAGraph;
+import graph.GSArgument;
 
 import java.util.Collection;
 
@@ -6,11 +11,6 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
-
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
-import CVAGraph.GSAGraph;
-import CVAGraph.GSArgument;
 
 public class AGraphAdapter {
 	public static AGraph graphstreamToAGraph(Graph g){
@@ -56,7 +56,6 @@ public class AGraphAdapter {
 		for(Argument arg :args){
 			Collection<Argument> attackers = arg.getAttackers();
 			Collection<Argument> defenders = arg.getDefenders();
-			Node node = gstream.getNode(arg.getId());
 			for(Argument argAttackers : attackers){
 				Edge edge = gstream.addEdge(argAttackers.getId()+"_to_"+arg.getId(),argAttackers.getId(), arg.getId(), true );
 				edge.addAttribute("role", "attack");
@@ -87,7 +86,6 @@ public class AGraphAdapter {
 		for(Argument arg :args){
 			Collection<Argument> attackers = arg.getAttackers();
 			Collection<Argument> defenders = arg.getDefenders();
-			Node node = gstream.getNode(arg.getId());
 			for(Argument argAttackers : attackers){
 				Edge edge = gstream.addEdge(argAttackers.getId()+"_to_"+arg.getId(),argAttackers.getId(), arg.getId(), true );
 				edge.addAttribute("role", "attack");

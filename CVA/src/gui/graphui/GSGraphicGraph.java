@@ -1,12 +1,12 @@
-package IHMGraph;
+package gui.graphui;
+
+import graph.AGraph;
+import graph.Argument;
+import graph.adapter.AGraphAdapter;
 
 import java.awt.Component;
-import java.awt.LayoutManager;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.swing.JPanel;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -15,10 +15,6 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
-
-import Adapter.AGraphAdapter;
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
 
 public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListener {
     protected boolean loop = true;

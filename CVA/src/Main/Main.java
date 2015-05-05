@@ -1,7 +1,13 @@
 package Main;
 
-import in_out.CVAGraphIO;
-import in_out.LoadingTypeException;
+import graph.AGraph;
+import graph.Argument;
+import graph.CVAGraphViewer;
+import graph.GSAGraph;
+import graph.GSArgument;
+import gui.IHM;
+import io.CVAGraphIO;
+import io.LoadingTypeException;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -17,12 +23,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import algo.Algorithm;
 import algo.implem.Categoriser;
 import algo.implem.SocialAbstractArgumentation;
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
-import CVAGraph.GSAGraph;
-import CVAGraph.CVAGraphViewer;
-import CVAGraph.GSArgument;
-import IHM.IHM;
 
 
 
@@ -30,8 +30,6 @@ import IHM.IHM;
 public class Main {
 
 	public static void main(String argv[]){
-		
-	
 		 
 		/*AGraph mygraph = null;
 		try {

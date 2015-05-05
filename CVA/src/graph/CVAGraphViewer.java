@@ -1,4 +1,4 @@
-package CVAGraph;
+package graph;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.view.View;
@@ -9,11 +9,8 @@ import org.graphstream.ui.view.ViewerPipe;
 
 public class CVAGraphViewer implements ViewerListener {
     protected boolean loop = true;
-	private Graph graph;
 	public Viewer viewer;
     public CVAGraphViewer(Graph graph) {
-
-    	this.graph = graph;
         this.viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();
 

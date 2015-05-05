@@ -1,20 +1,18 @@
-package IHM;
+package gui;
+
+import graph.AGraph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import CVAGraph.AGraph;
-import CVAGraph.Argument;
 import algo.Algorithm;
 import algo.Parameter;
 
@@ -25,7 +23,7 @@ public class LeftComponent extends JPanel {
 	private AGraph mygraph = null; 
 	private JPanel parametersArea ;
 	private JTextArea resultArea ; 
-	private JButton run ;
+	//private JButton run ;
 	
 	
 	public LeftComponent()
@@ -101,6 +99,7 @@ public class LeftComponent extends JPanel {
 		return this.algo!=null && this.mygraph!=null ; 
 	}
 	
+	@SuppressWarnings("unused")
 	public void run ()
 	{
 		if (canRun())
@@ -173,6 +172,7 @@ public class LeftComponent extends JPanel {
 		resultArea.append(this.algo.getRes());
 	}
 	
+	@SuppressWarnings("unused")
 	private HashMap<String,Parameter> getParams(){
 		HashMap<String,Parameter> params = new HashMap<String,Parameter>();
 		
