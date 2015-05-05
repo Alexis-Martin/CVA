@@ -33,7 +33,6 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	@Override
 	public void run() {
 		this.algo();
-
 	}
 	
 	//In Case Of acyclic graph we have to obtain the rigth order of th graph
@@ -80,7 +79,6 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		for(Argument a : graph.getArguments()){
 			a.setUtility((double)((int)(a.getUtility()*produit))/produit);
 		}
-
 	}
 
 }

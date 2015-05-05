@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import CVAGraph.AGraph;
+import CVAGraph.Argument;
 
 public abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
@@ -19,6 +20,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 		this.name = name;
 		params = new HashMap<String, Parameter>();
 		steps = new ArrayList<HashMap<String, Double>>();
+		this.graph = null;
 	}
 	
 	@Override
@@ -59,6 +61,27 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public Parameter getParam(String name){
 		return this.params.get(name);
+	}
+	
+	@Override
+	public String getRes(){
+		if(this.getGraph() == null){
+			return "";
+		}
+		
+		List<Argument> list = this.getGraph().getUtilities();
+		String res = "";
+		if(list.size() != 0)
+			res+=  "(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")";
+		for(int i = 1; i < list.size(); i++){
+			if(list.get(i).getUtility() < list.get(i-1).getUtility())
+				res+= " > ";
+			else
+				res+= " = ";
+			
+			res+="(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")";
+		}
+		return res;
 	}
 	
 	@SuppressWarnings("unchecked")

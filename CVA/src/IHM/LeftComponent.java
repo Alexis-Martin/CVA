@@ -165,23 +165,12 @@ public class LeftComponent extends JPanel {
 	
 	public void MajResultats () 
 	{
-		if(mygraph == null){
+		if(mygraph == null || algo == null){
 			return;
 		}
-		List<Argument> list = mygraph.getUtilities();
-		String res = "";
-		if(list.size() != 0)
-			res+=  "(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")";
-		for(int i = 1; i < list.size(); i++){
-			if(list.get(i).getUtility() < list.get(i-1).getUtility())
-				res+= " > ";
-			else
-				res+= " = ";
-			
-			res+="(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")";
-		}
+
 		resultArea.setText("");
-		resultArea.append(res);
+		resultArea.append(this.algo.getRes());
 	}
 	
 	private HashMap<String,Parameter> getParams(){
