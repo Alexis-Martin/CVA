@@ -16,8 +16,7 @@ public class GSArgument extends SingleNode implements Argument{
 
 	@Override
 	public void setUtility(double utility) {
-		this.addAttribute("utility", utility);
-		
+		this.addAttribute("utility", utility);	
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

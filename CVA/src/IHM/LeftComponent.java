@@ -1,41 +1,31 @@
 package IHM;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
-import IHMGraph.GSGraphicGraph;
-import IHMGraph.IGraphicGraph;
 import algo.Algorithm;
 import algo.Parameter;
-import algo.implem.Categoriser;
 
 public class LeftComponent extends JPanel {
-	
-	ArrayList<String> results ;
-	Algorithm algo ;
-	IGraphicGraph igg;
-	AGraph mygraph = null; 
-	JPanel parametersArea ;
-	JTextArea resultArea ; 
-	JButton run ;
+	private static final long serialVersionUID = 7302042201274878731L;
+	private ArrayList<String> results ;
+	private Algorithm algo ;
+	private AGraph mygraph = null; 
+	private JPanel parametersArea ;
+	private JTextArea resultArea ; 
+	private JButton run ;
 	
 	
 	public LeftComponent()
@@ -45,7 +35,7 @@ public class LeftComponent extends JPanel {
 		this.parametersArea = new JPanel(); 
 		this.resultArea = new JTextArea() ;
 		resultArea.setEditable(false);
-		resultArea.setLineWrap(true);
+		//resultArea.setLineWrap(true);
 		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		Box layoutPrincipal = Box.createVerticalBox();
 
@@ -82,7 +72,7 @@ public class LeftComponent extends JPanel {
 		
 		this.add(layoutPrincipal);
 		
-		
+		/*
 		run = new JButton("Run");
 		layoutPrincipal.add(run);
 		run.addActionListener(new ActionListener(){
@@ -91,21 +81,19 @@ public class LeftComponent extends JPanel {
 				}
 			}
 		);
-		
+		*/
 	}
 	
 	// La fonction qui permet de changer l'algorithme courant mais aussi d'en ajouter un au d�part
 	public void switchAlgo (Algorithm al)
 	{
-		this.algo = al ; 
+		this.algo = al;
 		MajInterface();
 	}
 	
 	public void switchGraph (AGraph gr)
 	{
-		this.mygraph = gr ; 
-		igg =  new GSGraphicGraph(mygraph);
-		MajInterface();
+		this.mygraph = gr ;
 	}
 	
 	public boolean canRun ()
@@ -118,9 +106,8 @@ public class LeftComponent extends JPanel {
 		if (canRun())
 		{
 			HashMap<String,Parameter> params = algo.getParams(); 
-			
+			//TODO: setParams
 			algo.execute(this.mygraph);
-			igg.refresh();
 		}
 		else
 		{
@@ -143,7 +130,6 @@ public class LeftComponent extends JPanel {
 	{
 		MajParametres();
 		MajResultats();
-		
 	}
 	
 	public void MajParametres () 
@@ -202,6 +188,14 @@ public class LeftComponent extends JPanel {
 		HashMap<String,Parameter> params = new HashMap<String,Parameter>();
 		
 		return params;
+	}
+	
+	public boolean isGraph(){
+		return mygraph == null ? false : true;
+	}
+	
+	public boolean isAlgo(){
+		return algo == null ? false : true;
 	}
 
 }

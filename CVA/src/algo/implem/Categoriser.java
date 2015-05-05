@@ -8,6 +8,7 @@ import CVAGraph.Argument;
 public class Categoriser extends AbstractAlgorithm {	
 	
 	private final String epsilon = "epsilon";
+	private double eps;
 	
 	public Categoriser(){
 		super("Categoriser");
@@ -20,6 +21,8 @@ public class Categoriser extends AbstractAlgorithm {
 		if((double) eps.getValue() == 0 || (double) eps.getValue() > 1)
 			eps.setValue(0.0001); 
 		
+		this.eps = (double) eps.getValue();
+		
 		AGraph graph = super.getGraph();
 		for(Argument a : graph.getArguments()){
 			a.setUtility(1);
@@ -28,7 +31,7 @@ public class Categoriser extends AbstractAlgorithm {
 
 	@Override
 	public void run() {
-		System.out.println("epsilon : "+this.getParam(epsilon).printVal());
+		System.out.println("epsilon : "+eps);
 		algo();
 		
 	}
@@ -36,7 +39,6 @@ public class Categoriser extends AbstractAlgorithm {
 	@Override
 	public void end(){
 		AGraph graph = super.getGraph();
-		Parameter eps = getParam(epsilon);
 		
 		String chiffre = "" + eps;
 		int produit = (int) Math.pow(10, chiffre.split("\\.")[1].length());
@@ -47,10 +49,8 @@ public class Categoriser extends AbstractAlgorithm {
 	}
 	
 	private void algo(){
-		double eps = (double) getParam(epsilon).getValue();
 		boolean finish = true;
-		AGraph graph = super.getGraph();
-		for(Argument a : graph.getArguments()){
+		for(Argument a : super.getGraph().getArguments()){
 			double att = 1;
 			 
 			for(Argument arg : a.getAttackers()){

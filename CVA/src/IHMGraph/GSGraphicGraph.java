@@ -71,9 +71,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	
 	@Override
 	public void refresh() {
-		this.updateStyle();
-
-		
+		this.updateStyle();		
 	}
 
 	@Override
@@ -142,7 +140,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 			b = ((double)this.minimumNodeSize)-a*min; 
 		}
 
-		System.out.println("fdssdfq"+(double)this.minimumNodeSize);
+		System.out.println((double)this.minimumNodeSize);
 		Collection<Node> nodes = this.graphstream.getNodeSet();
 		for(Node node: nodes){
 			Double sizeNode = new Double( a*(double)node.getAttribute("utility")+b);

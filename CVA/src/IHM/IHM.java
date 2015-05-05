@@ -15,9 +15,7 @@ import javax.swing.* ;
 
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
-import algo.implem.Categoriser;
 import CVAGraph.AGraph;
-import CVAGraph.Argument;
 import IHMGraph.GSGraphicGraph;
 import IHMGraph.IGraphicGraph;
 
@@ -42,29 +40,27 @@ import IHMGraph.IGraphicGraph;
 			
 			JMenu menuMenu = new JMenu("Menu");
 			menuBar.add(menuMenu);
-			JMenuItem load = new JMenuItem("Charger Graphe",KeyEvent.VK_C);
-			menuMenu.add(load); 
+			JMenuItem g1 = new JMenuItem("Charger Graphe 1",KeyEvent.VK_C);
+			menuMenu.add(g1); 
 			igg =null ;
-			load.addActionListener(
-					new ActionListener() {
-						  public void actionPerformed(ActionEvent e)
-			                {
-							  mygraph = null;
-								try {
-									mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
-								} catch (IOException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								} catch (LoadingTypeException e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
-								igg =  new GSGraphicGraph(mygraph);
-								left.switchGraph(mygraph);
-								mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
-			                }
+			g1.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e)
+	            {
+				  mygraph = null;
+					try {
+						mygraph = CVAGraphIO.read("savefile/graph_exemple.dgs");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (LoadingTypeException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					); 
+					igg = new GSGraphicGraph(mygraph);
+					left.switchGraph(mygraph);
+					mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
+	            }
+			}); 
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
@@ -75,11 +71,8 @@ import IHMGraph.IGraphicGraph;
 			            new ActionListener(){
 			                public void actionPerformed(ActionEvent e)
 			                {
-			                	if (mygraph != null)
-			                	{
-			                		left.switchAlgo(algo);
-			                		System.out.print("Algo "+algo.getName()+" loaded");
-			                	}
+		                		left.switchAlgo(algo);
+		                		System.out.println("Algo "+algo.getName()+" loaded");
 			                }});
 				menuAlgorithmes.add(algoItem);
 			}
@@ -87,6 +80,24 @@ import IHMGraph.IGraphicGraph;
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
 			
+			JMenu menuRun = new JMenu("Execute");
+			menuBar.add(menuRun);
+			JMenuItem runItem = new JMenuItem("Run",KeyEvent.VK_T);
+			runItem.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(!left.isGraph()){
+						System.out.println("No graph");
+					}else if(!left.isAlgo()){
+						System.out.println("No algo");
+					}else{
+						left.run();
+						igg.refresh();
+					}
+				}
+			});
+			menuRun.add(runItem);
+			
+			/*
 			JPanel ongletPanel = new JPanel() ; 
 			final OngletCreater onglets = new OngletCreater();
 			onglets.setPreferredSize(new Dimension(300,300));
@@ -97,24 +108,17 @@ import IHMGraph.IGraphicGraph;
 			leftBox.add(run);
 			run.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					left.run();
-					igg.refresh();
-					
-					
-					List<Argument> list = mygraph.getUtilities();
-					if(list.size() != 0)
-						System.out.print("(" + list.get(0).getId() +", " + list.get(0).getUtility() + ")");
-					for(int i = 1; i < list.size(); i++){
-						if(list.get(i).getUtility() < list.get(i-1).getUtility())
-							System.out.print(" > ");
-						else
-							System.out.print(" = ");
-						
-						System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
+					if(!left.isGraph()){
+						System.out.println("No graph");
+					}else if(!left.isAlgo()){
+						System.out.println("No algo");
+					}else{
+						left.run();
+						igg.refresh();
 					}
-					
 				}
 			});
+			*/
 			
 			frame.add(mainWindow);
 			this.mainWindow = mainWindow; 
