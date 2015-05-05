@@ -8,23 +8,26 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
 import Adapter.AGraphAdapter;
 import CVAGraph.AGraph;
 import CVAGraph.Argument;
 
-public class GSGraphicGraph  implements IGraphicGraph{
+public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListener {
     protected boolean loop = true;
 	private AGraph graph;
 	private Graph graphstream;
 	public Viewer viewer;
 	private int minimumNodeSize;
 	private int maximumNodeSize;
+	private ViewerPipe fromViewer;
     public GSGraphicGraph(AGraph graph) {
 
     	this.graph = graph;
@@ -33,21 +36,30 @@ public class GSGraphicGraph  implements IGraphicGraph{
         this.viewer.enableAutoLayout();
         this.viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
         this.setDefaultCSS("style/default.css");
-        System.out.println("ICICICII");
+
         this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
         this.updateStyle();
-        
+        this.fromViewer = viewer.newViewerPipe();
+        fromViewer.addViewerListener(this);
+        fromViewer.addSink(this.graphstream);
+
 
     }
  
     public void viewClosed(String id) {
         loop = false;
     }
+    public void run() {
+    	while(true){
+    			fromViewer.pump();
+    	}
 
+    }
 	@Override
 	public Component getGraphicGraphComponent() {
 		View view = viewer.addDefaultView(false);
+		
 		return (Component)view;
 	}
 
@@ -103,7 +115,7 @@ public class GSGraphicGraph  implements IGraphicGraph{
 	
 	private void updateStyle(){
 		List<Argument> utilities = this.graph.getUtilities();
-		
+		System.out.println("maj graph nodes"+utilities);
 		double min=0;
 		double max=0;
 		for(int i=0;i<utilities.size();i++){
@@ -140,6 +152,29 @@ public class GSGraphicGraph  implements IGraphicGraph{
 			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
 			
 		}
+		Collection<Edge> edges = this.graphstream.getEdgeSet();
+		for(Edge edge : edges){
+			if(((String)edge.getAttribute("role")).equals("attack")){
+				edge.setAttribute("ui.class", "attack");
+			}
+			else if(((String)edge.getAttribute("role")).equals("defend")){
+				edge.setAttribute("ui.class", "defend");
+			}
+		}
+
+		
+		
+	}
+
+
+	public void buttonPushed(String arg0) {
+		// TODO Auto-generated method stub
+		System.out.println(arg0);
+	}
+
+
+	public void buttonReleased(String arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 }

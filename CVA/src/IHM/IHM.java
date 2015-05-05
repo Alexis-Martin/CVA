@@ -34,6 +34,9 @@ import IHMGraph.IGraphicGraph;
 			JFrame frame = new JFrame("Calcul de valeur d'arguments");
 			frame.setSize(900, 600);
 			
+			final LeftComponent left = new LeftComponent();
+			mainWindow.setLeftComponent(left);
+			
 			JMenuBar menuBar = new JMenuBar();
 			frame.setJMenuBar(menuBar);
 			
@@ -57,14 +60,11 @@ import IHMGraph.IGraphicGraph;
 									e1.printStackTrace();
 								}
 								igg =  new GSGraphicGraph(mygraph);
+								left.switchGraph(mygraph);
 								mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
 			                }
 					}
 					); 
-			
-			
-			final LeftComponent left = new LeftComponent();
-			mainWindow.setLeftComponent(left);
 			
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
@@ -79,7 +79,6 @@ import IHMGraph.IGraphicGraph;
 			                	{
 			                		left.switchAlgo(algo);
 			                		System.out.print("Algo "+algo.getName()+" loaded");
-			                		left.switchGraph(mygraph);
 			                	}
 			                }});
 				menuAlgorithmes.add(algoItem);
@@ -113,6 +112,7 @@ import IHMGraph.IGraphicGraph;
 						
 						System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
 					}
+					
 				}
 			});
 			

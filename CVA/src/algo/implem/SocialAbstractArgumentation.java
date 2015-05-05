@@ -48,17 +48,12 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	
 			ArrayList<Argument>  args = new ArrayList<Argument>();
 			args.addAll(a.getAttackers());
-			for(int i=0; i<args.size();i++){
-				if(args.size() == 1)
-					result = 1-args.get(0).getUtility();
-				else
-					for(int j = i+1;j<args.size();j++)
-						result *= 1- (args.get(i).getUtility()+args.get(j).getUtility() - args.get(i).getUtility()*args.get(j).getUtility());
-				
+			if(!args.isEmpty())
+				result = args.get(0).getUtility();
+			for(int i=1; i<args.size();i++){
+				result = result+args.get(i).getUtility()-result*args.get(i).getUtility();
 			}
-			
-			
-			double utility = (1/(1+this.param))*result;
+			double utility = (1/(1+this.param))*(1-result);
 				
 			if(a.getUtility() > utility + epsilon || a.getUtility() < utility - epsilon){
 				finish = false;
@@ -73,6 +68,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		if(!finish)
 			algo();
 	}
+
 
 
 	public void getStep(int i){
