@@ -35,6 +35,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 
         this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
+        System.out.println("constructeur");
         this.updateStyle();
         this.fromViewer = viewer.newViewerPipe();
         fromViewer.addViewerListener(this);
@@ -55,7 +56,6 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	@Override
 	public Component getGraphicGraphComponent() {
 		View view = viewer.addDefaultView(false);
-		
 		return (Component)view;
 	}
 
@@ -109,7 +109,6 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	
 	private void updateStyle(){
 		List<Argument> utilities = this.graph.getUtilities();
-		System.out.println("maj graph nodes"+utilities);
 		double min=0;
 		double max=0;
 		for(int i=0;i<utilities.size();i++){
@@ -124,9 +123,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 			else if(utilities.get(i).getUtility()>max)
 				max = utilities.get(i).getUtility();
 					
-		}
-		System.out.println(min);
-		System.out.println(max);		
+		}		
 		
 		//we determine an affine function for the size of the node aX+b 
 		double a = 0;
@@ -136,13 +133,10 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 			b = ((double)this.minimumNodeSize)-a*min; 
 		}
 
-		System.out.println((double)this.minimumNodeSize);
 		Collection<Node> nodes = this.graphstream.getNodeSet();
 		for(Node node: nodes){
 			Double sizeNode = new Double( a*(double)node.getAttribute("utility")+b);
 			node.addAttribute("ui.style","size:"+sizeNode.intValue()+";" );
-			System.out.println(sizeNode );
-
 			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
 			
 		}

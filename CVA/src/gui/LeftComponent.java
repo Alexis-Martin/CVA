@@ -1,15 +1,26 @@
 package gui;
 
 import graph.AGraph;
+import graph.Argument;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -18,68 +29,36 @@ import algo.Parameter;
 
 public class LeftComponent extends JPanel {
 	private static final long serialVersionUID = 7302042201274878731L;
-	private ArrayList<String> results ;
 	private Algorithm algo ;
 	private AGraph mygraph = null; 
 	private JPanel parametersArea ;
-	private JTextArea resultArea ; 
+	private JPanel resultArea ; 
 	//private JButton run ;
 	
 	
 	public LeftComponent()
 	{
 		this.algo = null ; 
-		this.results = new ArrayList<String>(); 
-		this.parametersArea = new JPanel(); 
-		this.resultArea = new JTextArea() ;
-		resultArea.setEditable(false);
-		//resultArea.setLineWrap(true);
-		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-		Box layoutPrincipal = Box.createVerticalBox();
-
+		this.setLayout(new BorderLayout());
 		
+		//parameters
+		this.parametersArea = new JPanel(new BorderLayout()); 
+		JLabel prop = new JLabel ("Paramètres");
+		prop.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
+		prop.setHorizontalAlignment(JLabel.CENTER);
+		parametersArea.add(prop, BorderLayout.NORTH);
+		this.parametersArea.setVisible(false);
+		this.add(parametersArea, BorderLayout.NORTH);
 		
+		//resultats
+		this.resultArea = new JPanel(new BorderLayout());
+		JLabel result = new JLabel("Résultats");
+		result.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
+		result.setHorizontalAlignment(JLabel.CENTER);
+		resultArea.add(result, BorderLayout.NORTH);
+		this.resultArea.setVisible(false);
+		this.add(resultArea, BorderLayout.CENTER);
 		
-		////////// PROPERTIES BOX ///////////
-		Box propertiesBox = Box.createVerticalBox();
-		JLabel prop = new JLabel ("Propriétés");
-		propertiesBox.add(prop);
-		parametersArea.add(new JLabel("Pas de paramètres"));
-		propertiesBox.add(parametersArea); 
-		/*E.setPreferredSize(new Dimension(100,20));
-		propertiesBox.add(E); 
-		JTextField eText = new JTextField(); 
-		propertiesBox.add(eText);  */ 
-		
-		/////// RESULTS BOX //////
-		Box resultBox = Box.createVerticalBox(); 
-		JLabel resu = new JLabel ("Resultats") ;
-		resultBox.add(resu);
-		resultBox.add(resultArea);
-		
-		/*
-		JPanel Informations = new JPanel() ;
-		JLabel infos = new JLabel("Informations sur l'algorithme"); 
-		Informations.add(infos); 
-		Informations.setPreferredSize(new Dimension(200,70));
-			layoutPrincipal.add(prop); 
-		*/
-	
-		layoutPrincipal.add(propertiesBox); 
-		layoutPrincipal.add(resultBox); 
-		
-		this.add(layoutPrincipal);
-		
-		/*
-		run = new JButton("Run");
-		layoutPrincipal.add(run);
-		run.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				run();
-				}
-			}
-		);
-		*/
 	}
 	
 	// La fonction qui permet de changer l'algorithme courant mais aussi d'en ajouter un au d�part
@@ -91,7 +70,9 @@ public class LeftComponent extends JPanel {
 	
 	public void switchGraph (AGraph gr)
 	{
-		this.mygraph = gr ;
+		this.mygraph = gr;
+		MajInterface();
+
 	}
 	
 	public boolean canRun ()
@@ -110,14 +91,11 @@ public class LeftComponent extends JPanel {
 		}
 		else
 		{
-			System.out.print("can't run");
-			results.add("Can't run");
 			if (this.algo ==null)
-				results.add("There is no loaded algorithm");
-			System.out.print("There is no loaded algorithm");
+				JOptionPane.showMessageDialog(null, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
+
 			if (this.mygraph==null)
-				results.add("There is no loaded graph");
-			System.out.print("There is no loaded graph");
+				JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
 		}
 		MajInterface();
 	}
@@ -131,35 +109,35 @@ public class LeftComponent extends JPanel {
 		MajResultats();
 	}
 	
-	public void MajParametres () 
-	{
-		//JPanel newArea = new JPanel() ;
-		HashMap<String,Parameter> params = algo.getParams();
-		parametersArea.removeAll();
+	public void MajParametres () {
+		if(algo == null) return;
 		
+		parametersArea.setVisible(true);
+		try{
+			parametersArea.remove(((BorderLayout)parametersArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+		}
+		catch(NullPointerException e ){}
+		HashMap<String,Parameter> params = algo.getParams();
+		JPanel parameters = new JPanel(new GridLayout(2, 0, 10, 5));
+		int param = 0;
 		for (Entry<String, Parameter> entry : params.entrySet()) {
+			JPanel parameter = new JPanel();
 		    String list = entry.getKey();
 		    JLabel tmpLabel = new JLabel(list); 
 		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
-			Box tmpBox = Box.createHorizontalBox(); 
-			tmpBox.add(tmpLabel);
-			tmpBox.add(tmpField);
+		    tmpField.setPreferredSize(new Dimension(100, 27));
+
+		    parameter.add(tmpLabel);
+			parameter.add(tmpField);
 			//newArea.add(tmpBox) ;
-			parametersArea.add(tmpBox) ;
+			parameters.add(parameter);
+			param++;
 
 		}
-		parametersArea.revalidate();
-		
-	/*	for (i=0;i<params.size();i++)
-		{
-			JLabel tmpLabel = new JLabel(keyList.get(i)); 
-			JTextField tmpField = new JTextField(Double.toString(params.get(keyList.get(i)).getValue()));
-			Box tmpBox = Box.createHorizontalBox(); 
-			tmpBox.add(tmpLabel);
-			tmpBox.add(tmpField);
-			parametersArea.add(tmpBox);
-		}*/
-		
+		parametersArea.add(parameters, BorderLayout.CENTER);
+		parametersArea.setPreferredSize(new Dimension(param * 50 + 30, param * 80 + 30));
+		parametersArea.validate();
+		this.validate();
 	}
 	
 	public void MajResultats () 
@@ -167,9 +145,57 @@ public class LeftComponent extends JPanel {
 		if(mygraph == null || algo == null){
 			return;
 		}
+		resultArea.setVisible(true);
+		try{
+			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+		}
+		catch(NullPointerException e){}
+		
+		List<Argument> args = mygraph.getUtilities();
+		JPanel detail = new JPanel();
+		detail.setLayout(new BoxLayout(detail, BoxLayout.Y_AXIS));
+		
+		for(int i = 0; i < args.size(); i++){
+			JPanel arg = new JPanel();
+			arg.setPreferredSize(new Dimension(300, 40));
+			JTextField node_name = new JTextField(args.get(i).getId());
+			node_name.setEditable(false);
+			node_name.setBackground(new Color(255, 255, 255));
+			node_name.setPreferredSize(new Dimension(120, 27));
+			arg.add(node_name);
 
-		resultArea.setText("");
-		resultArea.append(this.algo.getRes());
+			JTextField node_utility = new JTextField("" + args.get(i).getUtility());
+			node_utility.setEditable(false);
+			node_utility.setBackground(new Color(255, 255, 255));
+			node_utility.setPreferredSize(new Dimension(120, 27));
+			arg.add(node_utility);
+			
+			detail.add(arg);
+		}
+		
+		JScrollPane scroll_detail = new JScrollPane(detail);
+		resultArea.add(scroll_detail, BorderLayout.CENTER);
+		
+		
+		JPanel result = new JPanel();
+		JTextField text_result = new JTextField(); 
+		
+		for(int i = 0; i < args.size(); i++){
+			if(i == 0){
+				text_result.setText(args.get(i).getId());
+				continue;
+			}
+			
+			if(args.get(i).getUtility() == args.get(i-1).getUtility() )
+				text_result.setText(text_result.getText() + " = " + args.get(i).getId());
+			else
+				text_result.setText(text_result.getText() + " > " + args.get(i).getId());
+
+		}
+		result.add(text_result);
+		resultArea.add(result, BorderLayout.SOUTH);
+		
+		resultArea.validate();
 	}
 	
 	@SuppressWarnings("unused")
@@ -185,6 +211,12 @@ public class LeftComponent extends JPanel {
 	
 	public boolean isAlgo(){
 		return algo == null ? false : true;
+	}
+	
+	public Dimension getPreferredSize(){
+		Dimension parent_dim = this.getParent().getSize();
+		Dimension my_dim = new Dimension((int)parent_dim.getWidth()/3, (int) parent_dim.getHeight());
+		return my_dim;
 	}
 
 }

@@ -6,47 +6,63 @@ import gui.graphui.IGraphicGraph;
 import io.CVAGraphIO;
 import io.LoadingTypeException;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.* ; 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
 
 
-	public class IHM {
+	public class IHM extends JFrame{
 
-		private JSplitPane mainWindow;
+		private JPanel mainWindow;
 		private  AGraph mygraph;
 		private IGraphicGraph igg = null;
-		public IHM()
-		{
-			final JSplitPane mainWindow = new JSplitPane(); 
-			mainWindow.setRightComponent(null);
-			JFrame frame = new JFrame("Calcul de valeur d'arguments");
-			frame.setSize(900, 600);
+		
+		public IHM(){
+
+			//création de la frame
+			this.setTitle("Calcul de valeurs d'arguments");
+			this.setSize(900, 600);
+
+			
+			mainWindow = new JPanel(new BorderLayout()); 
+
 			
 			final LeftComponent left = new LeftComponent();
-			mainWindow.setLeftComponent(left);
+			mainWindow.add(left, BorderLayout.WEST);
 			
+			//menu
 			JMenuBar menuBar = new JMenuBar();
-			frame.setJMenuBar(menuBar);
+			this.setJMenuBar(menuBar);
 			
 			JMenu menuMenu = new JMenu("Menu");
 			menuBar.add(menuMenu);
-			JMenuItem g1 = new JMenuItem("Charger Graphe 1",KeyEvent.VK_C);
-			menuMenu.add(g1); 
+			
+			JMenuItem g1 = new JMenuItem("Charger Graphe",KeyEvent.VK_C);
 			g1.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e)
 	            {
 				  mygraph = null;
 					try {
-						mygraph = CVAGraphIO.read("savefile/graph_exemple_1.dgs");
+						JFileChooser dialogue = new JFileChooser();
+						dialogue.showOpenDialog(null);
+						System.out.println("file " + dialogue.getSelectedFile().getAbsolutePath());
+						mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -56,10 +72,12 @@ import algo.Algorithm;
 					}
 					igg = new GSGraphicGraph(mygraph);
 					left.switchGraph(mygraph);
-					mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
+					mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
+					mainWindow.validate();
 	            }
 			});
-			
+			menuMenu.add(g1); 
+			/*
 			JMenuItem g2 = new JMenuItem("Charger Graphe 2",KeyEvent.VK_C);
 			menuMenu.add(g2); 
 			g2.addActionListener(new ActionListener() {
@@ -80,7 +98,7 @@ import algo.Algorithm;
 					mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
 	            }
 			}); 
-			
+			*/
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
 			List<Algorithm> algos = AbstractAlgorithm.getAlgos();
@@ -105,9 +123,9 @@ import algo.Algorithm;
 			runItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					if(!left.isGraph()){
-						System.out.println("No graph");
+						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
 					}else if(!left.isAlgo()){
-						System.out.println("No algo");
+						JOptionPane.showMessageDialog(null, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
 					}else{
 						left.run();
 						igg.refresh();
@@ -139,13 +157,7 @@ import algo.Algorithm;
 			});
 			*/
 			
-			frame.add(mainWindow);
-			this.mainWindow = mainWindow; 
-			frame.setVisible(true);
+			this.add(mainWindow);
+			this.setVisible(true);
 		}
-		
-		public void addGraphVisu(Component component){
-			this.mainWindow.setRightComponent(component);
-		}
-
 }
