@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class BreathFirst {
 
-	public static Collection<Argument>  listBreath(Collection<Argument> listeArgs, int breath) {
+	public static HashSet<Argument>  listBreath(Collection<Argument> listeArgs, int breath) {
 		HashSet<Argument> prof = new HashSet<Argument>();
 
 		prof.addAll(listeArgs);
@@ -16,10 +16,10 @@ public class BreathFirst {
 			for(Argument arg : prof){
 				Collection<Argument> at = arg.getAttackers();
 				Collection<Argument> de = arg.getDefenders();
-				if(at == null){
+				if(at != null){
 					new_prof.addAll(at);
 				}
-				if(de == null){
+				if(de != null){
 					new_prof.addAll(de);
 				}
 			}

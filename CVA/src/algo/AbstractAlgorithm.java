@@ -93,6 +93,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 				String className = classFile.split("\\.")[0];
 				try {
 					Class<Algorithm> algo = (Class<Algorithm>) Class.forName("algo.implem."+className);
+					System.out.println(className);
 					Algorithm alg = algo.newInstance();
 					algos.add(alg);
 				} catch (InstantiationException e) {
