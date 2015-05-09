@@ -26,7 +26,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 
 	@Override
 	public void init() {
-		System.out.println("sdjihsefhoer");
+
 		HashMap<String, Double> s = new HashMap<String, Double>();
 		
 		t = Threshold.nbNodes(super.getGraph());
@@ -58,7 +58,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 					if(!to_sort.containsKey(score)){
 						to_sort.put(score, new HashSet<Argument>());
 					}
-					System.out.println(scores);
+					//System.out.println(scores);
 					Collection<Argument> y = to_sort.get(score);
 					y.add(arg);
 				}
@@ -72,7 +72,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 				if(c_v == 0.||to_sort.get(c_v).size() == 1) this.args_ranked.addAll(to_sort.get(c_v));
 			}
 		}
-		System.out.println(new_sorted_tab);
+		//System.out.println(new_sorted_tab);
 		return new_sorted_tab;
 	}
 	@Override
@@ -101,7 +101,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 					args.add(a);
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
 					double a_score = attacker_a_c.size();
-					System.out.println("Score ici"+a_score);
+					//System.out.println("Score ici"+a_score);
 					s.put(a.getId(), a_score);
 					attackers_current.put(a, attacker_a_c);
 				}
@@ -119,7 +119,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
 					double a_score = attacker_a_c.size();
 					s.put(a.getId(), a_score);
-					System.out.println("Score ici"+a_score);
+					//System.out.println("Score ici"+a_score);
 					attackers_current.put(a, attacker_a_c);
 				}
 				
@@ -128,7 +128,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 			attackers_previous = attackers_current;
 			sorted_tab = separe(sorted_tab, s);
 			
-			System.out.println(s);
+			//System.out.println(s);
 			this.addStep(this.current_ranking(sorted_tab));
 			
 		}
