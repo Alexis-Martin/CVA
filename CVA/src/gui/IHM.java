@@ -153,12 +153,12 @@ import algo.Algorithm;
 						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
 					}else{
 						left.run();
-						//((GSGraphicGraph)igg).switchEditMode();
+						((GSGraphicGraph)igg).switchEditMode();
 					}
 				}
 			});
 			
-			
+			menuVisualisation.add(edition);
 			
 			
 			JMenu menuRun = new JMenu("Execute");
