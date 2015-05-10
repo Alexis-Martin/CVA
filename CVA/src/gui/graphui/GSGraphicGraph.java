@@ -3,6 +3,7 @@ package gui.graphui;
 import graph.AGraph;
 import graph.Argument;
 import graph.adapter.AGraphAdapter;
+import gui.graphui.listener.GSGraphicGraphMouseListener;
 
 import java.awt.Component;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.List;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
+import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
@@ -24,11 +26,19 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	private int minimumNodeSize;
 	private int maximumNodeSize;
 	private ViewerPipe fromViewer;
+	private static int id = 0;
+	private String s_node = "";
+	private String s_style = "";
+	private String f_node = "";
+	private ViewPanel view;
+	private GSGraphicGraphMouseListener GSGGML;
+	private boolean edit = false;
     public GSGraphicGraph(AGraph graph) {
 
     	this.graph = graph;
-    	this.graphstream = AGraphAdapter.agraphToGraphstream(graph,"blabla");
-        this.viewer = new Viewer(this.graphstream, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
+    	this.graphstream = AGraphAdapter.agraphToGraphstream(graph,"graph_adapter_"+id);
+    	id++;
+        this.viewer =  new Viewer(this.graphstream, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();
         this.viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
         this.setDefaultCSS("style/default.css");
@@ -37,25 +47,36 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
         this.setMaximumNodeSize(30);
         System.out.println("constructeur");
         this.updateStyle();
-        this.fromViewer = viewer.newViewerPipe();
-        fromViewer.addViewerListener(this);
-        fromViewer.addSink(this.graphstream);
+     //   this.fromViewer = viewer.newViewerPipe();
+     //   fromViewer.addViewerListener(this);
+      //  fromViewer.addSink(this.graphstream);
 
 
     }
+
  
     public void viewClosed(String id) {
         loop = false;
     }
     public void run() {
-    	while(true){
-    			fromViewer.pump();
-    	}
+   /* 	while(true){
+    			try {
+    				fromViewer.blockingPump();
+    			
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				};
+    	}*/
+    	return;
 
     }
 	@Override
 	public Component getGraphicGraphComponent() {
-		View view = viewer.addDefaultView(false);
+		this.view = viewer.addDefaultView(false);
+		this.GSGGML = new GSGraphicGraphMouseListener(this);
+		GSGGML.init(this.viewer.getGraphicGraph(), this.view);
+		view.addMouseListener(GSGGML);
 		return (Component)view;
 	}
 
@@ -87,7 +108,13 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		else
 			this.viewer.disableAutoLayout();
 	}
-	
+	/**
+	 * define if the user can move nodes
+	 * @param positionChange 
+	 */
+	public void setPositionChange(boolean positionChange){
+
+	}
 	/***
 	 * 
 	 * @param px minimum node size
@@ -157,12 +184,36 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 
 	public void buttonPushed(String arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0);
+		System.out.println("button pushed "+arg0);
 	}
 
 
 	public void buttonReleased(String arg0) {
-		// TODO Auto-generated method stub
+		if(!s_node.equals("")){
+			System.out.println("ICI "+s_node+" "+s_style);
+			Node old_node_select = this.graphstream.getNode(s_node);
+			old_node_select.removeAttribute("ui.style");
+			old_node_select.addAttribute("ui.class", "default");
+		}
+		Node node_select = this.graphstream.getNode(arg0);
+		s_node = arg0;
+		s_style = node_select.getAttribute("ui.class");
+		node_select.addAttribute("ui.class","select");
+		System.out.println("button released "+arg0);
 		
+	}
+	public void switchEditMode(){
+		this.edit = !this.edit;
+		if(this.edit){
+			this.GSGGML.setActive(true);
+			this.setAutomaticTopology(false);
+		}
+		else{
+			this.GSGGML.setActive(false);
+			this.setAutomaticTopology(true);
+		}
+	}
+	public Graph getGraphstreamGraph(){
+		return this.graphstream;
 	}
 }

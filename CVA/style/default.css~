@@ -1,9 +1,6 @@
 node{
   fill-color: blue;
 }
-node.default{
-  fill-color: blue;
-}
 node.select{
 	fill-color:green;
 }
