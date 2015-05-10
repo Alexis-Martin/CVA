@@ -152,7 +152,7 @@ import algo.Algorithm;
 					if(!left.isGraph()){
 						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
 					}else{
-						left.run();
+
 						((GSGraphicGraph)igg).switchEditMode();
 					}
 				}
