@@ -62,4 +62,9 @@ public class FileHelper {
 		
 		return result;
 	}
+
+	public static List<String> readFile(String file_name) throws IOException {
+		return readFile(new File(file_name));
+		
+	}
 }

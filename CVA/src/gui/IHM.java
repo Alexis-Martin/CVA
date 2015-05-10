@@ -1,8 +1,10 @@
 package gui;
 
+
 import graph.AGraph;
 import gui.graphui.GSGraphicGraph;
 import gui.graphui.IGraphicGraph;
+import helper.FileHelper;
 import io.CVAGraphIO;
 import io.LoadingTypeException;
 
@@ -12,7 +14,15 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -34,7 +44,23 @@ import algo.Algorithm;
 		private IGraphicGraph igg = null;
 		
 		public IHM(){
-
+			//verification du folder config et du fichier pathgraph
+			File directory = new File("config");
+			
+			if(!directory.exists() || !directory.isDirectory()){
+				directory.mkdir();
+			}
+			
+			File pathGraph = new File(directory, "pathgraph.conf");
+			if(!pathGraph.exists()){
+				try {
+					pathGraph.createNewFile();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			
 			//création de la frame
 			this.setTitle("Calcul de valeurs d'arguments");
 			this.setSize(900, 600);
@@ -60,45 +86,46 @@ import algo.Algorithm;
 				  mygraph = null;
 					try {
 						JFileChooser dialogue = new JFileChooser();
-						dialogue.showOpenDialog(null);
-						System.out.println("file " + dialogue.getSelectedFile().getAbsolutePath());
-						mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
+						String dir = null;
+						File directory = null;
+						List<String> temp = FileHelper.readFile("config/pathgraph.conf");
+						if(temp != null && temp.size() >= 1){
+							dir = temp.get(0);
+							directory = new File(dir);
+
+						}
+						if(directory != null && directory.exists() && directory.isDirectory())	
+							dialogue.setCurrentDirectory(directory);
+						
+						dialogue.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						dialogue.setMultiSelectionEnabled(false);
+						int choice = dialogue.showOpenDialog(null);
+						
+						//si on a choisi un fichier
+						if(choice == JFileChooser.APPROVE_OPTION){
+							FileWriter fw = new FileWriter ("config/pathgraph.conf");
+							BufferedWriter bw = new BufferedWriter (fw);
+							PrintWriter fichierSortie = new PrintWriter (bw); 
+							fichierSortie.println (dialogue.getSelectedFile().getParentFile().getAbsolutePath()); 
+							fichierSortie.close();
+						
+							mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
+							igg = new GSGraphicGraph(mygraph);
+							left.switchGraph(mygraph);
+							mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
+							mainWindow.validate();
+						}
+						
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (LoadingTypeException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					igg = new GSGraphicGraph(mygraph);
-					left.switchGraph(mygraph);
-					mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
-					mainWindow.validate();
+					
 	            }
 			});
 			menuMenu.add(g1); 
-			/*
-			JMenuItem g2 = new JMenuItem("Charger Graphe 2",KeyEvent.VK_C);
-			menuMenu.add(g2); 
-			g2.addActionListener(new ActionListener() {
-			  public void actionPerformed(ActionEvent e)
-	            {
-				  mygraph = null;
-					try {
-						mygraph = CVAGraphIO.read("savefile/graph_exemple_2.dgs");
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (LoadingTypeException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					igg = new GSGraphicGraph(mygraph);
-					left.switchGraph(mygraph);
-					mainWindow.setRightComponent((Component) igg.getGraphicGraphComponent());
-	            }
-			}); 
-			*/
+		
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
 			List<Algorithm> algos = AbstractAlgorithm.getAlgos();
@@ -117,9 +144,24 @@ import algo.Algorithm;
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
 			
+			JMenuItem edition = new JMenuItem("Editer");
+			edition.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(!left.isGraph()){
+						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
+					}else{
+						left.run();
+						//((GSGraphicGraph)igg).switchEditMode();
+					}
+				}
+			});
+			
+			
+			
+			
 			JMenu menuRun = new JMenu("Execute");
 			menuBar.add(menuRun);
-			JMenuItem runItem = new JMenuItem("Run",KeyEvent.VK_T);
+			JMenuItem runItem = new JMenuItem("Run",KeyEvent.VK_F1);
 			runItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					if(!left.isGraph()){
@@ -134,6 +176,13 @@ import algo.Algorithm;
 			});
 			menuRun.add(runItem);
 			
+			JMenuItem testsItem = new JMenuItem("multiples tests",KeyEvent.VK_T);
+			testsItem.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					FrameTests tests = new FrameTests(null, "Réaliser une batterie de tests", true);
+				}
+			});
+			menuRun.add(testsItem);
 			/*
 			JPanel ongletPanel = new JPanel() ; 
 			final OngletCreater onglets = new OngletCreater();
@@ -158,6 +207,8 @@ import algo.Algorithm;
 			*/
 			
 			this.add(mainWindow);
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 			this.setVisible(true);
 		}
 }
