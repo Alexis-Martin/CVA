@@ -15,6 +15,7 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	private GSGraphicGraph gs;
 	private String s_node="";
 	private String s_style="";
+	private boolean active;
 	private static int id = 0;
 	public GSGraphicGraphMouseListener(){
 		
@@ -41,7 +42,8 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-
+		if(!active)
+			return;
 		View view = (View) arg0.getComponent();		
 		int x = arg0.getX();
 		int y = arg0.getY(); 
@@ -53,9 +55,8 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-
+		if(!active)
+			return;
 		int x = arg0.getX();
 		int y = arg0.getY(); 
 		View view = (View) arg0.getComponent();
@@ -111,6 +112,16 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	@Override
 	public void release() {
 		// TODO Auto-generated method stub
+		
+	}
+	public void setActive(boolean b) {
+		if(!this.s_node.equals("")){
+
+			Node old_node_select = this.gs.getGraphstreamGraph().getNode(s_node);
+			old_node_select.removeAttribute("ui.style");
+			old_node_select.addAttribute("ui.class", "default");
+		}
+		this.active = b;
 		
 	}
 

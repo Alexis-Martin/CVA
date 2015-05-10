@@ -115,22 +115,7 @@ import algo.Algorithm;
 				menuAlgorithmes.add(algoItem);
 			}
 			
-			JMenu menuVisualisation = new JMenu("Visualisation");
-			menuBar.add(menuVisualisation);
-			JMenuItem edition = new JMenuItem("Editer",KeyEvent.VK_T);
-			edition.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					System.out.println("LA");
-				//	if(!left.isGraph()){
-				//		JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
-				//	}else{
-						left.run();
-						igg.setAutomaticTopology(false);
-						((GSGraphicGraph)igg).setPositionChange(false);
-				//	}
-				}
-			});		
-			menuVisualisation.add(edition);
+
 			
 			JMenu menuRun = new JMenu("Execute");
 			menuBar.add(menuRun);
@@ -148,7 +133,22 @@ import algo.Algorithm;
 				}
 			});
 			menuRun.add(runItem);
+			JMenu menuVisualisation = new JMenu("Visualisation");
+			menuBar.add(menuVisualisation);
+			JMenuItem edition = new JMenuItem("Editer");
+			edition.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(!left.isGraph()){
+						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
+					}else{
+						left.run();
+						((GSGraphicGraph)igg).switchEditMode();
+					}
+				}
+			});		
+		
 			
+			menuVisualisation.add(edition);
 			/*
 			JPanel ongletPanel = new JPanel() ; 
 			final OngletCreater onglets = new OngletCreater();

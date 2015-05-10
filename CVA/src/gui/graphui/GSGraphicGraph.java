@@ -31,6 +31,8 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	private String s_style = "";
 	private String f_node = "";
 	private ViewPanel view;
+	private GSGraphicGraphMouseListener GSGGML;
+	private boolean edit = false;
     public GSGraphicGraph(AGraph graph) {
 
     	this.graph = graph;
@@ -72,7 +74,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	@Override
 	public Component getGraphicGraphComponent() {
 		this.view = viewer.addDefaultView(false);
-		GSGraphicGraphMouseListener GSGGML = new GSGraphicGraphMouseListener(this);
+		this.GSGGML = new GSGraphicGraphMouseListener(this);
 		GSGGML.init(this.viewer.getGraphicGraph(), this.view);
 		view.addMouseListener(GSGGML);
 		return (Component)view;
@@ -199,6 +201,17 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		node_select.addAttribute("ui.class","select");
 		System.out.println("button released "+arg0);
 		
+	}
+	public void switchEditMode(){
+		this.edit = !this.edit;
+		if(this.edit){
+			this.GSGGML.setActive(true);
+			this.setAutomaticTopology(false);
+		}
+		else{
+			this.GSGGML.setActive(false);
+			this.setAutomaticTopology(true);
+		}
 	}
 	public Graph getGraphstreamGraph(){
 		return this.graphstream;
