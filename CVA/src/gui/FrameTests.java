@@ -19,16 +19,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import algo.AbstractAlgorithm;
 import algo.Algorithm;
 
 public class FrameTests extends JDialog implements ActionListener{
@@ -66,7 +71,6 @@ public class FrameTests extends JDialog implements ActionListener{
 		JButton select_dir_graph = new JButton(new ImageIcon("style/open dossier.png"));
 		select_dir_graph.setToolTipText("selectionner un dossier");
 		select_dir_graph.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser dialogue = new JFileChooser();
@@ -85,6 +89,21 @@ public class FrameTests extends JDialog implements ActionListener{
 		dir_graph_panel.add(select_dir_graph);
 		
 		center_panel.add(dir_graph_panel, BorderLayout.NORTH);
+		
+		
+		JPanel algos_panel = new JPanel(new BorderLayout());
+		
+		List<Algorithm> v = AbstractAlgorithm.getAlgos();
+		final DefaultListModel<String> model = new DefaultListModel<String>();
+	    for (int i = 0, n = v.size(); i < n; i++) {
+	        model.addElement(v.get(i).getName());
+	      }
+		JList<Algorithm> j_algos = new JList<Algorithm>(v.toArray(new Algorithm[0]));
+		
+		algos_panel.add(new JScrollPane(j_algos), BorderLayout.WEST);
+		center_panel.add(algos_panel, BorderLayout.CENTER);
+		
+		
 		frame_panel.add(center_panel, BorderLayout.CENTER);
 		
 		

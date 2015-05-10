@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -129,6 +130,7 @@ import algo.Algorithm;
 			JMenu menuAlgorithmes = new JMenu("Algorithmes");
 			menuBar.add(menuAlgorithmes);
 			List<Algorithm> algos = AbstractAlgorithm.getAlgos();
+		
 			for(final Algorithm algo : algos){
 				JMenuItem algoItem = new JMenuItem(algo.getName(),KeyEvent.VK_T);
 				algoItem.addActionListener(
