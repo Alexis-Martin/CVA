@@ -185,28 +185,6 @@ import algo.Algorithm;
 				}
 			});
 			menuRun.add(testsItem);
-			/*
-			JPanel ongletPanel = new JPanel() ; 
-			final OngletCreater onglets = new OngletCreater();
-			onglets.setPreferredSize(new Dimension(300,300));
-			ongletPanel.add(onglets); 
-			Box leftBox = Box.createVerticalBox();
-			leftBox.add(ongletPanel);
-			JButton run = new JButton("Run");
-			leftBox.add(run);
-			run.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					if(!left.isGraph()){
-						System.out.println("No graph");
-					}else if(!left.isAlgo()){
-						System.out.println("No algo");
-					}else{
-						left.run();
-						igg.refresh();
-					}
-				}
-			});
-			*/
 			
 			this.add(mainWindow);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
