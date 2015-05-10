@@ -10,6 +10,7 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -18,10 +19,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,9 +36,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
+import algo.Parameter;
 
 public class FrameTests extends JDialog implements ActionListener{
 
@@ -42,10 +51,11 @@ public class FrameTests extends JDialog implements ActionListener{
 	private List<Algorithm> algos;
 	private JButton run;
 	private JTextField dir_graph;
+	private JPanel detail_algo_panel;
 	
 	public FrameTests(Dialog owner, String title, boolean modal){
 		super(owner, title, modal);
-		this.setSize(700, 500);
+		this.setSize(900, 300);
 		
 		graph_dir = null;
 		algos = new ArrayList<Algorithm>();
@@ -93,14 +103,25 @@ public class FrameTests extends JDialog implements ActionListener{
 		
 		JPanel algos_panel = new JPanel(new BorderLayout());
 		
-		List<Algorithm> v = AbstractAlgorithm.getAlgos();
-		final DefaultListModel<String> model = new DefaultListModel<String>();
-	    for (int i = 0, n = v.size(); i < n; i++) {
-	        model.addElement(v.get(i).getName());
-	      }
-		JList<Algorithm> j_algos = new JList<Algorithm>(v.toArray(new Algorithm[0]));
+		JList<Algorithm> j_algos = getJListAlgos(new Vector<Algorithm>(AbstractAlgorithm.getAlgos()));
+		j_algos.addListSelectionListener(new ListSelectionListener() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				detailAlgo(((JList<Algorithm>)e.getSource()).getSelectedValue());
+				
+			}
+		});
 		
 		algos_panel.add(new JScrollPane(j_algos), BorderLayout.WEST);
+		
+		detail_algo_panel = new JPanel(new BorderLayout());
+		algos_panel.add(detail_algo_panel, BorderLayout.CENTER);
+		
+		JList<Algorithm> j_result = getJListAlgos(new Vector<Algorithm>());
+		algos_panel.add(new JScrollPane(j_result), BorderLayout.EAST);
+		
+		
 		center_panel.add(algos_panel, BorderLayout.CENTER);
 		
 		
@@ -119,6 +140,78 @@ public class FrameTests extends JDialog implements ActionListener{
 		
 	}
 
+	
+	public void detailAlgo(Algorithm alg){
+		try{
+			detail_algo_panel.removeAll();
+		}
+		catch(NullPointerException e ){}
+		HashMap<String,Parameter> params = alg.getParams();
+		JPanel parameters = new JPanel(new GridLayout(2, 0, 10, 5));
+		int param = 0;
+		for (Entry<String, Parameter> entry : params.entrySet()) {
+			JPanel parameter = new JPanel();
+		    String list = entry.getKey();
+		    
+		    JLabel tmpLabel = new JLabel(list + " de"); 
+		    
+		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
+		    tmpField.setPreferredSize(new Dimension(70, 27));
+
+		    JLabel tmpLabel2 = new JLabel("à");
+
+		    JTextField tmpField2 = new JTextField(entry.getValue().printVal()); 
+		    tmpField2.setPreferredSize(new Dimension(70, 27));
+
+		    JLabel tmpLabel3 = new JLabel("pas");
+
+		    JTextField tmpField3 = new JTextField("0.0001"); 
+		    tmpField3.setPreferredSize(new Dimension(70, 27));
+		    
+		    parameter.add(tmpLabel);
+			parameter.add(tmpField);
+			parameter.add(tmpLabel2);
+			parameter.add(tmpField2);
+			parameter.add(tmpLabel3);
+			parameter.add(tmpField3);
+			
+			parameters.add(parameter);
+			param++;
+
+		}
+		detail_algo_panel.add(parameters, BorderLayout.CENTER);
+		
+		JPanel button_panel = new JPanel();
+		JButton add = new JButton("Ajouter");
+		button_panel.add(add);
+		detail_algo_panel.add(button_panel, BorderLayout.SOUTH);
+		detail_algo_panel.setPreferredSize(new Dimension(param * 50 + 30, param * 80 + 30));
+		detail_algo_panel.validate();
+		this.validate();
+	}
+	
+	
+	public JList<Algorithm> getJListAlgos(Vector<Algorithm> algos){
+		JList<Algorithm> j_algos = new JList<Algorithm>(algos);
+		j_algos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		j_algos.setCellRenderer(new ListCellRenderer<Algorithm>() {
+			
+			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Algorithm> list, Algorithm value,
+														int index, boolean isSelected, boolean cellHasFocus) {
+				
+				JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index,
+				        				isSelected, cellHasFocus);
+				renderer.setText(value.getName());
+				return renderer;
+			}
+			
+		});
+		
+		return j_algos;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == run){
@@ -126,4 +219,5 @@ public class FrameTests extends JDialog implements ActionListener{
 			this.dispose();
 		}
 	}
+	
 }

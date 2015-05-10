@@ -1,0 +1,20 @@
+node{
+  fill-color: blue;
+}
+node.default{
+  fill-color: blue;
+}
+node.select{
+	fill-color:green;
+}
+edge{
+	shape: cubic-curve;
+	fill-color:black;
+}
+edge.attack{
+	fill-color:red;
+}
+edge.defend{
+	fill-color:blue;
+}
+
