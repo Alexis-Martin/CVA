@@ -1,7 +1,14 @@
 node{
   fill-color: blue;
 }
+node.default{
+  fill-color: blue;
+}
+node.select{
+	fill-color:green;
+}
 edge{
+	shape: cubic-curve;
 	fill-color:black;
 }
 edge.attack{
@@ -10,3 +17,4 @@ edge.attack{
 edge.defend{
 	fill-color:blue;
 }
+

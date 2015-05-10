@@ -71,6 +71,7 @@ import algo.Algorithm;
 						e1.printStackTrace();
 					}
 					igg = new GSGraphicGraph(mygraph);
+					((GSGraphicGraph)igg).start();
 					left.switchGraph(mygraph);
 					mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
 					mainWindow.validate();
@@ -116,6 +117,20 @@ import algo.Algorithm;
 			
 			JMenu menuVisualisation = new JMenu("Visualisation");
 			menuBar.add(menuVisualisation);
+			JMenuItem edition = new JMenuItem("Editer",KeyEvent.VK_T);
+			edition.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					System.out.println("LA");
+				//	if(!left.isGraph()){
+				//		JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
+				//	}else{
+						left.run();
+						igg.setAutomaticTopology(false);
+						((GSGraphicGraph)igg).setPositionChange(false);
+				//	}
+				}
+			});		
+			menuVisualisation.add(edition);
 			
 			JMenu menuRun = new JMenu("Execute");
 			menuBar.add(menuRun);

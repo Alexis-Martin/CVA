@@ -13,10 +13,11 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
 public class AGraphAdapter {
+	static int id = 0;
 	public static AGraph graphstreamToAGraph(Graph g){
-		GSAGraph agraph = new GSAGraph(g.getId());
+		GSAGraph agraph = new GSAGraph(g.getId()+"_"+id);
 
-		
+		id++;
 		//BUILDING NODES
 		Collection<Node> nodes = g.getNodeSet();
 		for(Node node :  nodes){
@@ -46,7 +47,9 @@ public class AGraphAdapter {
 		return agraph;
 	}	
 	public static Graph agraphToGraphstream(AGraph g, String name){
-		MultiGraph gstream = new MultiGraph(name);
+		MultiGraph gstream = new MultiGraph(name+"_"+id);
+		id++;
+		gstream.setStrict(false);
 		Collection<Argument> args = g.getArguments();
 		for(Argument arg : args){
 			Node node = gstream.addNode(arg.getId());
@@ -73,7 +76,9 @@ public class AGraphAdapter {
 		return gstream;
 	}
 	public static Graph agraphToGraphstream(AGraph g, String name,boolean saveResult){
-		MultiGraph gstream = new MultiGraph(name);
+		MultiGraph gstream = new MultiGraph(name+"_"+id);
+		gstream.setStrict(false);
+		id++;
 		Collection<Argument> args = g.getArguments();
 		for(Argument arg : args){
 			Node node = gstream.addNode(arg.getId());
