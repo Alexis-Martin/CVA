@@ -48,17 +48,18 @@ import algo.Parameter;
 public class FrameTests extends JDialog implements ActionListener{
 
 	private File graph_dir;
-	private List<Algorithm> algos;
-	private JButton run;
+	private HashMap<Algorithm, List<HashMap<String, Parameter>>> algos;
+	private JButton run, add;
 	private JTextField dir_graph;
 	private JPanel detail_algo_panel;
+	private JList<Algorithm> j_algos;
 	
 	public FrameTests(Dialog owner, String title, boolean modal){
 		super(owner, title, modal);
 		this.setSize(900, 300);
 		
 		graph_dir = null;
-		algos = new ArrayList<Algorithm>();
+		algos = new HashMap<Algorithm, List<HashMap<String, Parameter>>>();
 		
 		JPanel frame_panel = new JPanel(new BorderLayout());
 		
@@ -103,7 +104,7 @@ public class FrameTests extends JDialog implements ActionListener{
 		
 		JPanel algos_panel = new JPanel(new BorderLayout());
 		
-		JList<Algorithm> j_algos = getJListAlgos(new Vector<Algorithm>(AbstractAlgorithm.getAlgos()));
+		j_algos = getJListAlgos(new Vector<Algorithm>(AbstractAlgorithm.getAlgos()));
 		j_algos.addListSelectionListener(new ListSelectionListener() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -157,16 +158,20 @@ public class FrameTests extends JDialog implements ActionListener{
 		    
 		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
 		    tmpField.setPreferredSize(new Dimension(70, 27));
+		    tmpField.setName("de");
 
 		    JLabel tmpLabel2 = new JLabel("à");
 
 		    JTextField tmpField2 = new JTextField(entry.getValue().printVal()); 
 		    tmpField2.setPreferredSize(new Dimension(70, 27));
+		    tmpField2.setName("à");
 
 		    JLabel tmpLabel3 = new JLabel("pas");
 
 		    JTextField tmpField3 = new JTextField("0.0001"); 
 		    tmpField3.setPreferredSize(new Dimension(70, 27));
+		    tmpField3.setName("pas");
+
 		    
 		    parameter.add(tmpLabel);
 			parameter.add(tmpField);
@@ -182,7 +187,8 @@ public class FrameTests extends JDialog implements ActionListener{
 		detail_algo_panel.add(parameters, BorderLayout.CENTER);
 		
 		JPanel button_panel = new JPanel();
-		JButton add = new JButton("Ajouter");
+		add = new JButton("Ajouter");
+		add.addActionListener(this);
 		button_panel.add(add);
 		detail_algo_panel.add(button_panel, BorderLayout.SOUTH);
 		detail_algo_panel.setPreferredSize(new Dimension(param * 50 + 30, param * 80 + 30));
@@ -217,6 +223,33 @@ public class FrameTests extends JDialog implements ActionListener{
 		if(e.getSource() == run){
 			System.out.println(dir_graph.getText());
 			this.dispose();
+		}
+		if(e.getSource() == add){
+			Algorithm algo = j_algos.getSelectedValue();
+			JPanel parameters = (JPanel)((BorderLayout)detail_algo_panel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
+			for(int i = 0; i < parameters.getComponentCount(); i++){
+				Component[] parameter = ((JPanel)parameters.getComponent(i)).getComponents();
+				for(int j = 0; j < parameter.length; j++){
+					if(!parameter[j].getClass().getName().equals("JTextField"))
+						continue;
+					
+					Double de = null;
+					Double a = null;
+					Double pas = null;
+					
+					if(((JTextField)parameter[j]).getName().equals("de")){
+						de = Double.parseDouble(((JTextField)parameter[j]).getText());
+					}
+					else if(((JTextField)parameter[j]).getName().equals("à")){
+						a = Double.parseDouble(((JTextField)parameter[j]).getText());
+					}
+					
+					else if(((JTextField)parameter[j]).getName().equals("pas")){
+						pas = Double.parseDouble(((JTextField)parameter[j]).getText());
+					}
+				}
+			}
+					
 		}
 	}
 	

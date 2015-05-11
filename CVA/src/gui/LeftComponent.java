@@ -111,9 +111,14 @@ public class LeftComponent extends JPanel {
 	}
 	private void MajParametersValues(){
 		for(JLabel label : labelToField.keySet()){
-			Parameter currentParameter = algo.getParam(label.getText());
-			currentParameter.setValue(Double.parseDouble(labelToField.get(label).getText()));
-			System.out.println( label.getText()+" = "+Double.parseDouble(labelToField.get(label).getText()));
+			try{
+				Parameter currentParameter = algo.getParam(label.getText());
+				currentParameter.setValue(Double.parseDouble(labelToField.get(label).getText()));
+				System.out.println( label.getText()+" = "+Double.parseDouble(labelToField.get(label).getText()));
+			}
+			catch(NumberFormatException e){
+				labelToField.get(label).setText(algo.getParam(label.getText()).printVal());
+			}
 		}
 	}
 	public void MajParametres () {
@@ -143,7 +148,7 @@ public class LeftComponent extends JPanel {
 
 		}
 		parametersArea.add(parameters, BorderLayout.CENTER);
-		parametersArea.setPreferredSize(new Dimension(param * 50 + 30, param * 80 + 30));
+		parametersArea.setPreferredSize(new Dimension(param * 40 + 30, param * 40 + 50));
 		parametersArea.validate();
 		this.validate();
 	}
@@ -187,7 +192,6 @@ public class LeftComponent extends JPanel {
 		
 		JPanel result = new JPanel();
 		JTextField text_result = new JTextField(); 
-		
 		for(int i = 0; i < args.size(); i++){
 			if(i == 0){
 				text_result.setText(args.get(i).getId());
@@ -200,6 +204,12 @@ public class LeftComponent extends JPanel {
 				text_result.setText(text_result.getText() + " > " + args.get(i).getId());
 
 		}
+		text_result.setPreferredSize(new Dimension(100, 27));
+		text_result.setColumns(text_result.getText().length());
+		text_result.setHorizontalAlignment(JTextField.CENTER);
+		text_result.setEditable(false);
+		text_result.setBackground(new Color(255, 255, 255));
+
 		result.add(text_result);
 		resultArea.add(result, BorderLayout.SOUTH);
 		
