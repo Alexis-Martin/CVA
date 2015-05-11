@@ -11,6 +11,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import algo.AbstractAlgorithm;
+import algo.Parameter;
 import algo.utils.BreathFirst;
 import algo.utils.Threshold;
 
@@ -22,14 +23,16 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	
 	public DiscussionBasedSemantics(){
 		super("Discussion Based Semantics");
+		addParam(new Parameter("treshold",-1.));//Threshold.nbNodes(super.getGraph())));
 	}
 
 	@Override
 	public void init() {
-
+		this.t = (double) getParam("treshold").getValue();
+		if(this.t == -1.)
+			this.t = Threshold.nbNodes(super.getGraph());
 		HashMap<String, Double> s = new HashMap<String, Double>();
-		
-		t = Threshold.nbNodes(super.getGraph());
+
 		
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){

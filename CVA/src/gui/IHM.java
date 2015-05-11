@@ -113,7 +113,9 @@ import algo.Algorithm;
 							mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
 							igg = new GSGraphicGraph(mygraph);
 							left.switchGraph(mygraph);
-							mainWindow.remove(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+							if(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER)!=null){
+								mainWindow.remove(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+							}	
 							mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
 							mainWindow.validate();
 						}

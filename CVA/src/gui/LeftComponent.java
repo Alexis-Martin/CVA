@@ -33,6 +33,7 @@ public class LeftComponent extends JPanel {
 	private AGraph mygraph = null; 
 	private JPanel parametersArea ;
 	private JPanel resultArea ; 
+	private HashMap<JLabel,JTextField> labelToField;
 	//private JButton run ;
 	
 	
@@ -85,8 +86,8 @@ public class LeftComponent extends JPanel {
 	{
 		if (canRun())
 		{
+			MajParametersValues();
 			HashMap<String,Parameter> params = algo.getParams(); 
-			//TODO: setParams
 			algo.execute(this.mygraph);
 		}
 		else
@@ -108,10 +109,17 @@ public class LeftComponent extends JPanel {
 		MajParametres();
 		MajResultats();
 	}
-	
+	private void MajParametersValues(){
+		for(JLabel label : labelToField.keySet()){
+			Parameter currentParameter = algo.getParam(label.getText());
+			currentParameter.setValue(Double.parseDouble(labelToField.get(label).getText()));
+			System.out.println( label.getText()+" = "+Double.parseDouble(labelToField.get(label).getText()));
+		}
+	}
 	public void MajParametres () {
 		if(algo == null) return;
 		
+		labelToField = new HashMap<JLabel, JTextField>();
 		parametersArea.setVisible(true);
 		try{
 			parametersArea.remove(((BorderLayout)parametersArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
@@ -126,7 +134,7 @@ public class LeftComponent extends JPanel {
 		    JLabel tmpLabel = new JLabel(list); 
 		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
 		    tmpField.setPreferredSize(new Dimension(100, 27));
-
+		    labelToField.put(tmpLabel, tmpField);
 		    parameter.add(tmpLabel);
 			parameter.add(tmpField);
 			//newArea.add(tmpBox) ;
