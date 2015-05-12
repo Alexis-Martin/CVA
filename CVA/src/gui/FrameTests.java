@@ -33,6 +33,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -48,7 +49,7 @@ import algo.Parameter;
 public class FrameTests extends JDialog implements ActionListener{
 
 	private File graph_dir;
-	private HashMap<Algorithm, List<HashMap<String, Parameter>>> algos;
+	private HashMap<Algorithm, HashMap<String, List<Double>>> algos;
 	private JButton run, add;
 	private JTextField dir_graph;
 	private JPanel detail_algo_panel;
@@ -59,7 +60,7 @@ public class FrameTests extends JDialog implements ActionListener{
 		this.setSize(900, 300);
 		
 		graph_dir = null;
-		algos = new HashMap<Algorithm, List<HashMap<String, Parameter>>>();
+		algos = new HashMap<Algorithm, HashMap<String, List<Double>>>();
 		
 		JPanel frame_panel = new JPanel(new BorderLayout());
 		
@@ -227,9 +228,21 @@ public class FrameTests extends JDialog implements ActionListener{
 		if(e.getSource() == add){
 			Algorithm algo = j_algos.getSelectedValue();
 			JPanel parameters = (JPanel)((BorderLayout)detail_algo_panel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
+			
+			HashMap<String, List<Double>> list_param = new HashMap<String, List<Double>>();
+			
 			for(int i = 0; i < parameters.getComponentCount(); i++){
 				Component[] parameter = ((JPanel)parameters.getComponent(i)).getComponents();
+				String name_param = "";
 				for(int j = 0; j < parameter.length; j++){
+					if(parameter[j].getClass().getName().equals("JLabel") && 
+							!((JLabel)parameter[j]).getText().equals("de") && 
+							!((JLabel)parameter[j]).getText().equals("à") && 
+							!((JLabel)parameter[j]).getText().equals("pas"))
+					{	
+						name_param = ((JLabel)parameter[j]).getText();
+					}
+						
 					if(!parameter[j].getClass().getName().equals("JTextField"))
 						continue;
 					
@@ -247,8 +260,22 @@ public class FrameTests extends JDialog implements ActionListener{
 					else if(((JTextField)parameter[j]).getName().equals("pas")){
 						pas = Double.parseDouble(((JTextField)parameter[j]).getText());
 					}
+					
+					if(a < de || pas <= 0){
+						JOptionPane.showMessageDialog(null, "impossible d'effectuer ces tests, vérifiez vos paramètres", "Erreur paramètres", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					List<Double> param = new ArrayList<Double>();
+					param.add(de);
+					for(double k = de+pas; k < a; k += pas){
+						param.add(k);
+						
+					}
+					list_param.put(name_param, param);
 				}
+
 			}
+			algos.put(algo, list_param);
 					
 		}
 	}
