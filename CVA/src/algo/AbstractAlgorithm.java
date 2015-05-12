@@ -28,8 +28,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public abstract void run();
 
-	public final void execute(AGraph g){
-		this.graph = g;
+	public final void execute(){
 		init();
 		run();
 		end();
@@ -42,8 +41,14 @@ public abstract class AbstractAlgorithm implements Algorithm {
 		return name;
 	}
 	
+	@Override
 	public AGraph getGraph(){
 		return graph;
+	}
+	
+	@Override
+	public void setGraph(AGraph graph){
+		this.graph = graph;
 	}
 
 	

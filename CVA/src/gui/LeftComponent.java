@@ -88,7 +88,7 @@ public class LeftComponent extends JPanel {
 		{
 			MajParametersValues();
 			HashMap<String,Parameter> params = algo.getParams(); 
-			algo.execute(this.mygraph);
+			algo.execute();
 		}
 		else
 		{
