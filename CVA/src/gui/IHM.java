@@ -12,6 +12,7 @@ import io.LoadingTypeException;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -119,11 +120,15 @@ import algo.Algorithm;
 							mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
 							igg = new GSGraphicGraph(mygraph);
 							left.switchGraph(mygraph);
+							
 							if(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER)!=null){
 								mainWindow.remove(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER));
-							}	
-							mainWindow.add((Component) igg.getGraphicGraphComponent(), BorderLayout.CENTER);
+							}
+							JPanel gPanel = new JPanel(new GridLayout(0,1));
+							gPanel.add(igg.getGraphicGraphComponent());
+							mainWindow.add(gPanel, BorderLayout.CENTER);
 							mainWindow.validate();
+				
 						}
 						
 					} catch (IOException e1) {
