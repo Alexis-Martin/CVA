@@ -2,6 +2,7 @@ package gui;
 
 
 import graph.AGraph;
+import graph.Argument;
 import gui.graphui.GSGraphicGraph;
 import gui.graphui.IGraphicGraph;
 import helper.FileHelper;
@@ -160,8 +161,27 @@ import algo.Algorithm;
 					}
 				}
 			});
-			
 			menuVisualisation.add(edition);
+			
+			JMenuItem ajouterArgument = new JMenuItem("Ajout d'un Argument");
+			ajouterArgument.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(!left.isGraph()){
+						JOptionPane.showMessageDialog(null, "Aucun graphe n'a √©t√© charg√©", "missing graph", JOptionPane.ERROR_MESSAGE);
+					}else{
+						String argumentId = JOptionPane.showInputDialog("Entrez un id pour l'argument");
+						String argumentDesc = JOptionPane.showInputDialog("Entrez une description pour l'argument");
+						Argument toAddArgument = mygraph.addArgument(argumentId, argumentDesc);
+						// Je dois reconnaitre ne pas savoir comment ajouter l'argument au graphe
+						// Il faut faire une autre fenetre pour demander une utilit®¶ et quels argument il attaque ou d®¶fends ? avant de pouvoir l'ajouter 
+						// ou on peut le faire apres ? 
+						// Et oui je vais plutot faire un pop up ou on va demander toutes les informations necessaires plutot
+						// que d'avoir une fenetre qui s'ouvre pour chaque informations
+					}
+				}
+			});
+			
+			menuVisualisation.add(ajouterArgument);
 			
 			
 			JMenu menuRun = new JMenu("Execute");
