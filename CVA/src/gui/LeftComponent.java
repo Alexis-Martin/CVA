@@ -30,7 +30,7 @@ import algo.Parameter;
 public class LeftComponent extends JPanel {
 	private static final long serialVersionUID = 7302042201274878731L;
 	private Algorithm algo ;
-	private AGraph mygraph = null; 
+	private AGraph mygraph; 
 	private JPanel parametersArea ;
 	private JPanel resultArea ; 
 	private HashMap<JLabel,JTextField> labelToField;
@@ -39,7 +39,8 @@ public class LeftComponent extends JPanel {
 	
 	public LeftComponent()
 	{
-		this.algo = null ; 
+		this.algo = null ;
+		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
 		//parameters
@@ -66,14 +67,19 @@ public class LeftComponent extends JPanel {
 	public void switchAlgo (Algorithm al)
 	{
 		this.algo = al;
+		if(mygraph != null){
+			this.algo.setGraph(mygraph);
+		}
 		MajInterface();
 	}
 	
 	public void switchGraph (AGraph gr)
 	{
 		this.mygraph = gr;
+		if(this.algo != null){
+			this.algo.setGraph(mygraph);
+		}
 		MajInterface();
-
 	}
 	
 	public boolean canRun ()
