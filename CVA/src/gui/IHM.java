@@ -66,6 +66,7 @@ import algo.Algorithm;
 			//crÃ©ation de la frame
 			this.setTitle("Calcul de valeurs d'arguments");
 			this.setSize(900, 600);
+			this.setMinimumSize(new Dimension(800, 600));
 
 			
 			mainWindow = new JPanel(new BorderLayout()); 
@@ -173,7 +174,7 @@ import algo.Algorithm;
 						String argumentDesc = JOptionPane.showInputDialog("Entrez une description pour l'argument");
 						Argument toAddArgument = mygraph.addArgument(argumentId, argumentDesc);
 						// Je dois reconnaitre ne pas savoir comment ajouter l'argument au graphe
-						// Il faut faire une autre fenetre pour demander une utilit¨¦ et quels argument il attaque ou d¨¦fends ? avant de pouvoir l'ajouter 
+						// Il faut faire une autre fenetre pour demander une utilitï¿½ï¿½ et quels argument il attaque ou dï¿½ï¿½fends ? avant de pouvoir l'ajouter 
 						// ou on peut le faire apres ? 
 						// Et oui je vais plutot faire un pop up ou on va demander toutes les informations necessaires plutot
 						// que d'avoir une fenetre qui s'ouvre pour chaque informations
