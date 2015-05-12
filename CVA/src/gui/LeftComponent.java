@@ -45,10 +45,7 @@ public class LeftComponent extends JPanel {
 		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
-		ParameterBoolean test = new ParameterBoolean ("test",true,new Integer(4) );
-		test.setToolTip("Testons le test");
-		this.add(test,BorderLayout.NORTH);
-		
+
 		
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
@@ -67,7 +64,7 @@ public class LeftComponent extends JPanel {
 		this.parametersArea.setVisible(false);
 		nameAndParameters.add(parametersArea, BorderLayout.CENTER);
 		
-		//this.add(nameAndParameters,BorderLayout.NORTH);
+		this.add(nameAndParameters,BorderLayout.NORTH);
 		
 		//resultats
 		this.resultArea = new JPanel(new BorderLayout());
