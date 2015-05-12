@@ -44,6 +44,7 @@ public class LeftComponent extends JPanel {
 		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
+		
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
 		algoName = new JLabel ("");
@@ -52,6 +53,7 @@ public class LeftComponent extends JPanel {
 		nameAndParameters.add(algoName,BorderLayout.NORTH);		
 		
 		//parameters
+
 		this.parametersArea = new JPanel(new BorderLayout()); 
 		JLabel prop = new JLabel ("Paramètres");
 		prop.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
@@ -59,6 +61,7 @@ public class LeftComponent extends JPanel {
 		parametersArea.add(prop, BorderLayout.NORTH);
 		this.parametersArea.setVisible(false);
 		nameAndParameters.add(parametersArea, BorderLayout.CENTER);
+		
 		this.add(nameAndParameters,BorderLayout.NORTH);
 		
 		//resultats
@@ -145,9 +148,14 @@ public class LeftComponent extends JPanel {
 		}
 	}
 	public void MajParametres () {
+		
+
+		
 		if(algo == null) return;
 		
 		labelToField = new HashMap<JLabel, JTextField>();
+		Dimension parentDim = this.getSize(); 
+		parametersArea.setPreferredSize(new Dimension(parentDim.width,parentDim.height/4));
 		parametersArea.setVisible(true);
 		try{
 			parametersArea.remove(((BorderLayout)parametersArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
@@ -170,8 +178,9 @@ public class LeftComponent extends JPanel {
 			param++;
 
 		}
-		parametersArea.add(parameters, BorderLayout.CENTER);
-		parametersArea.setPreferredSize(new Dimension(param * 40 + 30, param * 40 + 50));
+		JScrollPane scroll_params = new JScrollPane(parameters);
+		parametersArea.add(scroll_params, BorderLayout.CENTER);
+		//parametersArea.setPreferredSize(new Dimension(param * 40 + 30, param * 40 + 50));
 		parametersArea.validate();
 		this.validate();
 	}
