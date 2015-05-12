@@ -23,25 +23,26 @@ public class Propagation extends AbstractAlgorithm{
 	private double t;
 	private Collection<Argument> args;
 	private HashSet<Argument> args_ranked;
+	private Double delta ;
+
 	
 	public Propagation(){
 		super("Propagation");
 
 		addParam(new Parameter("epsilon", 0.0001));
-		addParam(new Parameter("xhi", 0.1));
+		addParam(new Parameter("threshold", 50));
+		addParam(new Parameter("delta", 1.));
 	}
 	
 	@Override
 	public void init() {
-		this.t = (double) getParam("treshold").getValue();
-		if(this.t == -1.)
-			this.t = Threshold.nbNodes(super.getGraph());
+		this.t = (double) getParam("threshold").getValue();
+		this.epsilon = (double) getParam("epsilon").getValue();
+		this.delta = (double) getParam("delta").getValue();
 		HashMap<String, Double> s = new HashMap<String, Double>();
-
-		
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){
-			s.put(a.getId(), 1.0);
+			s.put(a.getId(), 0.);
 		}
 		super.addStep(s);
 	}
@@ -69,7 +70,7 @@ public class Propagation extends AbstractAlgorithm{
 			while(it.hasNext()){
 				Double c_v = it.next();
 				new_sorted_tab.add(to_sort.get(c_v));
-				if(c_v == 0.||to_sort.get(c_v).size() == 1) this.args_ranked.addAll(to_sort.get(c_v));
+				if(to_sort.get(c_v).size() == 1) this.args_ranked.addAll(to_sort.get(c_v));
 			}
 		}
 		//System.out.println(new_sorted_tab);
@@ -90,54 +91,89 @@ public class Propagation extends AbstractAlgorithm{
 
 		HashMap<Argument,HashSet<Argument>> attackers_previous = null;
 		HashMap<Argument,HashSet<Argument>> attackers_current ;
-		this.args= super.getGraph().getArguments();
+		HashMap<Argument,Double> vals = new HashMap<Argument,Double>();
+		HashMap<Argument,Double> v_arg = new HashMap<Argument,Double>();
+		
+		this.args = super.getGraph().getArguments();
+		//initialisation
+		//Attacker init
+		for(Argument arg : args){
+			HashSet<Argument> a = new HashSet<Argument>();
+			a.add(arg);
+			HashSet<Argument> attacker_a_c = BreathFirst.listBreath(a, 1);
+			double a_score = 0.;
+			if(a_score == 0)
+				a_score = 1;
+			else
+				a_score = this.epsilon;
+			vals.put(arg, 0.);
+			v_arg.put(arg, a_score);
+		}
+
 		int nb_nodes = args.size();
 		this.args_ranked = new HashSet<Argument>();
 		ArrayList<Collection<Argument>> sorted_tab = new ArrayList<Collection<Argument>>();
 		HashSet<Argument> start_arg = new HashSet<Argument>();
 		start_arg.addAll(this.args);
 		sorted_tab.add(start_arg);
+		
+
 		for(int i=0; i<(t*t)&&args_ranked.size() != nb_nodes; i++){
 
 			HashMap<String, Double> s = new HashMap<String, Double>();
+			
+			
 			attackers_current = new HashMap<Argument,HashSet<Argument>>();
-
+	
+			
 
 			for(Argument a : args){
-				//Start
+				//Start -> defend
 				if( i == 0){
 					HashSet<Argument> args = new HashSet<Argument>();
 					args.add(a);
-					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
-					double a_score = attacker_a_c.size();
-					//System.out.println("Score ici"+a_score);
-					s.put(a.getId(), a_score);
-					attackers_current.put(a, attacker_a_c);
+					HashSet<Argument> defender_a_c = new HashSet<Argument>();
+					defender_a_c.add(a);	
+					vals.put(a,this.delta * v_arg.get(a)); 
+					
+					attackers_current.put(a, defender_a_c);	
+					s.put(a.getId(), - this.delta * v_arg.get(a));
 				}
-				//Impair
+				//Impair attack
 				else if( i%2 == 1 ){
+					
 					HashSet<Argument> args = attackers_previous.get(a);
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
-					double a_score = - attacker_a_c.size();
-					s.put(a.getId(), a_score);	
+					double a_score = vals.get(a);	
+					for(Argument att : attacker_a_c){
+						a_score -= this.delta * v_arg.get(att);
+					}
 					attackers_current.put(a, attacker_a_c);
+					vals.put(a, a_score);
+					s.put(a.getId(), - a_score);
+					
+					
 				}
-				//Pair
+				//Pair defend
 				else{
 					HashSet<Argument> args = attackers_previous.get(a);
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
-					double a_score = attacker_a_c.size();
-					s.put(a.getId(), a_score);
-					//System.out.println("Score ici"+a_score);
+					double a_score = vals.get(a);	
+					for(Argument att : attacker_a_c){
+						a_score += this.delta * v_arg.get(att);
+					}
 					attackers_current.put(a, attacker_a_c);
+					vals.put(a, a_score);
+					s.put(a.getId(),- a_score);
 				}
 				
 			}
 			
-			attackers_previous = attackers_current;
-			sorted_tab = separe(sorted_tab, s);
 			
-			//System.out.println(s);
+
+			sorted_tab = separe(sorted_tab, s);
+
+			attackers_previous = attackers_current;
 			this.addStep(this.current_ranking(sorted_tab));
 			
 		}
