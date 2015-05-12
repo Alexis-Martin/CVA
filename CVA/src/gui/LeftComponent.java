@@ -2,6 +2,7 @@ package gui;
 
 import graph.AGraph;
 import graph.Argument;
+import gui.parametertype.ParameterBoolean;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -44,6 +45,10 @@ public class LeftComponent extends JPanel {
 		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
+		ParameterBoolean test = new ParameterBoolean ("test",true,new Integer(4) );
+		test.setToolTip("Testons le test");
+		this.add(test,BorderLayout.NORTH);
+		
 		
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
@@ -62,7 +67,7 @@ public class LeftComponent extends JPanel {
 		this.parametersArea.setVisible(false);
 		nameAndParameters.add(parametersArea, BorderLayout.CENTER);
 		
-		this.add(nameAndParameters,BorderLayout.NORTH);
+		//this.add(nameAndParameters,BorderLayout.NORTH);
 		
 		//resultats
 		this.resultArea = new JPanel(new BorderLayout());
@@ -165,6 +170,7 @@ public class LeftComponent extends JPanel {
 		JPanel parameters = new JPanel(new GridLayout(2, 0, 10, 5));
 		int param = 0;
 		for (Entry<String, Parameter> entry : params.entrySet()) {
+			
 			JPanel parameter = new JPanel();
 		    String list = entry.getKey();
 		    JLabel tmpLabel = new JLabel(list); 

@@ -62,5 +62,9 @@ public abstract class ParameterType extends JPanel{
 		return value;
 	}
 	
+	public void setToolTip(String description)
+	{
+		name.setToolTipText(description);
+	}
 	
 }

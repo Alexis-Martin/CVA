@@ -34,6 +34,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
@@ -46,6 +47,9 @@ import algo.Algorithm;
 		private IGraphicGraph igg = null;
 		
 		public IHM(){
+			
+			ToolTipManager.sharedInstance().setInitialDelay(500);
+	        ToolTipManager.sharedInstance().setDismissDelay(999999999);
 			//verification du folder config et du fichier pathgraph
 			File directory = new File("config");
 			
