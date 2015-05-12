@@ -31,6 +31,7 @@ public class LeftComponent extends JPanel {
 	private static final long serialVersionUID = 7302042201274878731L;
 	private Algorithm algo ;
 	private AGraph mygraph; 
+	private JLabel algoName ;
 	private JPanel parametersArea ;
 	private JPanel resultArea ; 
 	private HashMap<JLabel,JTextField> labelToField;
@@ -43,6 +44,13 @@ public class LeftComponent extends JPanel {
 		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
+		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
+		//name 
+		algoName = new JLabel ("");
+		algoName.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
+		algoName.setHorizontalAlignment(JLabel.CENTER);
+		nameAndParameters.add(algoName,BorderLayout.NORTH);		
+		
 		//parameters
 		this.parametersArea = new JPanel(new BorderLayout()); 
 		JLabel prop = new JLabel ("Paramètres");
@@ -50,7 +58,8 @@ public class LeftComponent extends JPanel {
 		prop.setHorizontalAlignment(JLabel.CENTER);
 		parametersArea.add(prop, BorderLayout.NORTH);
 		this.parametersArea.setVisible(false);
-		this.add(parametersArea, BorderLayout.NORTH);
+		nameAndParameters.add(parametersArea, BorderLayout.CENTER);
+		this.add(nameAndParameters,BorderLayout.NORTH);
 		
 		//resultats
 		this.resultArea = new JPanel(new BorderLayout());
@@ -112,9 +121,17 @@ public class LeftComponent extends JPanel {
 	// Elle combine la fonction qui mets les r�sultats � jour avec celle qui mets les param�tres � jour
 	public void MajInterface ()
 	{
+		MajName(); 
 		MajParametres();
 		MajResultats();
 	}
+	
+	private void MajName() 
+	{
+		if(this.algo != null)
+			algoName.setText(algo.getName());
+	}
+	
 	private void MajParametersValues(){
 		for(JLabel label : labelToField.keySet()){
 			try{
