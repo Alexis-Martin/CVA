@@ -2,10 +2,13 @@ package helper;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,22 @@ public class FileHelper {
 
 	public static List<String> readFile(String file_name) throws IOException {
 		return readFile(new File(file_name));
+		
+	}
+	
+	public static boolean writeLine(File f, String line, boolean append){
+		FileWriter fw;
+		try {
+			fw = new FileWriter (f, append);
+			BufferedWriter bw = new BufferedWriter (fw);
+			PrintWriter fichierSortie = new PrintWriter (bw); 
+			fichierSortie.println (line); 
+			fichierSortie.close();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 	}
 }
