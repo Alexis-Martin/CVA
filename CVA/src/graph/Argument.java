@@ -16,4 +16,5 @@ public interface Argument {
 	public Collection<Argument> getAttackers();
 	public Collection<Argument> getDefenders();
 
+	public Collection<AEdge> getEdge();
 }

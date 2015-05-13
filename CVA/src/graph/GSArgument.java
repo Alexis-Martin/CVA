@@ -53,6 +53,13 @@ public class GSArgument extends SingleNode implements Argument{
 		}
 		return ret;
 	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Collection<AEdge> getEdge() {
+		Collection<GSAEdge> x = this.getEdgeSet();
+		return (Collection)x;
+	}
 	
 
 }

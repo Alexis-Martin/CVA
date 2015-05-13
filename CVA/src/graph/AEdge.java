@@ -8,4 +8,7 @@ public interface AEdge {
 	public String getRole();
 	public boolean isAttack();
 	public boolean isDefend();
+	public Argument getSource();
+	public Argument getTarget();
+	public String getId();
 }

@@ -1,12 +1,16 @@
 package gui.graphui;
 
+import graph.AEdge;
 import graph.AGraph;
 import graph.Argument;
 import graph.adapter.AGraphAdapter;
+import gui.graphui.listener.GSGraphicGraphKeyListener;
 import gui.graphui.listener.GSGraphicGraphMouseListener;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import org.graphstream.graph.Edge;
@@ -17,6 +21,8 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
+
+import utils.Couple;
 
 public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListener {
     protected boolean loop = true;
@@ -33,6 +39,16 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	private ViewPanel view;
 	private GSGraphicGraphMouseListener GSGGML;
 	private boolean edit = false;
+	private GSGraphicGraphKeyListener GSGGKL;
+	
+	
+	//REMEMBER
+	ArrayList<HashSet<Argument>> removed_nodes ;
+	ArrayList<HashSet<AEdge>> removed_edges;
+	ArrayList<HashSet<Argument>> added_nodes;
+	ArrayList<HashSet<AEdge>> added_edges;	
+	int current_step = -1;
+	
     public GSGraphicGraph(AGraph graph) {
 
     	this.graph = graph;
@@ -50,7 +66,8 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
      //   this.fromViewer = viewer.newViewerPipe();
      //   fromViewer.addViewerListener(this);
       //  fromViewer.addSink(this.graphstream);
-
+    	removed_nodes = new ArrayList<HashSet<Argument>>();
+    	removed_edges = new ArrayList<HashSet<AEdge>>();
 
     }
 
@@ -74,9 +91,18 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	@Override
 	public Component getGraphicGraphComponent() {
 		this.view = viewer.addDefaultView(false);
+		
+		
 		this.GSGGML = new GSGraphicGraphMouseListener(this);
 		GSGGML.init(this.viewer.getGraphicGraph(), this.view);
+		
+		this.GSGGKL = new GSGraphicGraphKeyListener(this);
+		GSGGML.init(this.viewer.getGraphicGraph(), this.view);
 		view.addMouseListener(GSGGML);
+		view.addKeyListener(GSGGKL);
+		
+		GSGGML.addKeyListener(GSGGKL);
+		
 		return (Component)view;
 	}
 
@@ -216,4 +242,58 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	public Graph getGraphstreamGraph(){
 		return this.graphstream;
 	}
+
+
+	public void removeSelectedElement() {
+		HashSet<String> x = this.GSGGML.getNodeSelected();
+		this.GSGGML.removeSelectedNodes();
+	//	HashSet<Argument> rm_n = new HashSet<Argument>();
+	//	HashSet<AEdge> rm_e = new HashSet<AEdge>();		
+		for(String arg_name : x){
+			Argument arg = this.graph.getArgument(arg_name);
+	//		rm_n.add(arg);
+	//		rm_e.addAll(arg.getEdge());
+			this.graphstream.removeNode(arg_name);
+			this.graph.removeArgument(arg_name);
+			
+		}
+	}
+	public void setSelectedAttackers(HashSet<String> nodes_att){
+		
+		HashSet<String> x = this.GSGGML.getNodeSelected();
+		this.GSGGML.removeSelectedNodes();
+		for(String s_node_attacked : nodes_att ){
+			Argument node_attacked = this.graph.getArgument(s_node_attacked);
+			for(String arg_name : x){
+				Argument arg = this.graph.getArgument(arg_name);
+				AEdge edge = this.graph.addAttack(arg.getId(), node_attacked.getId());	
+				Edge graphstream_edge = this.graphstream.addEdge(edge.getId(),arg.getId(),node_attacked.getId(), true);
+				graphstream_edge.addAttribute("ui.class", "attack");
+				graphstream_edge.addAttribute("role", "attack");
+			}
+		}
+	
+	}
+	/*pour le ctrl+Z
+	 * 	this.removed_nodes.add(rm_n);
+		this.removed_edges.add(rm_e);
+		this.current_step++;
+		
+	}
+	public void previous_step(){
+		System.out.println("icic");
+		if(!removed_nodes.isEmpty()&& current_step>-1){
+			for(Argument arg : removed_nodes.get(this.current_step)){
+				this.graph.addArgument(arg.getId(),"");
+				this.graphstream.addNode(arg.getId());
+			}
+			for(AEdge edge : removed_edges.get(this.current_step)){
+				this.graph.addAttack(edge.getSource(), edge.getTarget());
+				this.graphstream.addEdge(edge.getId(), edge.getSource().getId(), edge.getTarget().getId(), false);
+			}
+			current_step--;
+		}
+		
+		
+	}*/
 }

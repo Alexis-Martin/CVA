@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
 public class GSAGraph implements AGraph{
@@ -133,6 +133,20 @@ public class GSAGraph implements AGraph{
 			a.add(position, arg);
 		}
 		return a;
+	}
+	@Override
+	public void removeArgument(String id) {
+		this.cvaGraph.removeNode(id);
+		
+	}
+	@Override
+	public void removeArgument(Argument arg) {
+		this.cvaGraph.removeNode((Node)arg);
+		
+	}
+	@Override
+	public Argument getArgument(String argument) {
+		return this.cvaGraph.getNode(argument);
 	}
 	
 

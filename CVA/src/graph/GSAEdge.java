@@ -36,4 +36,17 @@ public class GSAEdge extends AbstractEdge implements AEdge {
 		return false;
 	}
 
+	@Override
+	public Argument getSource() {
+		return this.getSourceNode();
+	}
+
+	@Override
+	public Argument getTarget() {
+		return this.getTargetNode();
+	}
+	public String getId(){
+		return super.getId();
+	}
+
 }
