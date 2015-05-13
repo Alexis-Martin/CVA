@@ -11,15 +11,17 @@ public interface AGraph {
 	
 	public AEdge addAttack(String argumentId1, String argumentId2);
 	public AEdge addAttack(Argument argument1, Argument argument2);
+	public AEdge addAttack(String id, String argumentId1, String argumentId2);
 	
 	public AEdge addDefense(String argumentId1, String argumentId2);
 	public AEdge addDefense(Argument argument1, Argument argument2);
+	public AEdge addDefense(String id, String argumentId1, String argumentId2);
 	public Collection<Argument> getArguments();
 	public List<Argument> getUtilities();
 	
 	public void removeArgument(String id);
 	public void removeArgument(Argument arg);
-	
+	public void removeAEdge(String id);
 	public Argument getArgument(String argument);
 
 

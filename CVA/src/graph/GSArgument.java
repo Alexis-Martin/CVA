@@ -60,6 +60,11 @@ public class GSArgument extends SingleNode implements Argument{
 		Collection<GSAEdge> x = this.getEdgeSet();
 		return (Collection)x;
 	}
+
+	@Override
+	public String getDescription() {
+		return "";
+	}
 	
 
 }

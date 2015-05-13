@@ -52,7 +52,7 @@ public class GSAGraph implements AGraph{
 		
 		GSArgument node = addArgument("" + nodeId, description);
 		nodeId++;
-		
+		node.setUtility(0.0);
 		return node;
 	}
 	
@@ -62,7 +62,7 @@ public class GSAGraph implements AGraph{
 		}
 		
 		GSArgument node = cvaGraph.addNode(id);
-	
+		node.setUtility(0.0);
 		
 		if(description!=null)
 			node.addAttribute("description", description);
@@ -147,6 +147,27 @@ public class GSAGraph implements AGraph{
 	@Override
 	public Argument getArgument(String argument) {
 		return this.cvaGraph.getNode(argument);
+	}
+	@Override
+	public AEdge addAttack(String id, String argumentId1, String argumentId2) {
+		GSAEdge edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
+		edge.setAttribute("ui.class", "attack");
+		edge.setAttribute("role", "attack");
+		this.edgeId++;
+		return edge;
+	}
+	@Override
+	public AEdge addDefense(String id, String argumentId1, String argumentId2) {
+		GSAEdge edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
+		edge.setAttribute("ui.class", "defend");
+		edge.setAttribute("role", "defend");
+		this.edgeId++;
+		return edge;
+	}
+	@Override
+	public void removeAEdge(String id) {
+		this.cvaGraph.removeEdge(id);
+		
 	}
 	
 

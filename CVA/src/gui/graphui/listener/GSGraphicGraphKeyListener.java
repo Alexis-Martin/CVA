@@ -10,30 +10,47 @@ import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.util.ShortcutManager;
 
 public class GSGraphicGraphKeyListener implements ShortcutManager{
-	public static final int NONE = -1;	
+	public static final int NONE = 0;	
+	public static final int ADD_EDGES = 1;
+	public static final int CTRL_PRESSED = 2;
 	Integer key_pressed = null;
+	Integer modifier = null;
 	private GSGraphicGraph gs;
 	public GSGraphicGraphKeyListener(GSGraphicGraph gsGraphicGraph){
 		this.gs = gsGraphicGraph;
 	}
 	
 	public Integer getKeyPressed(){
+		System.out.println(modifier);
 		if(key_pressed == null){
 			return NONE;
 		}
-		else return key_pressed; 
+		if(key_pressed == KeyEvent.VK_A && (this.modifier & KeyEvent.CTRL_MASK) != 0) 
+			return ADD_EDGES;
+		if(key_pressed == KeyEvent.VK_CONTROL)
+			return CTRL_PRESSED;
+		return key_pressed; 
 		
 	}
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		
 		key_pressed = arg0.getKeyCode();
-		System.out.println(key_pressed);
+		modifier = arg0.getModifiers();
+		//System.out.println(key_pressed);
 		switch(key_pressed){
 			case KeyEvent.VK_DELETE:
 				gs.removeSelectedElement();
 				break;
-
+		}
+		if(key_pressed == KeyEvent.VK_Z && (this.modifier & KeyEvent.CTRL_MASK) != 0){
+			this.gs.previous_step();
+		}
+		else if(key_pressed == KeyEvent.VK_Y && (this.modifier & KeyEvent.CTRL_MASK) != 0){
+			this.gs.next_step();
+		}
+		else if(key_pressed == KeyEvent.VK_R && (this.modifier & KeyEvent.CTRL_MASK) != 0){
+			this.gs.updateStyle();
 		}
 		
 		
@@ -42,6 +59,7 @@ public class GSGraphicGraphKeyListener implements ShortcutManager{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		key_pressed = null;
+		modifier = null;
 		
 	}
 

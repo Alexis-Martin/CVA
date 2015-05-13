@@ -17,4 +17,6 @@ public interface Argument {
 	public Collection<Argument> getDefenders();
 
 	public Collection<AEdge> getEdge();
+	
+	public String getDescription();
 }
