@@ -214,7 +214,7 @@ import algo.Algorithm;
 			JMenuItem testsItem = new JMenuItem("multiples tests",KeyEvent.VK_T);
 			testsItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
-					FrameTests tests = new FrameTests(null, "Réaliser une batterie de tests", true);
+					new FrameTests(null, "Réaliser une batterie de tests", true);
 				}
 			});
 			menuRun.add(testsItem);
