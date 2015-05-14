@@ -24,10 +24,6 @@ public class CVAGraphIO {
 
 	}
 	
-
- 
-	
-	
 	public static void write(String path, AGraph g, int type) throws IOException{
 		FileSink fs;
 		
@@ -44,11 +40,9 @@ public class CVAGraphIO {
 		}
 
 
-		fs.writeAll(AGraphAdapter.agraphToGraphstream(g, "save_graphe"), path);
-
-		
+		fs.writeAll(AGraphAdapter.agraphToGraphstream(g, "save_graphe"), path);	
 	}
-	public static void write(String path, AGraph g ) throws IOException{
+	public static void write(String path, AGraph g) throws IOException{
 		write(path, g , Type.DGS);
 	}
 	
@@ -74,6 +68,7 @@ public class CVAGraphIO {
 		return AGraphAdapter.graphstreamToAGraph(g);
 		
 	}
+	
 	public static AGraph read(String path) throws IOException, LoadingTypeException{
 		
 		FileSource fs = FileSourceFactory.sourceFor(path);

@@ -74,7 +74,6 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		int y = arg0.getY(); 
 		View view = (View) arg0.getComponent();
 		
-		System.out.println(s_x+","+s_y+","+x+","+y);
 		if(x<s_x){
 			int mem = x ;
 			x = s_x;
@@ -87,9 +86,7 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		}
 		Collection<GraphicElement> graphicElements = view.allNodesOrSpritesIn(s_x, s_y, x, y);
 		
-		System.out.println(arg0.getButton());
 		if(arg0.getButton() == MouseEvent.BUTTON3){
-			
 			this.gs.newNode(x, y);
 		}
 		else if(kl.getKeyPressed() == GSGraphicGraphKeyListener.CTRL_PRESSED){

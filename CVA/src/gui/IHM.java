@@ -7,6 +7,7 @@ import gui.graphui.GSGraphicGraph;
 import gui.graphui.IGraphicGraph;
 import helper.FileHelper;
 import io.CVAGraphIO;
+import io.Loader;
 import io.LoadingTypeException;
 
 import java.awt.BorderLayout;
@@ -117,7 +118,7 @@ import algo.Algorithm;
 							fichierSortie.println (dialogue.getSelectedFile().getParentFile().getAbsolutePath()); 
 							fichierSortie.close();
 						
-							mygraph = CVAGraphIO.read(dialogue.getSelectedFile().getAbsolutePath());
+							mygraph = Loader.load(dialogue.getSelectedFile().getAbsolutePath());
 							igg = new GSGraphicGraph(mygraph);
 							left.switchGraph(mygraph);
 							

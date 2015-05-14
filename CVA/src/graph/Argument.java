@@ -19,4 +19,5 @@ public interface Argument {
 	public Collection<AEdge> getEdge();
 	
 	public String getDescription();
+	public void setDescription(String descr);
 }

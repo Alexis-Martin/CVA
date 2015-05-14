@@ -17,6 +17,7 @@ public interface AGraph {
 	public AEdge addDefense(Argument argument1, Argument argument2);
 	public AEdge addDefense(String id, String argumentId1, String argumentId2);
 	public Collection<Argument> getArguments();
+	public Collection<AEdge> getRelations();
 	public List<Argument> getUtilities();
 	
 	public void removeArgument(String id);

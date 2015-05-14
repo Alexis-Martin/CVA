@@ -37,23 +37,15 @@ public class GSAGraph implements AGraph{
 		this.cvaGraph.addAttribute("ui.antialias");
 		
 	}
+
 	
-	/**
-	 * 
-	 * @param description The Argument description, if null no description is set
-	 *
-	 * @return The Id of the node
-	 */
 	public GSArgument addArgument(){
-		return addArgument(null);
+		nodeId++;
+		return addArgument(nodeId+"");
 	}
 	
-	public GSArgument addArgument(String description){
-		
-		GSArgument node = addArgument("" + nodeId, description);
-		nodeId++;
-		node.setUtility(0.0);
-		return node;
+	public GSArgument addArgument(String id){
+		return addArgument(id, null);
 	}
 	
 	public GSArgument addArgument(String id, String description){
@@ -66,7 +58,7 @@ public class GSAGraph implements AGraph{
 		
 		if(description!=null)
 			node.addAttribute("description", description);
-		
+
 		return node;
 	}
 	
@@ -114,6 +106,12 @@ public class GSAGraph implements AGraph{
 	@Override
 	public Collection<Argument> getArguments() {
 		return (Collection) cvaGraph.getNodeSet();
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Collection<AEdge> getRelations() {
+		return (Collection) cvaGraph.getEdgeSet();
 	}
 
 	@Override

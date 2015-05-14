@@ -5,6 +5,7 @@ import graph.adapter.AGraphAdapter;
 import gui.graphui.GSGraphicGraph;
 import helper.FileHelper;
 import io.CVAGraphIO;
+import io.Loader;
 import io.LoadingTypeException;
 
 import java.awt.BorderLayout;
@@ -322,7 +323,7 @@ public class FrameTests extends JDialog implements ActionListener{
 					
 					Algorithm algo = m_test.getAlgo();
 					try {
-						algo.setGraph(CVAGraphIO.read(list_graph[i].getAbsolutePath()));
+						algo.setGraph(Loader.load(list_graph[i].getAbsolutePath()));
 					} catch (IOException | LoadingTypeException e1) {
 						e1.printStackTrace();
 						return;

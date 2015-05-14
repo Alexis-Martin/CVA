@@ -11,7 +11,6 @@ public class GSArgument extends SingleNode implements Argument{
 
 	public GSArgument(AbstractGraph graph, String id) {
 		super(graph, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -63,7 +62,12 @@ public class GSArgument extends SingleNode implements Argument{
 
 	@Override
 	public String getDescription() {
-		return "";
+		return (String) this.getAttribute("description");
+	}
+
+	@Override
+	public void setDescription(String descr) {
+		this.setAttribute("description", descr);
 	}
 	
 

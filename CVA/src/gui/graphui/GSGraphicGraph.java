@@ -321,8 +321,6 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	public void newNode(int x, int y){
 		Argument arg = this.graph.addArgument();
 
-
-
 		Node node = this.graphstream.addNode(arg.getId());
 		node.addAttribute("utility", arg.getUtility());
 		Camera camera = this.view.getCamera();
