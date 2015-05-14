@@ -1,6 +1,5 @@
 package algo.implem;
 
-import graph.AGraph;
 import graph.Argument;
 
 import java.util.ArrayList;
@@ -14,13 +13,12 @@ import java.util.TreeSet;
 import algo.AbstractAlgorithm;
 import algo.Parameter;
 import algo.utils.BreathFirst;
-import algo.utils.Threshold;
 
 public class Propagation extends AbstractAlgorithm{
 	double epsilon ;
 	double xhi ;
 	int currentArg, totalArg;
-	private double t;
+	private int t;
 	private Collection<Argument> args;
 	private HashSet<Argument> args_ranked;
 	private Double delta ;
@@ -36,7 +34,7 @@ public class Propagation extends AbstractAlgorithm{
 	
 	@Override
 	public void init() {
-		this.t = (double) getParam("threshold").getValue();
+		this.t = (int) getParam("threshold").getValue();
 		this.epsilon = (double) getParam("epsilon").getValue();
 		this.delta = (double) getParam("delta").getValue();
 		HashMap<String, Double> s = new HashMap<String, Double>();

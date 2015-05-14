@@ -1,9 +1,9 @@
 package algo;
 
 public class Parameter {
-	String name;
-	Object value;
-	String description;
+	private String name;
+	private Object value;
+	private String description;
 	
 	public Parameter(String name, Object value){
 		this.name = name;
@@ -24,5 +24,13 @@ public class Parameter {
 	
 	public String printVal(){
 		return ""+value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

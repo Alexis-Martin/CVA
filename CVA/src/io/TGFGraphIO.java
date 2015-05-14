@@ -12,19 +12,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-public class APXGraphIO {
-
+public class TGFGraphIO {
+	
 	public static void write(String path, AGraph g){
 		File file = new File(path);
 		
 		for(Argument a : g.getArguments()){
-			String line = "arg("+a.getId()+").";
+			String line = a.getId();
 			FileHelper.writeLine(file, line, true);
 		}
 		
+		FileHelper.writeLine(file, "#", true);
+		
 		for(AEdge e : g.getRelations()){
-			String line = "att("+e.getSource().getId()+","+e.getTarget().getId()+").";
+			String line = e.getSource().getId()+" "+e.getTarget().getId();
 			FileHelper.writeLine(file, line, true);
 		}
 	}
@@ -34,8 +35,8 @@ public class APXGraphIO {
 		File file = new File(path);
 		AGraph g = new GSAGraph(file.getName());
 		List<String> lines = null;
-		Pattern nodePattern = Pattern.compile("arg\\((.+)\\)\\.");
-		Pattern edgePattern = Pattern.compile("att\\(([a-zA-Z0-9_-]+),\\s?([a-zA-Z0-9_-]+)\\)\\.");
+		Pattern nodePattern = Pattern.compile("([a-zA-Z0-9_-]+)");
+		Pattern edgePattern = Pattern.compile("([a-zA-Z0-9_-]+)\\s+([a-zA-Z0-9_-]+)");
 		Matcher m;
 		
 		try {

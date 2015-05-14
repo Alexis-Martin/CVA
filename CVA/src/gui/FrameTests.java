@@ -1,5 +1,6 @@
 package gui;
 
+import graph.AGraph;
 import graph.Argument;
 import graph.adapter.AGraphAdapter;
 import gui.graphui.GSGraphicGraph;
@@ -310,7 +311,17 @@ public class FrameTests extends JDialog implements ActionListener{
 			}
 			//pour tous les graphes
 			for(int i = 0; i < list_graph.length; i++){
-				if(!list_graph[i].getName().split("\\.")[list_graph[i].getName().split("\\.").length - 1].equals("dgs"))
+				//if(!list_graph[i].getName().split("\\.")[list_graph[i].getName().split("\\.").length - 1].equals("dgs"))
+				//	continue;
+				AGraph g = null;
+				try {
+					g = Loader.load(list_graph[i].getAbsolutePath());
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				} catch (LoadingTypeException e2) {
+					e2.printStackTrace();
+				}
+				if(g == null)
 					continue;
 				FileHelper.writeLine(graph_result, "Graphe " + list_graph[i].getName(), true);
 				FileHelper.writeLine(graph_result, "", true);
@@ -322,12 +333,7 @@ public class FrameTests extends JDialog implements ActionListener{
 					FileHelper.writeLine(graph_result, "", true);
 					
 					Algorithm algo = m_test.getAlgo();
-					try {
-						algo.setGraph(Loader.load(list_graph[i].getAbsolutePath()));
-					} catch (IOException | LoadingTypeException e1) {
-						e1.printStackTrace();
-						return;
-					}
+					algo.setGraph(g);
 					String title = "";
 					for(String t : m_test.getTitles()){
 						title += t + ",";

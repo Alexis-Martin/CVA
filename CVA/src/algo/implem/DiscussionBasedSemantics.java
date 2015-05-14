@@ -1,5 +1,6 @@
 package algo.implem;
 
+import graph.AGraph;
 import graph.Argument;
 
 import java.util.ArrayList;
@@ -16,21 +17,24 @@ import algo.utils.BreathFirst;
 import algo.utils.Threshold;
 
 public class DiscussionBasedSemantics extends AbstractAlgorithm {
-	private double t;
+	private int t;
 	private Collection<Argument> args;
 	private HashSet<Argument> args_ranked;
 	
 	
 	public DiscussionBasedSemantics(){
 		super("Discussion Based Semantics");
-		addParam(new Parameter("treshold",-1.));//Threshold.nbNodes(super.getGraph())));
+		addParam(new Parameter("threshold",-1.));//Threshold.nbNodes(super.getGraph())));
+		this.getParam("threshold").setDescription("Le nombre d'itérations maximum que va effectuer l'algorithme");
 	}
 
 	@Override
 	public void init() {
-		this.t = (double) getParam("treshold").getValue();
+		this.t = (int) Math.floor((double)  getParam("threshold").getValue());
 		if(this.t == -1.)
 			this.t = Threshold.nbNodes(super.getGraph());
+		this.getParam("threshold").setValue(t);
+		
 		HashMap<String, Double> s = new HashMap<String, Double>();
 
 		
@@ -143,5 +147,12 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		for(Argument a : super.getGraph().getArguments()){
 			a.setUtility((1)*super.getLastU(a.getId()));
 		}
+	}
+	
+	@Override
+	public void setGraph(AGraph g){
+		super.setGraph(g);
+		this.t = g.getArguments().size();
+		this.getParam("threshold").setValue(t);
 	}
 }

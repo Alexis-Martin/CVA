@@ -14,6 +14,9 @@ public class Loader {
 		if(ext.equals("apx")){
 			return APXGraphIO.read(path);
 		}
+		if(ext.equals("tgf")){
+			return TGFGraphIO.read(path);
+		}
 		return null;
 	}
 }
