@@ -4,6 +4,7 @@ import graph.AGraph;
 import graph.Argument;
 import graph.adapter.AGraphAdapter;
 import gui.graphui.GSGraphicGraph;
+import helper.CsvFileWriter;
 import helper.FileHelper;
 import io.CVAGraphIO;
 import io.Loader;
@@ -28,6 +29,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.Map.Entry;
 
@@ -323,11 +325,26 @@ public class FrameTests extends JDialog implements ActionListener{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YY");
 			File[] list_graph = dgraph.listFiles();
 			File graph_result = null;
+			CsvFileWriter csvWriter = null;
 			
 			//pour tous les algos
 			for(int j = 0; j < algos.size(); j++){
-				
+				List<Map<String, String>> toWrite = new ArrayList<Map<String, String>>();
 				MultipleTests m_test = algos.get(j);
+				String[] titles = new String[6+m_test.getTitles().size()];
+				Algorithm algo = m_test.getAlgo();
+				
+				titles[0] = "Graphe";
+				titles[1] = "Nombre d'arguments";
+				titles[2] = "Nombre de relations";
+				int ti = 3;
+				for(String t : m_test.getTitles()){
+					titles[ti] = t;
+					ti++;
+				}
+				titles[ti] = "Temps (ms)";
+				titles[ti+1] = "Temps (h:m:s.ms)";
+				titles[ti+2] = "Résultats";
 				
 				try {
 					int i = 1;
@@ -341,20 +358,7 @@ public class FrameTests extends JDialog implements ActionListener{
 					e1.printStackTrace();
 					return;
 				}
-				
-				
-				
-				FileHelper.writeLine(graph_result, "Algo " + m_test.getName(), true);
-				FileHelper.writeLine(graph_result, "", true);
-				
-				Algorithm algo = m_test.getAlgo();
-				
-				String title = "";
-				for(String t : m_test.getTitles()){
-					title += t + ",";
-				}
-				title += "nombres args,nombres arêtes,temps (ms),temps (h:m:s.ms),résultat";
-
+				csvWriter = new CsvFileWriter(graph_result);
 							
 			//pour tous les graphes
 			for(int i = 0; i < list_graph.length; i++){
@@ -370,44 +374,46 @@ public class FrameTests extends JDialog implements ActionListener{
 				}
 				if(g == null)
 					continue;
+				
 				algo.setGraph(g);
-				FileHelper.writeLine(graph_result, "Graphe " + list_graph[i].getName(), true);
-				FileHelper.writeLine(graph_result, "", true);
-				FileHelper.writeLine(graph_result, title, true);
+				
 
 					for(int k = 0; k < m_test.size(); k++){
 						List<Parameter> params = m_test.getParameters(k);
-						String line = "";
-
+						Map<String, String> resData = new HashMap<String, String>();
+						List<Argument> args = algo.getGraph().getUtilities();
+						
+						resData.put("Graphe", list_graph[i].getName());
+						resData.put("Nombre d'arguments", args.size()+"");
+						resData.put("Nombre de relations", algo.getGraph().getRelations().size() +"");
 						for(int l = 0; l < params.size(); l++){
 							algo.getParam(params.get(l).getName()).setValue(params.get(l).getValue());
-							line += params.get(l).printVal() + ",";
+							resData.put(params.get(l).getName(), params.get(l).printVal());
 						}
 
 						long start = System.currentTimeMillis();
 						algo.execute();
 						long stop = System.currentTimeMillis();
 						
-						
-						
-						List<Argument> args = algo.getGraph().getUtilities();
-						line += args.size() +"," + algo.getGraph().getRelations().size() +",";
-						line += (stop - start) + ","+ convertTime(stop - start) + ",";
-						
-						line += args.get(0).getId(); 
-						
+						resData.put("Temps (ms)", (stop - start) +"");
+						resData.put("Temps (h:m:s.ms)", convertTime(stop - start));
+						String res = args.get(0).getId(); 
 						for(int l = 1; l < Math.min(args.size(), 10); l++){
 							if(args.get(l).getUtility() == args.get(l-1).getUtility() )
-								line += " = " + args.get(l).getId();
+								res += " = " + args.get(l).getId();
 							else
-								line += " > " + args.get(l).getId();
+								res += " > " + args.get(l).getId();
 
 						}
-						FileHelper.writeLine(graph_result, line, true);						
+						resData.put("Résultats", res);	
+						toWrite.add(resData);
 					}
-					FileHelper.writeLine(graph_result, "", true);
-
-					
+				}
+				try {
+					csvWriter.write(toWrite, titles);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 			this.dispose();
