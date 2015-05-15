@@ -90,7 +90,6 @@ public class ResultTableModel extends AbstractTableModel{
 	}
 	
 	public void setUtilities(List<Argument> list){
-		System.out.println(this.getClass() + " 93");
 		this.data = list;
 		fireTableDataChanged();
 	}

@@ -12,8 +12,7 @@ public class ResultTableCellRenderer extends DefaultTableCellRenderer {
 
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	    
-		System.out.println("row " + row + " column " + column);
+
 		Color c = (row % 2 == 0)? Color.WHITE: new Color(226, 226, 226);
 			
 		this.setText(value.toString());
