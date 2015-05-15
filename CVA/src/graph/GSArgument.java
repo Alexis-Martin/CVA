@@ -79,6 +79,11 @@ public class GSArgument extends SingleNode implements Argument{
 	public void setWeight(double value) {
 		this.addAttribute("weight", value);
 	}
+
+	@Override
+	public boolean hasWeight() {
+		return this.getAttribute("weight") != null;
+	}
 	
 
 }

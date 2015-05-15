@@ -25,5 +25,6 @@ public interface AGraph {
 	public void removeAEdge(String id);
 	public Argument getArgument(String argument);
 
+	public Collection<Argument> getArgumentsWithoutWeight();
 
 }

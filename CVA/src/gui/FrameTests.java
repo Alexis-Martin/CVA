@@ -349,8 +349,8 @@ public class FrameTests extends JDialog implements ActionListener{
 				try {
 					int i = 1;
 					do{
-						graph_result = new File(dsource.getAbsolutePath() + File.separator + i 
-								+ "_" + sdf.format(calendar.getTime()) +"_" +m_test.getName() + ".csv");
+						graph_result = new File(dsource.getAbsolutePath() + File.separator  
+										+ sdf.format(calendar.getTime()) + "_" + i + "_" +m_test.getName() + ".csv");
 						i++;
 					}while(!graph_result.createNewFile());
 					
@@ -362,8 +362,7 @@ public class FrameTests extends JDialog implements ActionListener{
 							
 			//pour tous les graphes
 			for(int i = 0; i < list_graph.length; i++){
-				//if(!list_graph[i].getName().split("\\.")[list_graph[i].getName().split("\\.").length - 1].equals("dgs"))
-				//	continue;
+				
 				AGraph g = null;
 				try {
 					g = Loader.load(list_graph[i].getAbsolutePath());
@@ -375,6 +374,9 @@ public class FrameTests extends JDialog implements ActionListener{
 				if(g == null)
 					continue;
 				
+				for(Argument arg : g.getArgumentsWithoutWeight()){
+					arg.setWeight(algo.getDefaultInitUtility());
+				}
 				algo.setGraph(g);
 				
 

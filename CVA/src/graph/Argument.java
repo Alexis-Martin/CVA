@@ -23,4 +23,5 @@ public interface Argument {
 
 	public double getWeight();
 	public void setWeight(double value);
+	public boolean hasWeight();
 }

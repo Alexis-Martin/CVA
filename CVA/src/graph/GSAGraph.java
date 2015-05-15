@@ -3,6 +3,7 @@ package graph;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -166,6 +167,17 @@ public class GSAGraph implements AGraph{
 	public void removeAEdge(String id) {
 		this.cvaGraph.removeEdge(id);
 		
+	}
+	@Override
+	public Collection<Argument> getArgumentsWithoutWeight() {
+		Iterator<Argument> it = getArguments().iterator();
+		Collection<Argument> args = new HashSet<Argument>();
+		while(it.hasNext()){
+			Argument arg = it.next();
+			if(!arg.hasWeight())
+				args.add(arg);
+		}
+		return args;
 	}
 	
 
