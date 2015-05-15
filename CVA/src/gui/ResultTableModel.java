@@ -50,7 +50,7 @@ public class ResultTableModel extends AbstractTableModel{
 		if(title.get(col).equals("poids"))
 			return data.get(row).getWeight();
 		if(title.get(col).equals("utilité"))
-			return data.get(row).getUtility();
+			return ((double)Math.round(data.get(row).getUtility() * 100000))/100000;
 		return null;
 	}
 

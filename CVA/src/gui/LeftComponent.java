@@ -3,32 +3,28 @@ package gui;
 import graph.AGraph;
 import graph.Argument;
 import gui.parametertype.ParameterBoolean;
+import gui.parametertype.ParameterDouble;
+import gui.parametertype.ParameterInteger;
+import gui.parametertype.ParameterString;
+import gui.parametertype.ParameterType;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import algo.Algorithm;
 import algo.Parameter;
@@ -39,9 +35,8 @@ public class LeftComponent extends JPanel {
 	private AGraph mygraph; 
 	private JLabel algoName ;
 	private JPanel parametersArea ;
+	private List<ParameterType> parameters_type;
 	private JPanel resultArea ; 
-	private HashMap<JLabel,JTextField> labelToField;
-	//private JButton run ;
 	private JTable detail;
 	
 	
@@ -61,6 +56,8 @@ public class LeftComponent extends JPanel {
 		nameAndParameters.add(algoName,BorderLayout.NORTH);		
 		
 		//parameters
+		
+		parameters_type = new ArrayList<ParameterType>();
 
 		this.parametersArea = new JPanel(new BorderLayout()); 
 		this.parametersArea.setBorder(BorderFactory.createTitledBorder("paramètres"));
@@ -94,6 +91,13 @@ public class LeftComponent extends JPanel {
 		this.algo = al;
 		if(mygraph != null){
 			this.algo.setGraph(mygraph);
+			if(JOptionPane.showConfirmDialog(null, "Voulez-vous changer les poids pour remettre les valeurs par défaut?", 
+											"Remise à zeros des poids", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null) 
+											== JOptionPane.YES_OPTION)
+			{
+				setDefaultWeight();	
+			}
+			
 		}
 		MajInterface();
 	}
@@ -103,8 +107,15 @@ public class LeftComponent extends JPanel {
 		this.mygraph = gr;
 		if(this.algo != null){
 			this.algo.setGraph(mygraph);
+			setDefaultWeight();
 		}
 		MajInterface();
+	}
+	
+	private void setDefaultWeight(){
+		for(Argument arg : mygraph.getArguments()){
+			arg.setWeight(algo.getDefaultInitUtility());
+		}
 	}
 	
 	public boolean canRun ()
@@ -117,8 +128,6 @@ public class LeftComponent extends JPanel {
 	{
 		if (canRun())
 		{
-			MajParametersValues();
-			HashMap<String,Parameter> params = algo.getParams(); 
 			algo.execute();
 		}
 		else
@@ -148,54 +157,51 @@ public class LeftComponent extends JPanel {
 			algoName.setText(algo.getName());
 	}
 	
-	private void MajParametersValues(){
-		for(JLabel label : labelToField.keySet()){
-			try{
-				Parameter currentParameter = algo.getParam(label.getText());
-				currentParameter.setValue(Double.parseDouble(labelToField.get(label).getText()));
-				System.out.println( label.getText()+" = "+Double.parseDouble(labelToField.get(label).getText()));
-			}
-			catch(NumberFormatException e){
-				labelToField.get(label).setText(algo.getParam(label.getText()).printVal());
-			}
-		}
-	}
+
 	public void MajParametres () {
 		
 
 		
 		if(algo == null) return;
 		
-		labelToField = new HashMap<JLabel, JTextField>();
 		Dimension parentDim = this.getSize(); 
 		parametersArea.setPreferredSize(new Dimension(parentDim.width,parentDim.height/4));
 		parametersArea.setVisible(true);
 		try{
 			parametersArea.remove(((BorderLayout)parametersArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+			parameters_type.clear();
 		}
 		catch(NullPointerException e ){}
+		
+		
 		HashMap<String,Parameter> params = algo.getParams();
 		JPanel parameters = new JPanel(new GridLayout(0, 1));
-		int param = 0;
+		
 		for (Entry<String, Parameter> entry : params.entrySet()) {
 			
-			JPanel parameter = new JPanel();
-		    String list = entry.getKey();
-		    JLabel tmpLabel = new JLabel(list); 
-		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
-		    tmpField.setPreferredSize(new Dimension(100, 27));
-		    labelToField.put(tmpLabel, tmpField);
-		    parameter.add(tmpLabel);
-			parameter.add(tmpField);
-			//newArea.add(tmpBox) ;
-			parameters.add(parameter);
-			param++;
+			ParameterType param = null;
+			
+			if(entry.getValue().getValue() instanceof Double){
+				param = new ParameterDouble(entry.getValue());
+			}
+			else if(entry.getValue().getValue() instanceof Integer){
+				System.out.println(entry.getValue().getName());
+				param = new ParameterInteger(entry.getValue());
+			}
+			else if(entry.getValue().getValue() instanceof Boolean){
+				param = new ParameterBoolean(entry.getValue());
+			}
+			else{
+				param = new ParameterString(entry.getValue());
+			}
+			
+			parameters.add(param);
+			parameters_type.add(param);
 
 		}
 		JScrollPane scroll_params = new JScrollPane(parameters);
 		scroll_params.setBorder(null);
 		parametersArea.add(scroll_params, BorderLayout.CENTER);
-		//parametersArea.setPreferredSize(new Dimension(param * 40 + 30, param * 40 + 50));
 		parametersArea.validate();
 		this.validate();
 	}
@@ -207,7 +213,6 @@ public class LeftComponent extends JPanel {
 		}
 		resultArea.setVisible(true);
 		try{
-			//resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
 			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
 
 		}
@@ -218,31 +223,6 @@ public class LeftComponent extends JPanel {
 		
 		((ResultTableModel)detail.getModel()).setUtilities(args);
 		
-		/*JPanel detail = new JPanel();
-		 * detail.setLayout(new BoxLayout(detail, BoxLayout.Y_AXIS));
-		
-		for(int i = 0; i < args.size(); i++){
-			JPanel arg = new JPanel();
-			arg.setPreferredSize(new Dimension(300, 40));
-			JTextField node_name = new JTextField(args.get(i).getId());
-			node_name.setEditable(false);
-			node_name.setBackground(new Color(255, 255, 255));
-			node_name.setPreferredSize(new Dimension(120, 27));
-			arg.add(node_name);
-
-			JTextField node_utility = new JTextField("" + args.get(i).getUtility());
-			node_utility.setEditable(false);
-			node_utility.setBackground(new Color(255, 255, 255));
-			node_utility.setPreferredSize(new Dimension(120, 27));
-			arg.add(node_utility);
-			
-			detail.add(arg);
-		}
-		*/
-		
-		
-		
-		JPanel result = new JPanel();
 		JTextArea text_result = new JTextArea(2, 20); 
 		for(int i = 0; i < args.size(); i++){
 			if(i == 0){
@@ -259,18 +239,13 @@ public class LeftComponent extends JPanel {
 		text_result.setEditable(false);
 		text_result.setBackground(new Color(255, 255, 255));
 
-		result.add(new JScrollPane(text_result));
-		resultArea.add(result, BorderLayout.SOUTH);
+		JScrollPane scroll_result = new JScrollPane(text_result);
+		scroll_result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), scroll_result.getBorder()));
+		resultArea.add(scroll_result, BorderLayout.SOUTH);
 		
 		resultArea.validate();
 	}
 	
-	@SuppressWarnings("unused")
-	private HashMap<String,Parameter> getParams(){
-		HashMap<String,Parameter> params = new HashMap<String,Parameter>();
-		
-		return params;
-	}
 	
 	public boolean isGraph(){
 		return mygraph == null ? false : true;

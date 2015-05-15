@@ -456,18 +456,18 @@ public class FrameTests extends JDialog implements ActionListener{
 					return;
 				}
 				if(algo.getParam(name_param).getValue() instanceof Double){
-					Parameter p = new Parameter(name_param, de.doubleValue());
+					Parameter p = new Parameter(name_param, de.doubleValue(), "");
 					list_param.put(name_param, p);
 					for(double k = de.doubleValue()+pas.doubleValue(); k < a.doubleValue(); k += pas.doubleValue()){
-						list_param.put(name_param, new Parameter(name_param, k));
+						list_param.put(name_param, new Parameter(name_param, k, ""));
 					}
 				}
 				if(algo.getParam(name_param).getValue() instanceof Integer){
 					System.out.println("integer " + name_param);
-					Parameter p = new Parameter(name_param, de.intValue());
+					Parameter p = new Parameter(name_param, de.intValue(), "");
 					list_param.put(name_param, p);
 					for(int k = de.intValue()+pas.intValue(); k < a.intValue(); k += pas.intValue()){
-						list_param.put(name_param, new Parameter(name_param, k));
+						list_param.put(name_param, new Parameter(name_param, k, ""));
 					}
 				}
 			}

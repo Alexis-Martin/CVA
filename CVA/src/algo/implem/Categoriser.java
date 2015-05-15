@@ -15,7 +15,7 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	public Categoriser(){
 		super("Categoriser");
-		addParam(new Parameter(epsilon, 0.0001));
+		addParam(epsilon, 0.0001, "Précision de calcul de l'algorithme");
 	}
 	
 	@Override

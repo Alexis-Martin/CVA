@@ -27,9 +27,9 @@ public class Propagation extends AbstractAlgorithm{
 	public Propagation(){
 		super("Propagation");
 
-		addParam(new Parameter("epsilon", 0.0001));
-		addParam(new Parameter("threshold", 50));
-		addParam(new Parameter("delta", 1.));
+		addParam("epsilon", 0.0001, "aucune idée");
+		addParam("threshold", 50, "Nombre de tour effectué");
+		addParam("delta", 1., "aucune idée");
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class Propagation extends AbstractAlgorithm{
 		HashMap<String, Double> s = new HashMap<String, Double>();
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){
-			s.put(a.getId(), 0.);
+			s.put(a.getId(), a.getWeight());
 		}
 		super.addStep(s);
 	}
@@ -184,5 +184,9 @@ public class Propagation extends AbstractAlgorithm{
 		}
 	}
 
+	@Override
+	public double getDefaultInitUtility(){
+		return 0;
+	}
 
 }

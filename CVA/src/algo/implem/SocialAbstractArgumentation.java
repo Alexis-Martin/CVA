@@ -18,8 +18,8 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	public SocialAbstractArgumentation(){
 		super("Social Abstract Argumentation");
 
-		addParam(new Parameter("epsilon", 0.0001));
-		addParam(new Parameter("xhi", 0.1));
+		addParam("epsilon", 0.0001, "Précision de calcul de l'algorithme");
+		addParam("xhi", 0.1, "aucune idée");
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){
-			s.put(a.getId(), 0.0);
+			s.put(a.getId(), a.getWeight());
 		}
 		super.addStep(s);
 		this.epsilon = (double) getParam("epsilon").getValue();
@@ -90,6 +90,11 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		for(Argument a : graph.getArguments()){
 			a.setUtility((double)((int)(a.getUtility()*produit))/produit);
 		}
+	}
+	
+	@Override
+	public double getDefaultInitUtility(){
+		return 0;
 	}
 
 }

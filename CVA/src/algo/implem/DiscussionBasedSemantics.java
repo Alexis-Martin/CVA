@@ -24,13 +24,12 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	
 	public DiscussionBasedSemantics(){
 		super("Discussion Based Semantics");
-		addParam(new Parameter("threshold",-1.));//Threshold.nbNodes(super.getGraph())));
-		this.getParam("threshold").setDescription("Le nombre d'itérations maximum que va effectuer l'algorithme");
+		addParam("threshold",-1, "Nombre de tour effectué");
 	}
 
 	@Override
 	public void init() {
-		this.t = (int) Math.floor((double)  getParam("threshold").getValue());
+		this.t = (int) getParam("threshold").getValue();
 		if(this.t == -1.)
 			this.t = Threshold.nbNodes(super.getGraph());
 		this.getParam("threshold").setValue(t);

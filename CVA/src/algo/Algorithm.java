@@ -13,8 +13,11 @@ public interface Algorithm {
 	public void end();
 	public HashMap<String, Parameter> getParams();
 	public void addParam(Parameter param);
+	public void addParam(String name, Object value, String description);
+	public boolean setParam(String name, Object value);
 	public Parameter getParam(String name);
 	public String getRes();
 	public AGraph getGraph();
 	public void setGraph(AGraph graph);
+	public double getDefaultInitUtility();
 } 

@@ -1,50 +1,41 @@
 package gui.parametertype;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.*;
+
+import algo.Parameter;
 
 public abstract class ParameterType extends JPanel{
 	
 	protected JLabel name;
-	protected JTextField textField ;
-	protected Object value; 
+	protected JComponent component_value ;
+	
+	private Parameter param;
+	
+	public ParameterType(Parameter param){
+		this.param = param;
+		name = new JLabel(param.getName());
+		name.setPreferredSize(new Dimension(70, 27));
+		component_value = initComponent();
 
-	public ParameterType()
-	{
+		setToolTip(param.getDescription());		
+		
+		this.setLayout(new GridLayout());
+		JPanel panel_name = new JPanel();
+		panel_name.add(name);
+		this.add(panel_name);
+		JPanel panel_comp = new JPanel();
+		panel_comp.add(component_value);
+		this.add(panel_comp);
 	}
 	
-	public ParameterType(Object value) 
-	{
-		name = new JLabel();
-		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(100, 27));
-		this.add(name);
-		this.add(textField);
-		setValue(value);
-	}
-	
-	public ParameterType(String string_name, String text,Object value) 
-	{
-		this(value);
-		setLabel(string_name);
-		setField(text); 
-	}
+	public abstract JComponent initComponent();
 	
 	public void setLabel(String text)
 	{
 		name.setText(text);
-	}
-	
-	public void setField(String t)
-	{
-		textField.setText(t);
-	}
-	
-	public void setValue(Object value)
-	{
-		this.value = value ;
 	}
 	
 	public JLabel getLabel()
@@ -52,14 +43,13 @@ public abstract class ParameterType extends JPanel{
 		return name ;
 	}
 	
-	public JTextField getField()
-	{
-		return textField ;
+	public Object getValue(){
+		return param.getValue();
 	}
 	
-	public Object getValue()
+	public void setValue(Object value)
 	{
-		return value;
+		param.setValue(value);
 	}
 	
 	public void setToolTip(String description)
@@ -67,4 +57,11 @@ public abstract class ParameterType extends JPanel{
 		name.setToolTipText(description);
 	}
 	
+	public void setJComponent(JComponent component){
+		component_value = component;
+	}
+	
+	public JComponent getJComponent(){
+		return component_value;
+	}
 }

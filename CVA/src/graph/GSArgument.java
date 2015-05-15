@@ -11,7 +11,6 @@ public class GSArgument extends SingleNode implements Argument{
 
 	public GSArgument(AbstractGraph graph, String id) {
 		super(graph, id);
-		this.setWeight(1);
 	}
 
 	@Override

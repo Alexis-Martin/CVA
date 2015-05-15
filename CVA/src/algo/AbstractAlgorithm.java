@@ -63,6 +63,25 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	}
 	
 	@Override
+	public void addParam(String name, Object value, String description){
+		if(params.containsKey(name)){
+			setParam(name, value);
+			return;
+		}
+		addParam(new Parameter(name, value, description));
+		
+	}
+	
+	@Override
+	public boolean setParam(String name, Object value){
+		if(params.containsKey(name)){
+			params.get(name).setValue(value);
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public Parameter getParam(String name){
 		return this.params.get(name);
 	}
@@ -113,6 +132,11 @@ public abstract class AbstractAlgorithm implements Algorithm {
 			}
 		}	
 		return algos;
+	}
+	
+	@Override
+	public double getDefaultInitUtility(){
+		return 1;
 	}
 	
 	protected void clearSteps(){
