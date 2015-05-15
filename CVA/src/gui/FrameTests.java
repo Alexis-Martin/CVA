@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,14 +59,15 @@ public class FrameTests extends JDialog implements ActionListener{
 	private Vector<MultipleTests> algos;
 	private JButton run, add;
 	private JTextField dir_graph;
-	private JPanel detail_algo_panel;
+	private JPanel detail_algo_panel, parameters;
 	private JList<Algorithm> j_algos;
 	private JList<MultipleTests> j_result;
 	private JTextField dir_result;
 	
 	public FrameTests(Dialog owner, String title, boolean modal){
 		super(owner, title, modal);
-		this.setSize(900, 300);
+		this.setSize(1000, 400);
+		this.setMinimumSize(new Dimension(1000, 400));
 		
 		algos = new Vector<MultipleTests>();
 		
@@ -78,12 +82,12 @@ public class FrameTests extends JDialog implements ActionListener{
 		
 		JPanel center_panel = new JPanel(new BorderLayout());
 		
-		JPanel dir_panel = new JPanel(new GridLayout(0, 1));
+		JPanel dir_panel = new JPanel(new GridLayout(1, 2));
 		JPanel dir_graph_panel = new JPanel();
 		dir_graph_panel.setBorder(BorderFactory.createTitledBorder("Dossier de graphes"));
 		
 		dir_graph = new JTextField();
-		dir_graph.setPreferredSize(new Dimension(400, 27));
+		dir_graph.setPreferredSize(new Dimension(300, 27));
 		dir_graph_panel.add(dir_graph);
 		
 		JButton select_dir_graph = new JButton(new ImageIcon("style/open dossier.png"));
@@ -112,7 +116,7 @@ public class FrameTests extends JDialog implements ActionListener{
 		dir_result_panel.setBorder(BorderFactory.createTitledBorder("Enregistrement des résultats"));
 		
 		dir_result = new JTextField();
-		dir_result.setPreferredSize(new Dimension(400, 27));
+		dir_result.setPreferredSize(new Dimension(300, 27));
 		dir_result_panel.add(dir_result);
 		
 		JButton select_result_graph = new JButton(new ImageIcon("style/open dossier.png"));
@@ -155,6 +159,7 @@ public class FrameTests extends JDialog implements ActionListener{
 		algos_panel.add(new JScrollPane(j_algos), BorderLayout.WEST);
 		
 		detail_algo_panel = new JPanel(new BorderLayout());
+		parameters = new JPanel(new GridLayout(0, 7));
 		algos_panel.add(detail_algo_panel, BorderLayout.CENTER);
 		
 		j_result = getJListResult();
@@ -183,53 +188,69 @@ public class FrameTests extends JDialog implements ActionListener{
 	public void detailAlgo(Algorithm alg){
 		try{
 			detail_algo_panel.removeAll();
+			parameters.removeAll();
 		}
 		catch(NullPointerException e ){}
 		HashMap<String,Parameter> params = alg.getParams();
-		JPanel parameters = new JPanel(new GridLayout(2, 0, 10, 5));
-		int param = 0;
+
 		for (Entry<String, Parameter> entry : params.entrySet()) {
-			JPanel parameter = new JPanel();
 		    String list = entry.getKey();
 		    
-		    JLabel tmpLabel = new JLabel(list + " de"); 
+		    JPanel panel_list = new JPanel();
+		    JLabel label_list = new JLabel(list);
+		    panel_list.add(label_list);
 		    
+		    JPanel tmppanel = new JPanel();
+		    JLabel tmpLabel = new JLabel("de"); 
+		    tmppanel.add(tmpLabel);
+		    
+		    JPanel tmppanelf = new JPanel();
 		    JTextField tmpField = new JTextField(entry.getValue().printVal()); 
 		    tmpField.setPreferredSize(new Dimension(70, 27));
 		    tmpField.setName("de");
-
+		    tmppanelf.add(tmpField);
+		    
+		    
+		    JPanel tmppanel2 = new JPanel();
 		    JLabel tmpLabel2 = new JLabel("à");
-
+		    tmppanel2.add(tmpLabel2);
+		    
+		    JPanel tmppanelf2 = new JPanel();
 		    JTextField tmpField2 = new JTextField(entry.getValue().printVal()); 
 		    tmpField2.setPreferredSize(new Dimension(70, 27));
 		    tmpField2.setName("a");
-
+		    tmppanelf2.add(tmpField2);
+		    
+		    JPanel tmppanel3 = new JPanel();
 		    JLabel tmpLabel3 = new JLabel("pas");
-
+		    tmppanel3.add(tmpLabel3);
+		    
+		    
+		    JPanel tmppanelf3= new JPanel();
 		    JTextField tmpField3 = new JTextField("0.0001"); 
 		    tmpField3.setPreferredSize(new Dimension(70, 27));
 		    tmpField3.setName("pas");
-
+		    tmppanelf3.add(tmpField3);
 		    
-		    parameter.add(tmpLabel);
-			parameter.add(tmpField);
-			parameter.add(tmpLabel2);
-			parameter.add(tmpField2);
-			parameter.add(tmpLabel3);
-			parameter.add(tmpField3);
+		    
+		    parameters.add(panel_list);
+		    parameters.add(tmppanel);
+			parameters.add(tmppanelf);
+			parameters.add(tmppanel2);
+			parameters.add(tmppanelf2);
+			parameters.add(tmppanel3);
+			parameters.add(tmppanelf3);
 			
-			parameters.add(parameter);
-			param++;
 
 		}
-		detail_algo_panel.add(parameters, BorderLayout.CENTER);
+		parameters.setPreferredSize(new Dimension(400, 100));
+		detail_algo_panel.add(new JScrollPane(parameters), BorderLayout.CENTER);
 		
 		JPanel button_panel = new JPanel();
 		add = new JButton("Ajouter");
 		add.addActionListener(this);
 		button_panel.add(add);
 		detail_algo_panel.add(button_panel, BorderLayout.SOUTH);
-		detail_algo_panel.setPreferredSize(new Dimension(param * 50 + 30, param * 80 + 30));
 		detail_algo_panel.validate();
 		this.validate();
 	}
@@ -238,6 +259,7 @@ public class FrameTests extends JDialog implements ActionListener{
 	public JList<Algorithm> getJListAlgos(Vector<Algorithm> algos){
 		JList<Algorithm> j_algos = new JList<Algorithm>(algos);
 		j_algos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		j_algos.setPreferredSize(new Dimension(250, 10));
 		j_algos.setCellRenderer(new ListCellRenderer<Algorithm>() {
 			
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -259,6 +281,8 @@ public class FrameTests extends JDialog implements ActionListener{
 	public JList<MultipleTests> getJListResult(){
 		JList<MultipleTests> j_algos = new JList<MultipleTests>(new DefaultListModel<MultipleTests>());
 		j_algos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		j_algos.setPreferredSize(new Dimension(250, 10));
+		
 		j_algos.setCellRenderer(new ListCellRenderer<MultipleTests>() {
 			
 			protected DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
@@ -295,20 +319,43 @@ public class FrameTests extends JDialog implements ActionListener{
 			if(!dsource.exists()){
 				dsource.mkdirs();
 			}
-			
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YY");
 			File[] list_graph = dgraph.listFiles();
 			File graph_result = null;
-			try {
-				int i = 1;
-				do{
-					graph_result = new File(dsource.getAbsolutePath() + File.separator + i + "_tests.csv");
-					i++;
-				}while(!graph_result.createNewFile());
+			
+			//pour tous les algos
+			for(int j = 0; j < algos.size(); j++){
 				
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				return;
-			}
+				MultipleTests m_test = algos.get(j);
+				
+				try {
+					int i = 1;
+					do{
+						graph_result = new File(dsource.getAbsolutePath() + File.separator + i 
+								+ "_" + sdf.format(calendar.getTime()) +"_" +m_test.getName() + ".csv");
+						i++;
+					}while(!graph_result.createNewFile());
+					
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					return;
+				}
+				
+				
+				
+				FileHelper.writeLine(graph_result, "Algo " + m_test.getName(), true);
+				FileHelper.writeLine(graph_result, "", true);
+				
+				Algorithm algo = m_test.getAlgo();
+				
+				String title = "";
+				for(String t : m_test.getTitles()){
+					title += t + ",";
+				}
+				title += "nombres args,nombres arêtes,temps (ms),temps (h:m:s.ms),résultat";
+
+							
 			//pour tous les graphes
 			for(int i = 0; i < list_graph.length; i++){
 				//if(!list_graph[i].getName().split("\\.")[list_graph[i].getName().split("\\.").length - 1].equals("dgs"))
@@ -323,44 +370,33 @@ public class FrameTests extends JDialog implements ActionListener{
 				}
 				if(g == null)
 					continue;
+				algo.setGraph(g);
 				FileHelper.writeLine(graph_result, "Graphe " + list_graph[i].getName(), true);
 				FileHelper.writeLine(graph_result, "", true);
-				
-				//pour tous les algos
-				for(int j = 0; j < algos.size(); j++){
-					MultipleTests m_test = algos.get(j);
-					FileHelper.writeLine(graph_result, "Algo " + m_test.getName(), true);
-					FileHelper.writeLine(graph_result, "", true);
-					
-					Algorithm algo = m_test.getAlgo();
-					algo.setGraph(g);
-					String title = "";
-					for(String t : m_test.getTitles()){
-						title += t + ",";
-					}
-					for(Argument n : algo.getGraph().getArguments()){
-						title += n.getId() + ",";
-					}
+				FileHelper.writeLine(graph_result, title, true);
 
-					FileHelper.writeLine(graph_result, title, true);
-
-					System.out.println(m_test.size());
 					for(int k = 0; k < m_test.size(); k++){
 						List<Parameter> params = m_test.getParameters(k);
 						String line = "";
 
 						for(int l = 0; l < params.size(); l++){
-							algo.addParam(params.get(l));
+							algo.getParam(params.get(l).getName()).setValue(params.get(l).getValue());
 							line += params.get(l).printVal() + ",";
 						}
 
+						long start = System.currentTimeMillis();
 						algo.execute();
-						for(Argument n : algo.getGraph().getArguments()){
-							line += n.getUtility() + ",";
-						}
+						long stop = System.currentTimeMillis();
+						
+						
+						
 						List<Argument> args = algo.getGraph().getUtilities();
+						line += args.size() +"," + algo.getGraph().getRelations().size() +",";
+						line += (stop - start) + ","+ convertTime(stop - start) + ",";
+						
 						line += args.get(0).getId(); 
-						for(int l = 1; l < args.size(); l++){
+						
+						for(int l = 1; l < Math.min(args.size(), 10); l++){
 							if(args.get(l).getUtility() == args.get(l-1).getUtility() )
 								line += " = " + args.get(l).getId();
 							else
@@ -379,52 +415,60 @@ public class FrameTests extends JDialog implements ActionListener{
 		
 		if(e.getSource() == add){
 			Algorithm algo = j_algos.getSelectedValue();
-			JPanel parameters = (JPanel)((BorderLayout)detail_algo_panel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
 			
 			MultipleTests list_param = new MultipleTests(algo);
 			
-			for(int i = 0; i < parameters.getComponentCount(); i++){
-				Component[] parameter = ((JPanel)parameters.getComponent(i)).getComponents();
+			for(int i = 0; i < parameters.getComponentCount()/7; i++){
 				String name_param = "";
-				Double de = null;
-				Double a = null;
-				Double pas = null;
-				for(int j = 0; j < parameter.length; j++){
-
-					if(parameter[j] instanceof JLabel && 
-							!((JLabel)parameter[j]).getText().equals("de") && 
-							!((JLabel)parameter[j]).getText().equals("à") && 
-							!((JLabel)parameter[j]).getText().equals("pas"))
+				Number de = null;
+				Number a = null;
+				Number pas = null;
+				for(int j = 0; j < 7; j++){
+					Component parameter = ((JPanel)parameters.getComponent(i*7 + j)).getComponent(0);
+					if(parameter instanceof JLabel && 
+							!((JLabel)parameter).getText().equals("de") && 
+							!((JLabel)parameter).getText().equals("à") && 
+							!((JLabel)parameter).getText().equals("pas"))
 					{	
-						name_param = ((JLabel)parameter[j]).getText();
+						name_param = ((JLabel)parameter).getText();
 					}
-					if(!(parameter[j] instanceof JTextField))
+					if(!(parameter instanceof JTextField))
 						continue;
 					
 					
-					System.out.println(((JTextField)parameter[j]).getName());
-					if(((JTextField)parameter[j]).getName().equals("de")){
-						de = Double.parseDouble(((JTextField)parameter[j]).getText());
+					System.out.println(((JTextField)parameter).getName());
+					if(((JTextField)parameter).getName().equals("de")){
+						de = Double.parseDouble(((JTextField)parameter).getText());
 					}
-					else if(((JTextField)parameter[j]).getName().equals("a")){
-						a = Double.parseDouble(((JTextField)parameter[j]).getText());
+					else if(((JTextField)parameter).getName().equals("a")){
+						a = Double.parseDouble(((JTextField)parameter).getText());
 					}
 					
-					else if(((JTextField)parameter[j]).getName().equals("pas")){
-						pas = Double.parseDouble(((JTextField)parameter[j]).getText());
+					else if(((JTextField)parameter).getName().equals("pas")){
+						pas = Double.parseDouble(((JTextField)parameter).getText());
 					}
 				}
+				
 				System.out.println(a + " " + de + " " + pas);
-				if(a < de || pas <= 0){
+				
+				if(a.doubleValue() < de.doubleValue() || pas.doubleValue() <= 0){
 					JOptionPane.showMessageDialog(null, "impossible d'effectuer ces tests, vérifiez vos paramètres", "Erreur paramètres", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				Parameter p = new Parameter(name_param, de);
-				list_param.put(name_param, p);
-				System.out.println("put de " + name_param);
-				for(double k = de+pas; k < a; k += pas){
-					list_param.put(name_param, new Parameter(name_param, k));
-					
+				if(algo.getParam(name_param).getValue() instanceof Double){
+					Parameter p = new Parameter(name_param, de.doubleValue());
+					list_param.put(name_param, p);
+					for(double k = de.doubleValue()+pas.doubleValue(); k < a.doubleValue(); k += pas.doubleValue()){
+						list_param.put(name_param, new Parameter(name_param, k));
+					}
+				}
+				if(algo.getParam(name_param).getValue() instanceof Integer){
+					System.out.println("integer " + name_param);
+					Parameter p = new Parameter(name_param, de.intValue());
+					list_param.put(name_param, p);
+					for(int k = de.intValue()+pas.intValue(); k < a.intValue(); k += pas.intValue()){
+						list_param.put(name_param, new Parameter(name_param, k));
+					}
 				}
 			}
 
@@ -432,6 +476,18 @@ public class FrameTests extends JDialog implements ActionListener{
 			algos.add(list_param);
 			((DefaultListModel<MultipleTests>)j_result.getModel()).addElement(list_param);
 		}
+	}
+	
+	public String convertTime(long ms){
+		long millisecondes=ms%1000; 
+		ms=ms/1000; 
+		long secondes=ms%60; 
+		 ms=ms/60; 
+		long minutes=ms%60; 
+		 ms=ms/60; 
+		long heures=ms;
+ 
+		return heures+":"+minutes+":"+secondes+"."+millisecondes;
 	}
 	
 }

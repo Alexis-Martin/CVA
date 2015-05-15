@@ -196,6 +196,8 @@ public class LeftComponent extends JPanel {
 		resultArea.setVisible(true);
 		try{
 			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
+
 		}
 		catch(NullPointerException e){}
 		
@@ -226,7 +228,7 @@ public class LeftComponent extends JPanel {
 		
 		
 		JPanel result = new JPanel();
-		JTextField text_result = new JTextField(); 
+		JTextArea text_result = new JTextArea(2, 20); 
 		for(int i = 0; i < args.size(); i++){
 			if(i == 0){
 				text_result.setText(args.get(i).getId());
@@ -239,13 +241,10 @@ public class LeftComponent extends JPanel {
 				text_result.setText(text_result.getText() + " > " + args.get(i).getId());
 
 		}
-		text_result.setPreferredSize(new Dimension(100, 27));
-		text_result.setColumns(text_result.getText().length());
-		text_result.setHorizontalAlignment(JTextField.CENTER);
 		text_result.setEditable(false);
 		text_result.setBackground(new Color(255, 255, 255));
 
-		result.add(text_result);
+		result.add(new JScrollPane(text_result));
 		resultArea.add(result, BorderLayout.SOUTH);
 		
 		resultArea.validate();

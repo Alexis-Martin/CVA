@@ -14,13 +14,12 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 	
 	public BurdenBasedSemantics(){
 		super("Burden Based Semantics");
-		this.addParam(new Parameter("threshold", -1));
+		this.addParam(new Parameter("threshold", -1.0));
 	}
 
 	@Override
 	public void init() {
 		HashMap<String, Double> s = new HashMap<String, Double>();
-		
 		this.t = (int) Math.floor((double)  getParam("threshold").getValue());
 		if(this.t == -1.)
 			this.t = Threshold.nbNodes(super.getGraph());
@@ -64,6 +63,6 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 	public void setGraph(AGraph g){
 		super.setGraph(g);
 		this.t = g.getArguments().size();
-		this.getParam("threshold").setValue(t);
+		this.addParam(new Parameter("threshold", t));
 	}
 }
