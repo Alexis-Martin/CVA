@@ -40,7 +40,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){
-			s.put(a.getId(), 1.0);
+			s.put(a.getId(), a.getWeight());
 		}
 		super.addStep(s);
 	}
