@@ -14,14 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -37,6 +42,7 @@ public class LeftComponent extends JPanel {
 	private JPanel resultArea ; 
 	private HashMap<JLabel,JTextField> labelToField;
 	//private JButton run ;
+	private JTable detail;
 	
 	
 	public LeftComponent()
@@ -50,17 +56,14 @@ public class LeftComponent extends JPanel {
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
 		algoName = new JLabel ("");
-		algoName.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
+		algoName.setFont(new Font(this.getFont().getName(), Font.BOLD, 18));
 		algoName.setHorizontalAlignment(JLabel.CENTER);
 		nameAndParameters.add(algoName,BorderLayout.NORTH);		
 		
 		//parameters
 
 		this.parametersArea = new JPanel(new BorderLayout()); 
-		JLabel prop = new JLabel ("Paramètres");
-		prop.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
-		prop.setHorizontalAlignment(JLabel.CENTER);
-		parametersArea.add(prop, BorderLayout.NORTH);
+		this.parametersArea.setBorder(BorderFactory.createTitledBorder("paramètres"));
 		this.parametersArea.setVisible(false);
 		nameAndParameters.add(parametersArea, BorderLayout.CENTER);
 		
@@ -68,11 +71,19 @@ public class LeftComponent extends JPanel {
 		
 		//resultats
 		this.resultArea = new JPanel(new BorderLayout());
-		JLabel result = new JLabel("Résultats");
-		result.setFont(new Font(this.getFont().getName(), Font.BOLD, 16));
-		result.setHorizontalAlignment(JLabel.CENTER);
-		resultArea.add(result, BorderLayout.NORTH);
+		resultArea.setBorder(BorderFactory.createTitledBorder("Résultats"));
 		this.resultArea.setVisible(false);
+		
+		detail = new JTable(new ResultTableModel());
+		detail.setRowHeight(27);
+		detail.setShowGrid(false);
+		detail.setDefaultRenderer(Double.class, new ResultTableCellRenderer());
+		detail.getColumn("id").setCellRenderer(new ResultTableCellRenderer());
+		
+		JScrollPane scroll_detail = new JScrollPane(detail);
+		resultArea.add(scroll_detail, BorderLayout.CENTER);
+		
+		
 		this.add(resultArea, BorderLayout.CENTER);
 		
 	}
@@ -164,7 +175,7 @@ public class LeftComponent extends JPanel {
 		}
 		catch(NullPointerException e ){}
 		HashMap<String,Parameter> params = algo.getParams();
-		JPanel parameters = new JPanel(new GridLayout(2, 0, 10, 5));
+		JPanel parameters = new JPanel(new GridLayout(0, 1));
 		int param = 0;
 		for (Entry<String, Parameter> entry : params.entrySet()) {
 			
@@ -182,6 +193,7 @@ public class LeftComponent extends JPanel {
 
 		}
 		JScrollPane scroll_params = new JScrollPane(parameters);
+		scroll_params.setBorder(null);
 		parametersArea.add(scroll_params, BorderLayout.CENTER);
 		//parametersArea.setPreferredSize(new Dimension(param * 40 + 30, param * 40 + 50));
 		parametersArea.validate();
@@ -195,15 +207,19 @@ public class LeftComponent extends JPanel {
 		}
 		resultArea.setVisible(true);
 		try{
-			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+			//resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.CENTER));
 			resultArea.remove(((BorderLayout)resultArea.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
 
 		}
 		catch(NullPointerException e){}
 		
 		List<Argument> args = mygraph.getUtilities();
-		JPanel detail = new JPanel();
-		detail.setLayout(new BoxLayout(detail, BoxLayout.Y_AXIS));
+		
+		
+		((ResultTableModel)detail.getModel()).setUtilities(args);
+		
+		/*JPanel detail = new JPanel();
+		 * detail.setLayout(new BoxLayout(detail, BoxLayout.Y_AXIS));
 		
 		for(int i = 0; i < args.size(); i++){
 			JPanel arg = new JPanel();
@@ -222,9 +238,8 @@ public class LeftComponent extends JPanel {
 			
 			detail.add(arg);
 		}
+		*/
 		
-		JScrollPane scroll_detail = new JScrollPane(detail);
-		resultArea.add(scroll_detail, BorderLayout.CENTER);
 		
 		
 		JPanel result = new JPanel();
@@ -265,6 +280,7 @@ public class LeftComponent extends JPanel {
 		return algo == null ? false : true;
 	}
 	
+	@Override
 	public Dimension getPreferredSize(){
 		Dimension parent_dim = this.getParent().getSize();
 		Dimension my_dim = new Dimension((int)parent_dim.getWidth()/3, (int) parent_dim.getHeight());

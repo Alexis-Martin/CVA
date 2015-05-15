@@ -20,4 +20,7 @@ public interface Argument {
 	
 	public String getDescription();
 	public void setDescription(String descr);
+
+	public double getWeight();
+	public void setWeight(double value);
 }
