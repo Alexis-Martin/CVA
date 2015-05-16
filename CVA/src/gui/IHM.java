@@ -78,7 +78,7 @@ import algo.Algorithm;
 			mainWindow = new JPanel(new BorderLayout()); 
 
 			
-			final LeftComponent left = new LeftComponent();
+			final LeftComponent left = new LeftComponent(this);
 			mainWindow.add(left, BorderLayout.WEST);
 			
 			//menu

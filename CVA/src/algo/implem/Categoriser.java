@@ -82,5 +82,10 @@ public class Categoriser extends AbstractAlgorithm {
 			algo();
 	}
 	
+	@Override
+	public int getCurrentIteration() {
+		return 0;
+	}
+
 	
 }

@@ -139,6 +139,14 @@ public abstract class AbstractAlgorithm implements Algorithm {
 		return 1;
 	}
 	
+	@Override
+	public int getNbIteration(){
+		return 0;
+	}
+	
+	@Override
+	public abstract int getCurrentIteration();
+	
 	protected void clearSteps(){
 		steps.clear();
 	}
@@ -154,4 +162,6 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	protected void addStep(HashMap<String, Double> s){
 		this.steps.add(s);
 	}
+	
+
 }

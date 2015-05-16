@@ -11,6 +11,7 @@ import algo.utils.Threshold;
 
 public class BurdenBasedSemantics extends AbstractAlgorithm {
 	private int t;
+	private int currentIt;
 	
 	public BurdenBasedSemantics(){
 		super("Burden Based Semantics");
@@ -35,6 +36,7 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 	@Override
 	public void run() {
 		for(int i=0; i<t; i++){
+			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			
 			for(Argument a : super.getGraph().getArguments()){
@@ -64,5 +66,15 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 		super.setGraph(g);
 		this.t = g.getArguments().size();
 		this.setParam("threshold", t);
+	}
+
+	@Override
+	public int getCurrentIteration() {
+		return currentIt;
+	}
+	
+	@Override
+	public int getNbIteration(){
+		return t;
 	}
 }

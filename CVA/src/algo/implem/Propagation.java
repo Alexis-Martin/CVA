@@ -22,6 +22,7 @@ public class Propagation extends AbstractAlgorithm{
 	private Collection<Argument> args;
 	private HashSet<Argument> args_ranked;
 	private Double delta ;
+	private int currentIt;
 
 	
 	public Propagation(){
@@ -117,7 +118,7 @@ public class Propagation extends AbstractAlgorithm{
 		
 
 		for(int i=0; i<(t*t)&&args_ranked.size() != nb_nodes; i++){
-
+			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			
 			
@@ -189,4 +190,14 @@ public class Propagation extends AbstractAlgorithm{
 		return 0;
 	}
 
+	
+	@Override
+	public int getCurrentIteration() {
+		return currentIt;
+	}
+	
+	@Override
+	public int getNbIteration(){
+		return t;
+	}
 }

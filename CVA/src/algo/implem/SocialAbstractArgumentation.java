@@ -97,4 +97,9 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		return 0;
 	}
 
+	@Override
+	public int getCurrentIteration() {
+		return 0;
+	}
+	
 }
