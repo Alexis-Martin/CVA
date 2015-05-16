@@ -97,11 +97,6 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		}
 		else{
 			this.removeSelectedNodes();
-
-			System.out.println("x y = "+x+" "+y);
-			for(GraphicElement ge : graphicElements){
-				System.out.println("x y = "+ge.getX()+" "+ge.getY());
-			}
 			this.addSelectedNodes(graphicElements);
 		}
 
