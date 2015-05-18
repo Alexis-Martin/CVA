@@ -48,6 +48,7 @@ import algo.Algorithm;
 		private  AGraph mygraph;
 		private IGraphicGraph igg = null;
 		private ArgumentEditorComponent aeg = null;
+		private LeftComponent left;
 		public IHM(){
 			
 			ToolTipManager.sharedInstance().setInitialDelay(500);
@@ -78,7 +79,7 @@ import algo.Algorithm;
 			mainWindow = new JPanel(new BorderLayout()); 
 
 			
-			final LeftComponent left = new LeftComponent(this);
+			left = new LeftComponent(this);
 			mainWindow.add(left, BorderLayout.WEST);
 			
 			//menu
@@ -209,7 +210,7 @@ import algo.Algorithm;
 						JOptionPane.showMessageDialog(null, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
 					}else{
 						left.run();
-						igg.refresh();
+						
 					}
 				}
 			});
@@ -227,5 +228,9 @@ import algo.Algorithm;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			this.setVisible(true);
+		}
+		public void refresh() {
+			igg.refresh();
+			left.MajInterface();
 		}
 }

@@ -191,22 +191,20 @@ public class LeftComponent extends JPanel {
 						}
 					}
 					System.out.println("Le calcul est terminé, on refresh");
+						
 					SwingUtilities.invokeLater(new Runnable() {
-						 
+						
 						@Override
 						public void run() {
-							MajInterface();
-							System.out.println("fin du refresh");
 							wait.dispose();
+							((IHM)frame).refresh();
 						}
-					});					
-					
+					});
 				}
 			});
 
 			t.start();
-			
-			
+		
 						
 		}
 		else
