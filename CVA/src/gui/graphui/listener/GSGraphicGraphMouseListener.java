@@ -64,8 +64,10 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		View view = (View) arg0.getComponent();		
 		this.s_x = arg0.getX();
 		this.s_y = arg0.getY(); 
-		
-		this.is_pressed = true;
+		GraphicElement graphicElements = view.findNodeOrSpriteAt(s_x, s_y);
+		if(graphicElements == null )
+			this.is_pressed = true;
+		else this.is_pressed = false;
 	}
 
 	@Override
@@ -91,13 +93,13 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		if(arg0.getButton() == MouseEvent.BUTTON3){
 			this.gs.newNode(x, y);
 		}
-		else if(kl.getKeyPressed() == GSGraphicGraphKeyListener.CTRL_PRESSED){
+		else if(kl.getKeyPressed() == GSGraphicGraphKeyListener.CTRL_PRESSED && (this.is_pressed||graphicElements.size()==1)){
 			this.disUnion(graphicElements);
 		}
-		else if(kl.getKeyPressed() == GSGraphicGraphKeyListener.ADD_EDGES){
+		else if(kl.getKeyPressed() == GSGraphicGraphKeyListener.ADD_EDGES ){
 			this.gs.setSelectedAttackers(this.getNodesSet(graphicElements));
 		}
-		else{
+		else if(this.is_pressed||graphicElements.size()==1){
 			this.removeSelectedNodes();
 			this.addSelectedNodes(graphicElements);
 		}
