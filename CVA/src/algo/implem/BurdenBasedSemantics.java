@@ -23,7 +23,7 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 		HashMap<String, Double> s = new HashMap<String, Double>();
 		this.t = (int)getParam("threshold").getValue();
 		if(this.t == -1.)
-			this.t = Threshold.nbNodes(super.getGraph());
+			this.t = Threshold.nbNodesSquare(super.getGraph());
 		this.getParam("threshold").setValue(t);
 		
 		super.clearSteps();
@@ -64,7 +64,7 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 	@Override
 	public void setGraph(AGraph g){
 		super.setGraph(g);
-		this.t = g.getArguments().size();
+		this.t = Threshold.nbNodesSquare(g);
 		this.setParam("threshold", t);
 	}
 

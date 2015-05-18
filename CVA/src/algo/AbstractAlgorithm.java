@@ -14,6 +14,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	private AGraph graph;
 	private HashMap<String, Parameter> params;
 	private List<HashMap<String, Double>> steps;
+	protected boolean stepByStep;
 	
 	public AbstractAlgorithm(String name){
 		this.name = name;
@@ -28,12 +29,18 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	@Override
 	public abstract void run();
 
-	public final void execute(){
+	@Override
+	public final void execute(boolean stepByStep){
+		this.stepByStep = stepByStep;
 		init();
 		run();
 		end();
 	}
 	
+	@Override
+	public final void execute(){
+		this.execute(false);
+	}
 	
 	public abstract void end();
 	@Override
@@ -160,6 +167,9 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	}
 	
 	protected void addStep(HashMap<String, Double> s){
+		if(!stepByStep && steps.size() > 0){
+			steps.remove(this.steps.size() -1);
+		}
 		this.steps.add(s);
 	}
 	
