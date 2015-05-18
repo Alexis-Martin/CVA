@@ -1,20 +1,52 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.util.Collection;
 
+import graph.AGraph;
 import gui.graphui.IGraphicGraph;
 import gui.graphui.listener.SelectorListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class ArgumentEditorComponent extends JPanel implements SelectorListener {
-	public ArgumentEditorComponent(IGraphicGraph igg) {
+	private AGraph graph;
+
+	public ArgumentEditorComponent(IGraphicGraph igg, AGraph graph) {
+		super();
 		igg.addSelectorListener(this);
+		this.graph = graph;
 	}
 
 	@Override
 	public void selected(Collection<String> str) {
-		System.out.println("Element selected");
+		this.removeAll();
+		System.out.println(str.size());
+		if(str.size() == 1){
+			String node_name = (String) str.toArray()[0];
+			System.out.println("Element selected");
+			JPanel argsArea = new JPanel(new BorderLayout());
+			JTextArea nameArea = new JTextArea();
+			nameArea.setColumns(15);
+						
+			argsArea.setBorder(BorderFactory.createTitledBorder("Argument : "+node_name));
+			
+			argsArea.setSize(200, 200);
+			this.setSize(200, 400);
+			this.add(nameArea);
+			this.add(argsArea);
+			this.setVisible(true);
+			argsArea.setVisible(true);
+			nameArea.setVisible(true);
+
+			this.repaint();
+		}
+		else{
+			this.setVisible(false);
+		}
 		
 	}
 	

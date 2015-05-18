@@ -128,7 +128,8 @@ import algo.Algorithm;
 							}
 							JPanel gPanel = new JPanel(new GridLayout(0,1));
 							gPanel.add(igg.getGraphicGraphComponent());
-							aeg = new ArgumentEditorComponent(igg);
+							aeg = new ArgumentEditorComponent(igg,mygraph);
+							mainWindow.add(aeg, BorderLayout.EAST);
 							mainWindow.add(gPanel, BorderLayout.CENTER);
 							mainWindow.validate();
 				
