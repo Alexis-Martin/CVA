@@ -91,7 +91,7 @@ public class LeftComponent extends JPanel {
 		this.algo = al;
 		if(mygraph != null){
 			this.algo.setGraph(mygraph);
-			if(JOptionPane.showConfirmDialog(null, "Voulez-vous changer les poids pour remettre les valeurs par défaut?", 
+			if(JOptionPane.showConfirmDialog(null, "Charger les poids par défaut?", 
 											"Remise à zeros des poids", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null) 
 											== JOptionPane.YES_OPTION)
 			{

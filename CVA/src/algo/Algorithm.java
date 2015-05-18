@@ -10,6 +10,7 @@ public interface Algorithm {
 	public void run();
 	public String getName();
 	public void execute();
+	public void execute(boolean stepByStep);
 	public void end();
 	public HashMap<String, Parameter> getParams();
 	public void addParam(Parameter param);
