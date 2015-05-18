@@ -47,7 +47,7 @@ import algo.Algorithm;
 		private JPanel mainWindow;
 		private  AGraph mygraph;
 		private IGraphicGraph igg = null;
-		
+		private ArgumentEditorComponent aeg = null;
 		public IHM(){
 			
 			ToolTipManager.sharedInstance().setInitialDelay(500);
@@ -120,6 +120,7 @@ import algo.Algorithm;
 						
 							mygraph = Loader.load(dialogue.getSelectedFile().getAbsolutePath());
 							igg = new GSGraphicGraph(mygraph);
+
 							left.switchGraph(mygraph);
 							
 							if(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER)!=null){
@@ -127,6 +128,7 @@ import algo.Algorithm;
 							}
 							JPanel gPanel = new JPanel(new GridLayout(0,1));
 							gPanel.add(igg.getGraphicGraphComponent());
+							aeg = new ArgumentEditorComponent(igg);
 							mainWindow.add(gPanel, BorderLayout.CENTER);
 							mainWindow.validate();
 				

@@ -17,7 +17,7 @@ public interface Argument {
 	public Collection<Argument> getDefenders();
 
 	public Collection<AEdge> getEdge();
-	
+	public AEdge getAttack(String id);
 	public String getDescription();
 	public void setDescription(String descr);
 

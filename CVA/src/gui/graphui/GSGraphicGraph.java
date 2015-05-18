@@ -6,6 +6,7 @@ import graph.Argument;
 import graph.adapter.AGraphAdapter;
 import gui.graphui.listener.GSGraphicGraphKeyListener;
 import gui.graphui.listener.GSGraphicGraphMouseListener;
+import gui.graphui.listener.SelectorListener;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
 import utils.Couple;
+import utils.MemoryStack;
 
 public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListener {
     protected boolean loop = true;
@@ -47,11 +49,12 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	public HashMap<String,Couple> positions;
 	private int created_c_id = 0;
 	//REMEMBER
-	ArrayList<HashSet<Argument>> removed_nodes ;
-	ArrayList<HashSet<AEdge>> removed_edges;
-	ArrayList<HashSet<Argument>> added_nodes;
-	ArrayList<HashSet<AEdge>> added_edges;	
+	MemoryStack<HashSet<Argument>> removed_nodes ;
+	MemoryStack<HashSet<AEdge>> removed_edges;
+	MemoryStack<HashSet<Argument>> added_nodes;
+	MemoryStack<HashSet<AEdge>> added_edges;	
 	int current_step = -1;
+	private SelectorListener sl;
 	
     public GSGraphicGraph(AGraph graph) {
 
@@ -70,15 +73,14 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
      //   this.fromViewer = viewer.newViewerPipe();
      //   fromViewer.addViewerListener(this);
       //  fromViewer.addSink(this.graphstream);
-    	removed_nodes = new ArrayList<HashSet<Argument>>();
-    	removed_edges = new ArrayList<HashSet<AEdge>>();
-    	added_nodes = new ArrayList<HashSet<Argument>>();
-    	added_edges = new ArrayList<HashSet<AEdge>>();
+    	removed_nodes = new MemoryStack<HashSet<Argument>>(10);
+    	removed_edges = new MemoryStack<HashSet<AEdge>>(10);
+    	added_nodes = new MemoryStack<HashSet<Argument>>(10);
+    	added_edges = new MemoryStack<HashSet<AEdge>>(10);
     	positions = new HashMap<String,Couple>();
 
     }
 
- 
     public void viewClosed(String id) {
         loop = false;
     }
@@ -95,6 +97,17 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
     	return;
 
     }
+    public void addSelectorListener(SelectorListener sl){
+    	if(GSGGML == null){
+    		System.err.println("Viewer is not started, call getGraphicGraphComponent() first");
+    		return;
+    	}
+    	else{
+    		GSGGML.setSelectorListener(sl);
+    	}
+    	this.sl = sl;
+    	
+    }
 	@Override
 	public Component getGraphicGraphComponent() {
 		this.view = viewer.addDefaultView(false);
@@ -109,7 +122,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		view.addKeyListener(GSGGKL);
 		
 		GSGGML.addKeyListener(GSGGKL);
-		
+		GSGGML.setSelectorListener(sl);
 		return (Component)view;
 	}
 
@@ -165,8 +178,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		this.maximumNodeSize = px;		
 	}
 	
-	
-	
+
 	public void updateStyle(){
 		List<Argument> utilities = this.graph.getUtilities();
 		double min=0;
@@ -197,7 +209,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		for(Node node: nodes){
 			Double sizeNode = new Double( a*(double)node.getAttribute("utility")+b);
 			node.addAttribute("ui.style","size:"+sizeNode.intValue()+";" );
-			node.addAttribute("ui.label", node.getId());
+			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
 			
 		}
 		Collection<Edge> edges = this.graphstream.getEdgeSet();
@@ -223,7 +235,6 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 
 	public void buttonReleased(String arg0) {
 		if(!s_node.equals("")){
-			System.out.println("ICI "+s_node+" "+s_style);
 			Node old_node_select = this.graphstream.getNode(s_node);
 			old_node_select.removeAttribute("ui.style");
 			old_node_select.addAttribute("ui.class", "default");
@@ -270,32 +281,40 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 	public void setSelectedAttackers(HashSet<String> nodes_att){
 		
 		HashSet<String> x = this.GSGGML.getNodeSelected();
+		HashSet<AEdge> edges = new HashSet<AEdge>();
 		this.GSGGML.removeSelectedNodes();
 
 		for(String s_node_attacked : nodes_att ){
 			Argument node_attacked = this.graph.getArgument(s_node_attacked);
 			for(String arg_name : x){
 				Argument arg = this.graph.getArgument(arg_name);
-				AEdge edge = this.graph.addAttack(arg.getId(), node_attacked.getId());	
-				Edge graphstream_edge = this.graphstream.addEdge(edge.getId(),arg.getId(),node_attacked.getId(), true);
-				graphstream_edge.addAttribute("ui.class", "attack");
-				graphstream_edge.addAttribute("role", "attack");
+				if(arg.getAttack(node_attacked.getId()) == null){
+					AEdge edge = this.graph.addAttack(arg.getId(), node_attacked.getId());	
+					Edge graphstream_edge = this.graphstream.addEdge(edge.getId(),arg.getId(),node_attacked.getId(), true);
+					graphstream_edge.addAttribute("ui.class", "attack");
+					graphstream_edge.addAttribute("role", "attack");
+					edges.add(edge);
+				}
+				
 			}
 		}
-	
+		this.added_edges.push(edges);
+		this.added_nodes.push(new HashSet<Argument>());
+		this.removed_edges.push(new HashSet<AEdge>());
+		this.removed_nodes.push(new HashSet<Argument>());	
 
 
-
+		this.current_step++;
 		
 	}
 	public void previous_step(){
-		if(current_step<0||current_step>=this.removed_edges.size())
+		if(!this.removed_edges.has_previous())
 			return;
 		this.setOldStep(current_step);
 		this.current_step --;
 	}
 	public void next_step(){
-		if(current_step+1>=this.removed_edges.size())
+		if(!this.removed_edges.has_next())
 			return;
 		this.setNewStep(current_step+1);
 		this.current_step ++;		
@@ -313,13 +332,15 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 			rm_n.add(this.graph.getArgument(arg));
 			rm_e.addAll(this.graph.getArgument(arg).getEdge());
 		}
-		this.removed_edges.add(rm_e);
-		this.removed_nodes.add(rm_n);
-		this.added_edges.add(new HashSet<AEdge>());
-		this.added_nodes.add(new HashSet<Argument>());
+		this.removed_edges.push(rm_e);
+		this.removed_nodes.push(rm_n);
+		this.added_edges.push(new HashSet<AEdge>());
+		this.added_nodes.push(new HashSet<Argument>());
 	}
 	public void newNode(int x, int y){
 		Argument arg = this.graph.addArgument();
+		HashSet<Argument> args = new HashSet<Argument>();
+		args.add(arg);
 
 		Node node = this.graphstream.addNode(arg.getId());
 		node.addAttribute("utility", arg.getUtility());
@@ -329,31 +350,39 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		this.positions.put(arg.getId(),coor);
 		node.setAttribute("x", this.positions.get(arg.getId()).getL());
 		node.setAttribute("y", this.positions.get(arg.getId()).getR());
-		System.out.println(this.positions.get(arg.getId()).getR());
+		this.added_nodes.push(args);
+		this.added_edges.push(new HashSet<AEdge>());
+		this.removed_edges.push(new HashSet<AEdge>());
+		this.removed_nodes.push(new HashSet<Argument>());
+		this.current_step++;
 		
 	}
 	
 	private void setOldStep(int i){
-	  	HashSet<Argument> rm_n = this.removed_nodes.get(i);
-		HashSet<AEdge> rm_e = this.removed_edges.get(i);
-		HashSet<Argument> add_n = this.added_nodes.get(i);
-		HashSet<AEdge> add_e = this.added_edges.get(i);
+	  	HashSet<Argument> rm_n = this.removed_nodes.get_previous();
+		HashSet<AEdge> rm_e = this.removed_edges.get_previous();
+		HashSet<Argument> add_n = this.added_nodes.get_previous();
+		HashSet<AEdge> add_e = this.added_edges.get_previous();
 		this.addNodes(rm_n);
 		this.addEdges(rm_e);
+		this.removeEdges(add_e);
+		this.removeNodes(add_n);
+
 		
 	}
 	private void setNewStep(int i){
-	  	HashSet<Argument> rm_n = this.removed_nodes.get(i);
-		HashSet<AEdge> rm_e = this.removed_edges.get(i);
-		HashSet<Argument> add_n = this.added_nodes.get(i);
-		HashSet<AEdge> add_e = this.added_edges.get(i);
-		this.removeNodes(rm_n);
+	  	HashSet<Argument> rm_n = this.removed_nodes.get_next();
+		HashSet<AEdge> rm_e = this.removed_edges.get_next();
+		HashSet<Argument> add_n = this.added_nodes.get_next();
+		HashSet<AEdge> add_e = this.added_edges.get_next();
 		this.removeEdges(rm_e);
-		
+		this.removeNodes(rm_n);
+		this.addNodes(add_n);
+		this.addEdges(add_e);
 	}
 	private void removeNodes(Collection<Argument> args){
 		for(Argument arg :args){
-			this.graph.removeArgument(arg);
+			this.graph.removeArgument(arg.getId());
 			this.graphstream.removeNode(arg.getId());
 		}
 	}
@@ -380,10 +409,13 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 				graph.addAttack(edge.getId(),edge.getSource().getId(), edge.getTarget().getId());
 				Edge edge_gs = graphstream.addEdge(edge.getId(),edge.getSource().getId(), edge.getTarget().getId(),true);
 				edge_gs.setAttribute("ui.class", "attack");
+				edge_gs.setAttribute("role", "attack");	
+				edge_gs.setAttribute("ui.label", edge.getId());
 			}
 			else if(role.equals("defend")){
 				Edge edge_gs = graphstream.addEdge(edge.getId(),edge.getSource().getId(), edge.getTarget().getId(),true);
 				edge_gs.setAttribute("ui.class", "defend");
+				edge_gs.setAttribute("role", "defend");
 			}
 			
 		}

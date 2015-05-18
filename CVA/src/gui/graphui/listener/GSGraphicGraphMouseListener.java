@@ -28,6 +28,8 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	private boolean is_pressed = false;
 	private int s_x, s_y;
 	private GSGraphicGraphKeyListener  kl= null;
+	private SelectorListener sl = null;
+	private boolean selection_changed = false;
 	public GSGraphicGraphMouseListener(){
 		
 	}
@@ -101,6 +103,7 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		}
 
 		this.routine_release();
+
 	}
 
 	@Override
@@ -114,7 +117,9 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 		// TODO Auto-generated method stub
 		
 	}
-
+	public void setSelectorListener(SelectorListener sl){
+		this.sl = sl;
+	}
 	@Override
 	public void init(GraphicGraph arg0, View arg1) {
 		// TODO Auto-generated method stub
@@ -160,22 +165,29 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	}
 	private void routine_release(){
 		this.is_pressed = false;
+		if(this.sl != null && selection_changed  && !this.nodesSelected.isEmpty()){
+			this.sl.selected(this.nodesSelected);
+		}
+		this.selection_changed = false;
 	}
 	public void removeSelectedNodes(){
 		Graph graph = this.gs.getGraphstreamGraph();
 		for(String s_node  : nodesSelected){
 			graph.getNode(s_node).setAttribute("ui.class", "default");
+			this.selection_changed = true;
 		}
 		this.nodesSelected = new HashSet<String>();
 	}
 	private void removeNodeSelected(String node){
 		Graph graph = this.gs.getGraphstreamGraph();
 		graph.getNode(node).setAttribute("ui.class", "default");
+		this.selection_changed = true;
 		this.nodesSelected.remove(node);
 	}
 	private void addNodeSelected(String node){
 		Graph graph = this.gs.getGraphstreamGraph();
 		graph.getNode(node).addAttribute("ui.class", "select");
+		this.selection_changed = true;
 		this.nodesSelected.add(node);
 	}
 	public HashSet<String> getNodeSelected(){

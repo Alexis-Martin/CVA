@@ -84,6 +84,11 @@ public class GSArgument extends SingleNode implements Argument{
 	public boolean hasWeight() {
 		return this.getAttribute("weight") != null;
 	}
+
+	@Override
+	public AEdge getAttack(String id) {
+		return this.getEdgeToward(id);
+	}
 	
 
 }
