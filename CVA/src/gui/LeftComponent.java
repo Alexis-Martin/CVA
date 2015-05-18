@@ -13,18 +13,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 import algo.Algorithm;
 import algo.Parameter;
@@ -38,15 +43,18 @@ public class LeftComponent extends JPanel {
 	private List<ParameterType> parameters_type;
 	private JPanel resultArea ; 
 	private JTable detail;
+	private JFrame frame;
+	private WaitExecution wait;
 	
 	
-	public LeftComponent()
-	{
+	public LeftComponent(JFrame frame)
+	{	
+		this.frame = frame;
 		this.algo = null ;
 		this.mygraph = null;
 		this.setLayout(new BorderLayout());
 		
-
+		
 		
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
@@ -91,7 +99,7 @@ public class LeftComponent extends JPanel {
 		this.algo = al;
 		if(mygraph != null){
 			this.algo.setGraph(mygraph);
-			if(JOptionPane.showConfirmDialog(null, "Charger les poids par défaut?", 
+			if(JOptionPane.showConfirmDialog(frame, "Voulez-vous changer les poids pour remettre les valeurs par défaut?", 
 											"Remise à zeros des poids", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null) 
 											== JOptionPane.YES_OPTION)
 			{
@@ -123,22 +131,93 @@ public class LeftComponent extends JPanel {
 		return this.algo!=null && this.mygraph!=null ; 
 	}
 	
-	@SuppressWarnings("unused")
+
 	public void run ()
 	{
 		if (canRun())
 		{
-			algo.execute();
+		    
+			
+			wait = new WaitExecution(frame);
+			
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					
+					
+					
+			        SwingUtilities.invokeLater(new Runnable() {
+						 
+						@Override
+						public void run() {
+							if(algo.getNbIteration() != 0){
+								wait.setLimit(algo.getNbIteration());
+							}
+							wait.setVisible(true); // on affiche le dialogue (comme il est modale, ça bloque le thread courant)
+						}
+					});
+			        
+					while(!wait.isVisible()){
+						try {
+							Thread.sleep(200);
+						} catch (InterruptedException e) { 
+						}
+					}
+					
+					Thread t = new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							algo.execute();
+						}
+					});
+					t.start();
+					
+					while(t.isAlive()){
+						 try {
+							SwingUtilities.invokeAndWait(new Runnable() {
+								 
+									@Override
+									public void run() {
+										if(algo.getNbIteration() != 0){
+											
+											wait.setProgress(algo.getCurrentIteration());
+										}
+									}
+							 });
+						} catch (InvocationTargetException
+								| InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					System.out.println("Le calcul est terminé, on refresh");
+					SwingUtilities.invokeLater(new Runnable() {
+						 
+						@Override
+						public void run() {
+							MajInterface();
+							System.out.println("fin du refresh");
+							wait.dispose();
+						}
+					});					
+					
+				}
+			});
+
+			t.start();
+			
+			
+						
 		}
 		else
 		{
 			if (this.algo ==null)
-				JOptionPane.showMessageDialog(null, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
 
 			if (this.mygraph==null)
-				JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
 		}
-		MajInterface();
+		
 	}
 	
 	// Une fonction qui remet les composants du LeftComponent � jour
@@ -147,8 +226,11 @@ public class LeftComponent extends JPanel {
 	public void MajInterface ()
 	{
 		MajName(); 
+		System.out.println("maj param");
 		MajParametres();
+		System.out.println("majres");
 		MajResultats();
+		System.out.println("fin maj");
 	}
 	
 	private void MajName() 
@@ -220,11 +302,12 @@ public class LeftComponent extends JPanel {
 		
 		List<Argument> args = mygraph.getUtilities();
 		
-		
+		System.out.println("here 305");
 		((ResultTableModel)detail.getModel()).setUtilities(args);
-		
+		System.out.println("here 307");
 		JTextArea text_result = new JTextArea(2, 20); 
 		for(int i = 0; i < args.size(); i++){
+			System.out.println(i);
 			if(i == 0){
 				text_result.setText(args.get(i).getId());
 				continue;
@@ -238,11 +321,11 @@ public class LeftComponent extends JPanel {
 		}
 		text_result.setEditable(false);
 		text_result.setBackground(new Color(255, 255, 255));
-
+		System.out.println("here 323");
 		JScrollPane scroll_result = new JScrollPane(text_result);
 		scroll_result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), scroll_result.getBorder()));
 		resultArea.add(scroll_result, BorderLayout.SOUTH);
-		
+		System.out.println("here327");
 		resultArea.validate();
 	}
 	

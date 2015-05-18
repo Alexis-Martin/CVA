@@ -20,7 +20,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	private int t;
 	private Collection<Argument> args;
 	private HashSet<Argument> args_ranked;
-	
+	private int currentIt;
 	
 	public DiscussionBasedSemantics(){
 		super("Discussion Based Semantics");
@@ -95,7 +95,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		start_arg.addAll(this.args);
 		sorted_tab.add(start_arg);
 		for(int i=0; i<(t*t)&&args_ranked.size() != nb_nodes; i++){
-
+			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			attackers_current = new HashMap<Argument,HashSet<Argument>>();
 
@@ -153,5 +153,15 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		super.setGraph(g);
 		this.t = Threshold.nbNodesSquare(g);
 		this.getParam("threshold").setValue(t);
+	}
+	
+	@Override
+	public int getCurrentIteration() {
+		return currentIt;
+	}
+	
+	@Override
+	public int getNbIteration(){
+		return t;
 	}
 }

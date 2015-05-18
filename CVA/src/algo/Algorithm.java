@@ -21,4 +21,7 @@ public interface Algorithm {
 	public AGraph getGraph();
 	public void setGraph(AGraph graph);
 	public double getDefaultInitUtility();
+	public int getNbIteration();
+	public int getCurrentIteration();
+	
 } 
