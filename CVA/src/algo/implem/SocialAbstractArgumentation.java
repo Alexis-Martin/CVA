@@ -58,13 +58,12 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 			HashSet<Argument> argument_computed = new HashSet<Argument>();
 			
 			for(Argument a : graph.getArguments()){
-				double result = 0.0;
+				double result = 1.0;
 
 				ArrayList<Argument>  attackers = new ArrayList<Argument>();
 
 				attackers.addAll(a.getAttackers());
 				
-				if(!attackers.isEmpty()) result = 1.;
 				for(int i=0; i<attackers.size();i++){
 					if(argument_computed.contains(attackers.get(i))){
 						result *= (1 - s.get(attackers.get(i).getId()));

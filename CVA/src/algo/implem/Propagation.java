@@ -30,7 +30,7 @@ public class Propagation extends AbstractAlgorithm{
 	public Propagation(){
 		super("Propagation");
 
-		addParam("epsilon", 0.0001, "aucune idée");
+		addParam("epsilon", 0.0, "aucune idée");
 		addParam("threshold", 50, "Nombre de tour effectué");
 		addParam("delta", 1., "aucune idée");
 	}
@@ -38,6 +38,8 @@ public class Propagation extends AbstractAlgorithm{
 	@Override
 	public void init() {
 		this.t = (int) getParam("threshold").getValue();
+		if(this.t == -1.)
+			this.t = Threshold.nbNodes(super.getGraph());
 		this.epsilon = (double) getParam("epsilon").getValue();
 		this.delta = (double) getParam("delta").getValue();
 		HashMap<String, Double> s = new HashMap<String, Double>();
@@ -103,7 +105,7 @@ public class Propagation extends AbstractAlgorithm{
 			a.add(arg);
 			HashSet<Argument> attacker_a_c = BreathFirst.listBreath(a, 1);
 			double a_score = 0.;
-			if(a_score == 0)
+			if(attacker_a_c.size() == 0)
 				a_score = 1;
 			else
 				a_score = this.epsilon;

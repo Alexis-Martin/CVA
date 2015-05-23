@@ -12,10 +12,12 @@ import algo.utils.Threshold;
 public class BurdenBasedSemantics extends AbstractAlgorithm {
 	private int t;
 	private int currentIt;
+	private double eps;
 	
 	public BurdenBasedSemantics(){
 		super("Burden Based Semantics");
 		this.addParam("threshold", -1, "Nombre de tour effectué");
+		this.addParam("epsilon", 0.0001, "Précision de calcul de l'algorithme");
 	}
 
 	@Override
@@ -26,6 +28,13 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 			this.t = Threshold.nbNodesSquare(super.getGraph());
 		this.getParam("threshold").setValue(t);
 		
+		this.eps = (double) getParam("epsilon").getValue();
+		
+		if( eps == 0 || eps > 1){
+			this.eps = 0.0001;
+			this.getParam("epsilon").setValue(eps);
+		}
+		
 		super.clearSteps();
 		for(Argument a : super.getGraph().getArguments()){
 			s.put(a.getId(), a.getWeight());
@@ -35,7 +44,9 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 
 	@Override
 	public void run() {
-		for(int i=0; i<t; i++){
+		boolean finish = false;
+		for(int i=0; i<t && !finish; i++){
+			finish = true;
 			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			
@@ -47,6 +58,9 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 				}
 				
 				s.put(a.getId(), utility);
+				if(super.getLastU(a.getId()) > utility + eps || super.getLastU(a.getId()) < utility - eps){
+					finish = false;
+				}
 			}
 			
 			this.addStep(s);
