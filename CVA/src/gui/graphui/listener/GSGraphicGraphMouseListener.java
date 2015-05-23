@@ -42,8 +42,7 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		this.is_pressed = true;
-		this.mouseReleased(arg0);
+
 	}
 
 	@Override
@@ -88,6 +87,9 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 			int mem = y ;
 			y = s_y;
 			s_y = mem;
+		}
+		if(x == s_x && s_y == y){
+			this.is_pressed = true;
 		}
 		Collection<GraphicElement> graphicElements = view.allNodesOrSpritesIn(s_x, s_y, x, y);
 		

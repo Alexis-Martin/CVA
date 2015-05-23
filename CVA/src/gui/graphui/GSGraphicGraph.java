@@ -210,7 +210,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		for(Node node: nodes){
 			Double sizeNode = new Double( a*(double)node.getAttribute("utility")+b);
 			node.addAttribute("ui.style","size:"+sizeNode.intValue()+";" );
-			node.addAttribute("ui.label", (double)node.getAttribute("utility"));
+			node.addAttribute("ui.label", node.getId());
 			
 		}
 		Collection<Edge> edges = this.graphstream.getEdgeSet();
