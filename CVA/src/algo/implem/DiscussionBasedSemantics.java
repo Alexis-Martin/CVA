@@ -31,7 +31,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	public void init() {
 		this.t = (int) getParam("threshold").getValue();
 		if(this.t == -1.)
-			this.t = Threshold.nbNodesSquare(super.getGraph());
+			this.t = Threshold.nbNodes(super.getGraph());
 		this.getParam("threshold").setValue(t);
 		
 		HashMap<String, Double> s = new HashMap<String, Double>();
