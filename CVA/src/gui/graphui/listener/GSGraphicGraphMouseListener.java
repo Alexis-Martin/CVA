@@ -42,7 +42,8 @@ public class GSGraphicGraphMouseListener implements MouseManager{
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-
+		this.is_pressed = true;
+		this.mouseReleased(arg0);
 	}
 
 	@Override

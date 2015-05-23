@@ -19,6 +19,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.geom.Point3;
+import org.graphstream.ui.graphicGraph.GraphicEdge;
 import org.graphstream.ui.graphicGraph.GraphicNode;
 import org.graphstream.ui.swingViewer.ViewPanel;
 import org.graphstream.ui.view.Camera;
@@ -73,10 +74,10 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
      //   this.fromViewer = viewer.newViewerPipe();
      //   fromViewer.addViewerListener(this);
       //  fromViewer.addSink(this.graphstream);
-    	removed_nodes = new MemoryStack<HashSet<Argument>>(10);
-    	removed_edges = new MemoryStack<HashSet<AEdge>>(10);
-    	added_nodes = new MemoryStack<HashSet<Argument>>(10);
-    	added_edges = new MemoryStack<HashSet<AEdge>>(10);
+    	removed_nodes = new MemoryStack<HashSet<Argument>>(100);
+    	removed_edges = new MemoryStack<HashSet<AEdge>>(100);
+    	added_nodes = new MemoryStack<HashSet<Argument>>(100);
+    	added_edges = new MemoryStack<HashSet<AEdge>>(100);
     	positions = new HashMap<String,Couple>();
 
     }
@@ -196,7 +197,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 				max = utilities.get(i).getUtility();
 					
 		}		
-		
+
 		//we determine an affine function for the size of the node aX+b 
 		double a = 0;
 		double b = (this.maximumNodeSize+this.minimumNodeSize)/2;
@@ -282,7 +283,7 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		
 		HashSet<String> x = this.GSGGML.getNodeSelected();
 		HashSet<AEdge> edges = new HashSet<AEdge>();
-		this.GSGGML.removeSelectedNodes();
+		//this.GSGGML.removeSelectedNodes();
 
 		for(String s_node_attacked : nodes_att ){
 			Argument node_attacked = this.graph.getArgument(s_node_attacked);
@@ -301,21 +302,20 @@ public class GSGraphicGraph extends Thread implements IGraphicGraph, ViewerListe
 		this.added_edges.push(edges);
 		this.added_nodes.push(new HashSet<Argument>());
 		this.removed_edges.push(new HashSet<AEdge>());
-		this.removed_nodes.push(new HashSet<Argument>());	
-
-
-		this.current_step++;
+		this.removed_nodes.push(new HashSet<Argument>());
 		
 	}
 	public void previous_step(){
 		if(!this.removed_edges.has_previous())
 			return;
+		this.GSGGML.removeSelectedNodes();
 		this.setOldStep(current_step);
 		this.current_step --;
 	}
 	public void next_step(){
 		if(!this.removed_edges.has_next())
 			return;
+		this.GSGGML.removeSelectedNodes();
 		this.setNewStep(current_step+1);
 		this.current_step ++;		
 	}

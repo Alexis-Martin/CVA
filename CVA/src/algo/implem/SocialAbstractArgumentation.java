@@ -6,6 +6,7 @@ import graph.Argument;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import algo.AbstractAlgorithm;
 import algo.Parameter;
@@ -16,9 +17,9 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	int currentArg, totalArg;
 	
 	public SocialAbstractArgumentation(){
-		super("Social Abstract Argumentation");
+		super("Social Abstract Argumentation ISS");
 
-		addParam("epsilon", 0.0001, "Précision de calcul de l'algorithme");
+		addParam("epsilon", 0.001, "Précision de calcul de l'algorithme");
 		addParam("xhi", 0.1, "aucune idée");
 	}
 	
@@ -42,7 +43,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	}
 	
 	//In Case Of acyclic graph we have to obtain the rigth order of th graph
-	
+
 	private void algo(){
 		
 
@@ -54,21 +55,32 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 			finish = true;
 			
 			HashMap<String, Double> s = new HashMap<String, Double>();
+			HashSet<Argument> argument_computed = new HashSet<Argument>();
+			
 			for(Argument a : graph.getArguments()){
-				double result = 1.0;
-				ArrayList<Argument>  args = new ArrayList<Argument>();
+				double result = 0.0;
+
+				ArrayList<Argument>  attackers = new ArrayList<Argument>();
+
+				attackers.addAll(a.getAttackers());
 				
-				args.addAll(a.getAttackers());
-				if(!args.isEmpty())
-					result = super.getLastU(args.get(0).getId());
-				for(int i=1; i<args.size();i++){
-					result += super.getLastU(args.get(i).getId()) - result*super.getLastU(args.get(i).getId());
-				}
-				double utility = (1.0/(1.0+this.xhi))*(1-result);
+				if(!attackers.isEmpty()) result = 1.;
+				for(int i=0; i<attackers.size();i++){
+					if(argument_computed.contains(attackers.get(i))){
+						result *= (1 - s.get(attackers.get(i).getId()));
+					}
+					else{
+						result *= (1 - super.getLastU(attackers.get(i).getId()));
+					}
 					
+				}
+
+				double utility = (1.0/(1.0+this.xhi))*result;
+
 				if(super.getLastU(a.getId()) > utility + epsilon || super.getLastU(a.getId()) < utility - epsilon){
 					finish = false;
 				}
+				argument_computed.add(a);
 				s.put(a.getId(), utility);
 			}
 			super.addStep(s);
@@ -76,7 +88,6 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 
 
 	}
-
 	@Override
 	public void end() {
 		AGraph graph = super.getGraph();
