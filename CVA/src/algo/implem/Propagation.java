@@ -1,5 +1,6 @@
 package algo.implem;
 
+import graph.AGraph;
 import graph.Argument;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.TreeSet;
 import algo.AbstractAlgorithm;
 import algo.Parameter;
 import algo.utils.BreathFirst;
+import algo.utils.Threshold;
 
 public class Propagation extends AbstractAlgorithm{
 	double epsilon ;
@@ -117,7 +119,7 @@ public class Propagation extends AbstractAlgorithm{
 		sorted_tab.add(start_arg);
 		
 
-		for(int i=0; i<(t*t)&&args_ranked.size() != nb_nodes; i++){
+		for(int i=0; i<(t)&&args_ranked.size() != nb_nodes; i++){
 			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			
@@ -184,7 +186,12 @@ public class Propagation extends AbstractAlgorithm{
 			a.setUtility((1)*super.getLastU(a.getId()));
 		}
 	}
-
+	@Override
+	public void setGraph(AGraph g){
+		super.setGraph(g);
+		this.t = Threshold.nbNodes(g);
+		this.setParam("threshold", t);
+	}
 	@Override
 	public double getDefaultInitUtility(){
 		return 0;

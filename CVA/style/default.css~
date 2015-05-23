@@ -1,5 +1,10 @@
 node{
   fill-color: blue;
+  text-style:bold;
+  text-alignment:center;
+}
+node.default{
+  fill-color: blue;
 }
 node.select{
 	fill-color:green;

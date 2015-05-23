@@ -94,7 +94,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		HashSet<Argument> start_arg = new HashSet<Argument>();
 		start_arg.addAll(this.args);
 		sorted_tab.add(start_arg);
-		for(int i=0; i<(t*t)&&args_ranked.size() != nb_nodes; i++){
+		for(int i=0; i<(t)&&args_ranked.size() != nb_nodes; i++){
 			currentIt = i;
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			attackers_current = new HashMap<Argument,HashSet<Argument>>();
@@ -102,6 +102,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 
 			for(Argument a : args){
 				//Start
+				System.out.println("Etape");
 				if( i == 0){
 					HashSet<Argument> args = new HashSet<Argument>();
 					args.add(a);
@@ -132,8 +133,9 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 			}
 			
 			attackers_previous = attackers_current;
+			System.out.println("Start separe");
 			sorted_tab = separe(sorted_tab, s);
-			
+			System.out.println("End separe");
 			//System.out.println(s);
 			this.addStep(this.current_ranking(sorted_tab));
 			
@@ -151,7 +153,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	@Override
 	public void setGraph(AGraph g){
 		super.setGraph(g);
-		this.t = Threshold.nbNodesSquare(g);
+		this.t = Threshold.nbNodes(g);
 		this.getParam("threshold").setValue(t);
 	}
 	
