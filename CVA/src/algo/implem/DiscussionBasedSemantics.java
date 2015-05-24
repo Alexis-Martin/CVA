@@ -101,7 +101,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 
 			for(Argument a : args){
 				//Start
-				System.out.println("Etape");
+				//System.out.println("Etape");
 				if( i == 0){
 					HashSet<Argument> args = new HashSet<Argument>();
 					args.add(a);
@@ -132,9 +132,9 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 			}
 			
 			attackers_previous = attackers_current;
-			System.out.println("Start separe");
+			//System.out.println("Start separe");
 			sorted_tab = separe(sorted_tab, s);
-			System.out.println("End separe");
+			//System.out.println("End separe");
 			//System.out.println(s);
 			this.addStep(this.current_ranking(sorted_tab));
 			

@@ -3,6 +3,7 @@ package af;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -103,6 +104,7 @@ public class GSArgumentationFramework implements ArgumentationFramework{
 	public Graph getGraph(){
 		return this.cvaGraph;
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Collection<Argument> getArguments() {
@@ -117,6 +119,9 @@ public class GSArgumentationFramework implements ArgumentationFramework{
 
 	@Override
 	public List<Argument> getUtilities() {
+		List<Argument> a = new ArrayList<Argument>(this.getArguments());
+		Collections.sort(a, Collections.reverseOrder());
+		/*
 		Iterator<GSArgument> it = cvaGraph.getNodeIterator();
 		List<Argument> a = new ArrayList<Argument>();
 		while(it.hasNext()){
@@ -131,6 +136,7 @@ public class GSArgumentationFramework implements ArgumentationFramework{
 			}
 			a.add(position, arg);
 		}
+		*/
 		return a;
 	}
 	@Override

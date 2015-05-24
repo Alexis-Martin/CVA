@@ -383,10 +383,10 @@ public class FrameTests extends JDialog implements ActionListener{
 					for(int k = 0; k < m_test.size(); k++){
 						List<Parameter> params = m_test.getParameters(k);
 						Map<String, String> resData = new HashMap<String, String>();
-						List<Argument> args = algo.getGraph().getUtilities();
+						List<Argument> args;
 						
 						resData.put("Graphe", list_graph[i].getName());
-						resData.put("Nombre d'arguments", args.size()+"");
+						resData.put("Nombre d'arguments", algo.getGraph().getArguments().size()+"");
 						resData.put("Nombre de relations", algo.getGraph().getRelations().size() +"");
 						for(int l = 0; l < params.size(); l++){
 							algo.getParam(params.get(l).getName()).setValue(params.get(l).getValue());
@@ -396,11 +396,13 @@ public class FrameTests extends JDialog implements ActionListener{
 						long start = System.currentTimeMillis();
 						algo.execute();
 						long stop = System.currentTimeMillis();
-						
+						System.out.println("end");
 						resData.put("Temps (ms)", (stop - start) +"");
 						resData.put("Temps (h:m:s.ms)", convertTime(stop - start));
+						
+						args = algo.getGraph().getUtilities();
 						String res = args.get(0).getId(); 
-						for(int l = 1; l < Math.min(args.size(), 10); l++){
+						for(int l = 1; l < Math.min(args.size(), 50); l++){
 							if(args.get(l).getUtility() == args.get(l-1).getUtility() )
 								res += " = " + args.get(l).getId();
 							else

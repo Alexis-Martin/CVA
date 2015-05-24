@@ -300,12 +300,9 @@ public class LeftComponent extends JPanel {
 		
 		List<Argument> args = mygraph.getUtilities();
 		
-		System.out.println("here 305");
 		((ResultTableModel)detail.getModel()).setUtilities(args);
-		System.out.println("here 307");
 		JTextArea text_result = new JTextArea(2, 20); 
 		for(int i = 0; i < args.size(); i++){
-			System.out.println(i);
 			if(i == 0){
 				text_result.setText(args.get(i).getId());
 				continue;
@@ -319,11 +316,9 @@ public class LeftComponent extends JPanel {
 		}
 		text_result.setEditable(false);
 		text_result.setBackground(new Color(255, 255, 255));
-		System.out.println("here 323");
 		JScrollPane scroll_result = new JScrollPane(text_result);
 		scroll_result.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5), scroll_result.getBorder()));
 		resultArea.add(scroll_result, BorderLayout.SOUTH);
-		System.out.println("here327");
 		resultArea.validate();
 	}
 	

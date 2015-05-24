@@ -89,7 +89,7 @@ import algo.Algorithm;
 			JMenu menuMenu = new JMenu("AF");
 			menuBar.add(menuMenu);
 			
-			JMenuItem g1 = new JMenuItem("Importer",KeyEvent.VK_C);
+			JMenuItem g1 = new JMenuItem("Charger",KeyEvent.VK_C);
 			g1.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e)
 	            {

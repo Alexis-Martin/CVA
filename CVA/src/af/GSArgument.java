@@ -7,7 +7,7 @@ import java.util.Iterator;
 import org.graphstream.graph.implementations.AbstractGraph;
 import org.graphstream.graph.implementations.SingleNode;
 
-public class GSArgument extends SingleNode implements Argument{
+public class GSArgument extends SingleNode implements Argument, Comparable<Argument>{
 
 	public GSArgument(AbstractGraph graph, String id) {
 		super(graph, id);
@@ -103,6 +103,11 @@ public class GSArgument extends SingleNode implements Argument{
 	@Override
 	public void removeAttr(String key) {
 		this.removeAttribute(key);
+	}
+
+	@Override
+	public int compareTo(Argument o) {
+		return Double.compare(this.getUtility(), o.getUtility());
 	}
 	
 
