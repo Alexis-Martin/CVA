@@ -1,9 +1,9 @@
 package algo.utils;
 
-import graph.Argument;
-
 import java.util.Collection;
 import java.util.HashSet;
+
+import af.Argument;
 
 public class BreathFirst {
 

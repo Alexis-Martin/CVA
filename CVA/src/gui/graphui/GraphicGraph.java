@@ -1,14 +1,15 @@
 package gui.graphui;
 
-import graph.AGraph;
 import gui.graphui.listener.SelectorListener;
 
 import java.awt.Component;
 
-public interface IGraphicGraph {
+import af.ArgumentationFramework;
+
+public interface GraphicGraph {
 	
 	public Component getGraphicGraphComponent();
-	public AGraph getAGraph();
+	public ArgumentationFramework getAGraph();
 	public void refresh();
 	public void replace();
 	public void addSelectorListener(SelectorListener sl);

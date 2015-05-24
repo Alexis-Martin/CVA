@@ -1,8 +1,5 @@
 package io;
 
-import graph.AGraph;
-import graph.adapter.AGraphAdapter;
-
 import java.io.IOException;
 
 import org.graphstream.graph.implementations.MultiGraph;
@@ -15,7 +12,10 @@ import org.graphstream.stream.file.FileSourceDGS;
 import org.graphstream.stream.file.FileSourceDOT;
 import org.graphstream.stream.file.FileSourceFactory;
 
-public class CVAGraphIO {
+import af.ArgumentationFramework;
+import af.adapter.ArgumentationFrameworkAdapter;
+
+public class GSGraphIO {
 	
 	public class Type{
 		public final static int  DOT = 0;
@@ -24,7 +24,7 @@ public class CVAGraphIO {
 
 	}
 	
-	public static void write(String path, AGraph g, int type) throws IOException{
+	public static void write(String path, ArgumentationFramework g, int type) throws IOException{
 		FileSink fs;
 		
 		switch(type){
@@ -40,14 +40,14 @@ public class CVAGraphIO {
 		}
 
 
-		fs.writeAll(AGraphAdapter.agraphToGraphstream(g, "save_graphe"), path);	
+		fs.writeAll(ArgumentationFrameworkAdapter.agraphToGraphstream(g, "save_graphe"), path);	
 	}
-	public static void write(String path, AGraph g) throws IOException{
+	public static void write(String path, ArgumentationFramework g) throws IOException{
 		write(path, g , Type.DGS);
 	}
 	
 	
-	public static AGraph read(String path, int type) throws IOException, LoadingTypeException{
+	public static ArgumentationFramework read(String path, int type) throws IOException, LoadingTypeException{
 		FileSource fs;
 		
 		switch(type){
@@ -65,18 +65,18 @@ public class CVAGraphIO {
 		fs.addSink(g); 
 		fs.readAll(path);
 		fs.removeSink(g);
-		return AGraphAdapter.graphstreamToAGraph(g);
+		return ArgumentationFrameworkAdapter.graphstreamToAGraph(g);
 		
 	}
 	
-	public static AGraph read(String path) throws IOException, LoadingTypeException{
+	public static ArgumentationFramework read(String path) throws IOException, LoadingTypeException{
 		
 		FileSource fs = FileSourceFactory.sourceFor(path);
 		MultiGraph g =new MultiGraph("load_graph");
 		fs.addSink(g); 
 		fs.readAll(path);
 		fs.removeSink(g);
-		return AGraphAdapter.graphstreamToAGraph(g);
+		return ArgumentationFrameworkAdapter.graphstreamToAGraph(g);
 		
 	}
 }

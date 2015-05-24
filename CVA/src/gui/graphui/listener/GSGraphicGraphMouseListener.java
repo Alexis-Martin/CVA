@@ -1,6 +1,5 @@
 package gui.graphui.listener;
 
-import graph.Argument;
 import gui.graphui.GSGraphicGraph;
 
 import java.awt.GraphicsEnvironment;
@@ -17,6 +16,8 @@ import org.graphstream.ui.graphicGraph.GraphicGraph;
 import org.graphstream.ui.view.View;
 import org.graphstream.ui.view.util.DefaultMouseManager;
 import org.graphstream.ui.view.util.MouseManager;
+
+import af.Argument;
 
 public class GSGraphicGraphMouseListener implements MouseManager{
 	private GSGraphicGraph gs;

@@ -1,10 +1,9 @@
 package algo.implem;
 
-import graph.AGraph;
-import graph.Argument;
-
 import java.util.HashMap;
 
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.AbstractAlgorithm;
 import algo.Parameter;
 import algo.utils.Threshold;
@@ -76,7 +75,7 @@ public class BurdenBasedSemantics extends AbstractAlgorithm {
 	}
 	
 	@Override
-	public void setGraph(AGraph g){
+	public void setGraph(ArgumentationFramework g){
 		super.setGraph(g);
 		this.t = Threshold.nbNodesSquare(g);
 		this.setParam("threshold", t);

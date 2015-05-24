@@ -1,8 +1,5 @@
 package algo.implem;
 
-import graph.AGraph;
-import graph.Argument;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,6 +8,8 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.AbstractAlgorithm;
 import algo.Parameter;
 import algo.utils.BreathFirst;
@@ -151,7 +150,7 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 	}
 	
 	@Override
-	public void setGraph(AGraph g){
+	public void setGraph(ArgumentationFramework g){
 		super.setGraph(g);
 		this.t = Threshold.nbNodes(g);
 		this.getParam("threshold").setValue(t);

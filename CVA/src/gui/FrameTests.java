@@ -1,12 +1,9 @@
 package gui;
 
-import graph.AGraph;
-import graph.Argument;
-import graph.adapter.AGraphAdapter;
 import gui.graphui.GSGraphicGraph;
 import helper.CsvFileWriter;
 import helper.FileHelper;
-import io.CVAGraphIO;
+import io.GSGraphIO;
 import io.Loader;
 import io.LoadingTypeException;
 
@@ -52,6 +49,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import af.ArgumentationFramework;
+import af.Argument;
+import af.adapter.ArgumentationFrameworkAdapter;
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
 import algo.Parameter;
@@ -363,7 +363,7 @@ public class FrameTests extends JDialog implements ActionListener{
 			//pour tous les graphes
 			for(int i = 0; i < list_graph.length; i++){
 				
-				AGraph g = null;
+				ArgumentationFramework g = null;
 				try {
 					g = Loader.load(list_graph[i].getAbsolutePath());
 				} catch (IOException e2) {

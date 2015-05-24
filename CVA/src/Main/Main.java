@@ -1,12 +1,7 @@
 package Main;
 
-import graph.AGraph;
-import graph.Argument;
-import graph.CVAGraphViewer;
-import graph.GSAGraph;
-import graph.GSArgument;
 import gui.IHM;
-import io.CVAGraphIO;
+import io.GSGraphIO;
 import io.LoadingTypeException;
 
 import java.awt.BorderLayout;
@@ -20,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import af.ArgumentationFramework;
+import af.Argument;
+import af.ArgumentationFrameworkViewer;
+import af.GSArgumentationFramework;
+import af.GSArgument;
 import algo.Algorithm;
 import algo.implem.Categoriser;
 import algo.implem.SocialAbstractArgumentation;

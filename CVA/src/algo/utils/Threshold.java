@@ -1,12 +1,12 @@
 package algo.utils;
 
-import graph.AGraph;
+import af.ArgumentationFramework;
 
 public class Threshold {
-	public static  int nbNodes(AGraph graph){
+	public static  int nbNodes(ArgumentationFramework graph){
 		return graph.getArguments().size();
 	}
-	public static  int nbNodesSquare(AGraph graph){
+	public static  int nbNodesSquare(ArgumentationFramework graph){
 		return (int) Math.floor(Math.pow(graph.getArguments().size(), 2));
 	}
 }

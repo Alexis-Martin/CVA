@@ -1,7 +1,5 @@
 package gui;
 
-import graph.AGraph;
-import graph.Argument;
 import gui.parametertype.ParameterBoolean;
 import gui.parametertype.ParameterDouble;
 import gui.parametertype.ParameterInteger;
@@ -31,13 +29,15 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.Algorithm;
 import algo.Parameter;
 
 public class LeftComponent extends JPanel {
 	private static final long serialVersionUID = 7302042201274878731L;
 	private Algorithm algo ;
-	private AGraph mygraph; 
+	private ArgumentationFramework mygraph; 
 	private JLabel algoName ;
 	private JPanel parametersArea ;
 	private List<ParameterType> parameters_type;
@@ -110,7 +110,7 @@ public class LeftComponent extends JPanel {
 		MajInterface();
 	}
 	
-	public void switchGraph (AGraph gr)
+	public void switchGraph (ArgumentationFramework gr)
 	{
 		this.mygraph = gr;
 		if(this.algo != null){

@@ -5,14 +5,14 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import graph.Argument;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.AbstractTableModel;
+
+import af.Argument;
 
 public class ResultTableModel extends AbstractTableModel{
 

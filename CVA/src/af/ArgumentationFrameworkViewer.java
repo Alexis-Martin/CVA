@@ -1,4 +1,4 @@
-package graph;
+package af;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.ui.view.View;
@@ -7,10 +7,10 @@ import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
 
 
-public class CVAGraphViewer implements ViewerListener {
+public class ArgumentationFrameworkViewer implements ViewerListener {
     protected boolean loop = true;
 	public Viewer viewer;
-    public CVAGraphViewer(Graph graph) {
+    public ArgumentationFrameworkViewer(Graph graph) {
         this.viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();
 

@@ -1,8 +1,8 @@
 package algo.implem;
 
-import graph.AGraph;
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.Parameter;
-import graph.Argument;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	int currentArg, totalArg;
 	
 	public SocialAbstractArgumentation(){
-		super("Social Abstract Argumentation ISS");
+		super("Social Abstract Argumentation : ISS");
 
 		addParam("epsilon", 0.001, "Précision de calcul de l'algorithme");
 		addParam("xhi", 0.1, "aucune idée");
@@ -48,7 +48,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		
 
 		boolean finish = false;
-		AGraph graph = super.getGraph();
+		ArgumentationFramework graph = super.getGraph();
 
 		while(!finish){	
 
@@ -89,7 +89,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 	}
 	@Override
 	public void end() {
-		AGraph graph = super.getGraph();
+		ArgumentationFramework graph = super.getGraph();
 		
 		for(Argument a : graph.getArguments()){
 			a.setUtility(super.getLastU(a.getId()));

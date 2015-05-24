@@ -1,11 +1,11 @@
-package graph;
+package af;
 
 import org.graphstream.graph.implementations.AbstractEdge;
 import org.graphstream.graph.implementations.AbstractNode;
 
-public class GSAEdge extends AbstractEdge implements AEdge {
+public class GSRelation extends AbstractEdge implements Relation {
 
-	public GSAEdge(String id, AbstractNode source, AbstractNode target, boolean directed) {
+	public GSRelation(String id, AbstractNode source, AbstractNode target, boolean directed) {
 		super(id, source, target, directed);
 	}
 

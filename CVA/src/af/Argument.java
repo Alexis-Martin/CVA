@@ -1,4 +1,4 @@
-package graph;
+package af;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,8 +16,8 @@ public interface Argument {
 	public Collection<Argument> getAttackers();
 	public Collection<Argument> getDefenders();
 
-	public Collection<AEdge> getEdge();
-	public AEdge getAttack(String id);
+	public Collection<Relation> getEdge();
+	public Relation getAttack(String id);
 	public String getDescription();
 	public void setDescription(String descr);
 

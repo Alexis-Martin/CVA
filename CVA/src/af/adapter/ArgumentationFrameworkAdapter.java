@@ -1,10 +1,4 @@
-package graph.adapter;
-
-import graph.AEdge;
-import graph.AGraph;
-import graph.Argument;
-import graph.GSAGraph;
-import graph.GSArgument;
+package af.adapter;
 
 import java.util.Collection;
 
@@ -13,10 +7,16 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
-public class AGraphAdapter {
+import af.Relation;
+import af.ArgumentationFramework;
+import af.Argument;
+import af.GSArgumentationFramework;
+import af.GSArgument;
+
+public class ArgumentationFrameworkAdapter {
 	static int id = 0;
-	public static AGraph graphstreamToAGraph(Graph g){
-		GSAGraph agraph = new GSAGraph(g.getId()+"_"+id);
+	public static ArgumentationFramework graphstreamToAGraph(Graph g){
+		GSArgumentationFramework agraph = new GSArgumentationFramework(g.getId()+"_"+id);
 		id++;
 		
 		//BUILDING NODES
@@ -49,7 +49,7 @@ public class AGraphAdapter {
 		}
 		return agraph;
 	}	
-	public static Graph agraphToGraphstream(AGraph g, String name){
+	public static Graph agraphToGraphstream(ArgumentationFramework g, String name){
 		MultiGraph gstream = new MultiGraph(name+"_"+id);
 		id++;
 		gstream.setStrict(false);
@@ -57,7 +57,7 @@ public class AGraphAdapter {
 			Node node = gstream.addNode(arg.getId());
 			node.addAttribute("utility", arg.getUtility());
 		}
-		for(AEdge e : g.getRelations()){
+		for(Relation e : g.getRelations()){
 			Edge edge = gstream.addEdge(e.getSource().getId()+"_to_"+e.getTarget().getId(),e.getSource().getId(), e.getTarget().getId(), true);
 			edge.addAttribute("role", e.getRole());
 		}

@@ -1,4 +1,4 @@
-package graph;
+package af;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,27 +11,27 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
-public class GSAGraph implements AGraph{
+public class GSArgumentationFramework implements ArgumentationFramework{
 	int nodeId = 0;
 	int edgeId = 0;
 	MultiGraph cvaGraph;
-	public GSAGraph(String id) {
+	public GSArgumentationFramework(String id) {
 		this.cvaGraph =  new MultiGraph(id);
 		cvaGraph.setNodeFactory(new GSArgumentFactory());
-		cvaGraph.setEdgeFactory(new GSAEdgeFactory());
+		cvaGraph.setEdgeFactory(new GSRelationFactory());
 		
 		this.cvaGraph.addAttribute("ui.stylesheet", "url(style/default.css)");
 		this.cvaGraph.addAttribute("ui.quality");
 		this.cvaGraph.addAttribute("ui.antialias");
 		
 	}
-	public GSAGraph(GSAGraph g){
+	public GSArgumentationFramework(GSArgumentationFramework g){
 		
 		this.cvaGraph = g.cvaGraph;
 		
 		
 	}
-	public GSAGraph(String id, String path)throws IOException{
+	public GSArgumentationFramework(String id, String path)throws IOException{
 		this.cvaGraph = new MultiGraph(id);
 		this.cvaGraph.addAttribute("ui.stylesheet", "url(style/default.css)");
 		this.cvaGraph.addAttribute("ui.quality");
@@ -66,15 +66,15 @@ public class GSAGraph implements AGraph{
 	
 	
 	
-	public GSAEdge addAttack(String nodeIdA, String nodeIdB){
-		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
+	public GSRelation addAttack(String nodeIdA, String nodeIdB){
+		GSRelation edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "attack");
 		edge.setAttribute("role", "attack");
 		return edge;
 	}
-	public GSAEdge addDefense(String nodeIdA, String nodeIdB){
-		GSAEdge edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
+	public GSRelation addDefense(String nodeIdA, String nodeIdB){
+		GSRelation edge = this.cvaGraph.addEdge(""+this.edgeId, nodeIdA, nodeIdB, true);
 		this.edgeId++;
 		edge.setAttribute("ui.class", "defend");
 		edge.setAttribute("role", "defend");
@@ -82,12 +82,12 @@ public class GSAGraph implements AGraph{
 	}
 	
 	@Override
-	public GSAEdge addAttack(Argument argument1, Argument argument2) {
+	public GSRelation addAttack(Argument argument1, Argument argument2) {
 
 		return addAttack(argument1.getId(), argument2.getId());
 	}
 	@Override
-	public GSAEdge addDefense(Argument argument1, Argument argument2) {
+	public GSRelation addDefense(Argument argument1, Argument argument2) {
 		
 		return addDefense(argument1.getId(), argument2.getId());
 	}
@@ -111,7 +111,7 @@ public class GSAGraph implements AGraph{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Collection<AEdge> getRelations() {
+	public Collection<Relation> getRelations() {
 		return (Collection) cvaGraph.getEdgeSet();
 	}
 
@@ -148,16 +148,16 @@ public class GSAGraph implements AGraph{
 		return this.cvaGraph.getNode(argument);
 	}
 	@Override
-	public AEdge addAttack(String id, String argumentId1, String argumentId2) {
-		GSAEdge edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
+	public Relation addAttack(String id, String argumentId1, String argumentId2) {
+		GSRelation edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
 		edge.setAttribute("ui.class", "attack");
 		edge.setAttribute("role", "attack");
 		this.edgeId++;
 		return edge;
 	}
 	@Override
-	public AEdge addDefense(String id, String argumentId1, String argumentId2) {
-		GSAEdge edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
+	public Relation addDefense(String id, String argumentId1, String argumentId2) {
+		GSRelation edge = this.cvaGraph.addEdge(id , argumentId1, argumentId2, true);
 		edge.setAttribute("ui.class", "defend");
 		edge.setAttribute("role", "defend");
 		this.edgeId++;

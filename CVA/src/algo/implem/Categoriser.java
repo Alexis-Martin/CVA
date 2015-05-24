@@ -1,10 +1,9 @@
 package algo.implem;
 
-import graph.AGraph;
-import graph.Argument;
-
 import java.util.HashMap;
 
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.AbstractAlgorithm;
 import algo.Parameter;
 
@@ -43,7 +42,7 @@ public class Categoriser extends AbstractAlgorithm {
 	
 	@Override
 	public void end(){
-		AGraph graph = super.getGraph();
+		ArgumentationFramework graph = super.getGraph();
 		
 		for(Argument a : graph.getArguments()){
 			a.setUtility(super.getLastU(a.getId()));

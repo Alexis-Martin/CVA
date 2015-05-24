@@ -1,12 +1,10 @@
 package gui;
 
 
-import graph.AGraph;
-import graph.Argument;
 import gui.graphui.GSGraphicGraph;
-import gui.graphui.IGraphicGraph;
+import gui.graphui.GraphicGraph;
 import helper.FileHelper;
-import io.CVAGraphIO;
+import io.GSGraphIO;
 import io.Loader;
 import io.LoadingTypeException;
 
@@ -38,6 +36,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
 
+import af.ArgumentationFramework;
+import af.Argument;
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
 
@@ -45,8 +45,8 @@ import algo.Algorithm;
 	public class IHM extends JFrame{
 
 		private JPanel mainWindow;
-		private  AGraph mygraph;
-		private IGraphicGraph igg = null;
+		private  ArgumentationFramework mygraph;
+		private GraphicGraph igg = null;
 		private ArgumentEditorComponent aeg = null;
 		private LeftComponent left;
 		public IHM(){

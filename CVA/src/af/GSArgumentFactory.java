@@ -1,4 +1,4 @@
-package graph;
+package af;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.NodeFactory;

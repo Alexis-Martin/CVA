@@ -1,8 +1,8 @@
 package algo;
 
-import graph.AGraph;
-
 import java.util.HashMap;
+
+import af.ArgumentationFramework;
 
 public interface Algorithm {
 	
@@ -18,8 +18,8 @@ public interface Algorithm {
 	public boolean setParam(String name, Object value);
 	public Parameter getParam(String name);
 	public String getRes();
-	public AGraph getGraph();
-	public void setGraph(AGraph graph);
+	public ArgumentationFramework getGraph();
+	public void setGraph(ArgumentationFramework graph);
 	public double getDefaultInitUtility();
 	public int getNbIteration();
 	public int getCurrentIteration();

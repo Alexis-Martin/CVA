@@ -3,8 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.util.Collection;
 
-import graph.AGraph;
-import gui.graphui.IGraphicGraph;
+import gui.graphui.GraphicGraph;
 import gui.graphui.listener.SelectorListener;
 
 import javax.swing.BorderFactory;
@@ -13,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class ArgumentEditorComponent extends JPanel implements SelectorListener {
-	private AGraph graph;
+import af.ArgumentationFramework;
 
-	public ArgumentEditorComponent(IGraphicGraph igg, AGraph graph) {
+public class ArgumentEditorComponent extends JPanel implements SelectorListener {
+	private ArgumentationFramework graph;
+
+	public ArgumentEditorComponent(GraphicGraph igg, ArgumentationFramework graph) {
 		super();
 		igg.addSelectorListener(this);
 		this.graph = graph;

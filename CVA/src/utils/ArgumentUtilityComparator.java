@@ -1,8 +1,8 @@
 package utils;
 
-import graph.Argument;
-
 import java.util.Comparator;
+
+import af.Argument;
 
 public class ArgumentUtilityComparator implements Comparator<Argument> {
 

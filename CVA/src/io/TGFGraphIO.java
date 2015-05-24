@@ -1,9 +1,5 @@
 package io;
 
-import graph.AEdge;
-import graph.AGraph;
-import graph.Argument;
-import graph.GSAGraph;
 import helper.FileHelper;
 
 import java.io.File;
@@ -12,9 +8,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import af.Relation;
+import af.ArgumentationFramework;
+import af.Argument;
+import af.GSArgumentationFramework;
+
 public class TGFGraphIO {
 	
-	public static void write(String path, AGraph g){
+	public static void write(String path, ArgumentationFramework g){
 		File file = new File(path);
 		
 		for(Argument a : g.getArguments()){
@@ -24,16 +25,16 @@ public class TGFGraphIO {
 		
 		FileHelper.writeLine(file, "#", true);
 		
-		for(AEdge e : g.getRelations()){
+		for(Relation e : g.getRelations()){
 			String line = e.getSource().getId()+" "+e.getTarget().getId();
 			FileHelper.writeLine(file, line, true);
 		}
 	}
 	
 	
-	public static AGraph read(String path){
+	public static ArgumentationFramework read(String path){
 		File file = new File(path);
-		AGraph g = new GSAGraph(file.getName());
+		ArgumentationFramework g = new GSArgumentationFramework(file.getName());
 		List<String> lines = null;
 		Pattern nodePattern = Pattern.compile("([a-zA-Z0-9_-]+)");
 		Pattern edgePattern = Pattern.compile("([a-zA-Z0-9_-]+)\\s+([a-zA-Z0-9_-]+)");

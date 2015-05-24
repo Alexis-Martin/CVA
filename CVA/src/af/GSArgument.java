@@ -1,4 +1,4 @@
-package graph;
+package af;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -32,9 +32,9 @@ public class GSArgument extends SingleNode implements Argument{
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Collection<Argument> getAttackers() {
-		Collection<GSAEdge> edges = (Collection)this.getEnteringEdgeSet();
+		Collection<GSRelation> edges = (Collection)this.getEnteringEdgeSet();
 		Collection<Argument> ret = new HashSet<Argument>();
-		for(GSAEdge edge : edges){
+		for(GSRelation edge : edges){
 			if(edge.isAttack())
 				ret.add((Argument) edge.getSourceNode());
 		}
@@ -44,9 +44,9 @@ public class GSArgument extends SingleNode implements Argument{
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Collection<Argument> getDefenders() {
-		Collection<GSAEdge> edges = (Collection)this.getEnteringEdgeSet();
+		Collection<GSRelation> edges = (Collection)this.getEnteringEdgeSet();
 		Collection<Argument> ret = new HashSet<Argument>();
-		for(GSAEdge edge : edges){
+		for(GSRelation edge : edges){
 			if(edge.isDefend())
 				ret.add((Argument) edge.getSourceNode());
 		}
@@ -55,8 +55,8 @@ public class GSArgument extends SingleNode implements Argument{
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Collection<AEdge> getEdge() {
-		Collection<GSAEdge> x = this.getEdgeSet();
+	public Collection<Relation> getEdge() {
+		Collection<GSRelation> x = this.getEdgeSet();
 		return (Collection)x;
 	}
 
@@ -86,7 +86,7 @@ public class GSArgument extends SingleNode implements Argument{
 	}
 
 	@Override
-	public AEdge getAttack(String id) {
+	public Relation getAttack(String id) {
 		return this.getEdgeToward(id);
 	}
 

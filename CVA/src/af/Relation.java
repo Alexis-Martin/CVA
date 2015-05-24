@@ -1,6 +1,6 @@
-package graph;
+package af;
 
-public interface AEdge {
+public interface Relation {
 	public final static String ROLE_ATTACK = "attack";
 	public final static String ROLE_DEFEND = "defend";
 	

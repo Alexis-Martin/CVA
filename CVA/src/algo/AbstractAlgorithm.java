@@ -1,7 +1,5 @@
 package algo;
 
-import graph.AGraph;
-import graph.Argument;
 import helper.FileHelper;
 
 import java.io.File;
@@ -9,9 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import af.ArgumentationFramework;
+import af.Argument;
+
 public abstract class AbstractAlgorithm implements Algorithm {
 	private String name;
-	private AGraph graph;
+	private ArgumentationFramework graph;
 	private HashMap<String, Parameter> params;
 	private List<HashMap<String, Double>> steps;
 	protected boolean stepByStep;
@@ -49,12 +50,12 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	}
 	
 	@Override
-	public AGraph getGraph(){
+	public ArgumentationFramework getGraph(){
 		return graph;
 	}
 	
 	@Override
-	public void setGraph(AGraph graph){
+	public void setGraph(ArgumentationFramework graph){
 		this.graph = graph;
 	}
 
