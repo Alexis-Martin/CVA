@@ -86,10 +86,10 @@ import algo.Algorithm;
 			JMenuBar menuBar = new JMenuBar();
 			this.setJMenuBar(menuBar);
 			
-			JMenu menuMenu = new JMenu("Menu");
+			JMenu menuMenu = new JMenu("AF");
 			menuBar.add(menuMenu);
 			
-			JMenuItem g1 = new JMenuItem("Charger Graphe",KeyEvent.VK_C);
+			JMenuItem g1 = new JMenuItem("Importer",KeyEvent.VK_C);
 			g1.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e)
 	            {
@@ -146,7 +146,7 @@ import algo.Algorithm;
 			});
 			menuMenu.add(g1); 
 		
-			JMenu menuAlgorithmes = new JMenu("Algorithmes");
+			JMenu menuAlgorithmes = new JMenu("Algorithme");
 			menuBar.add(menuAlgorithmes);
 			List<Algorithm> algos = AbstractAlgorithm.getAlgos();
 		
@@ -162,46 +162,9 @@ import algo.Algorithm;
 				menuAlgorithmes.add(algoItem);
 			}
 			
-			JMenu menuVisualisation = new JMenu("Visualisation");
-			menuBar.add(menuVisualisation);
-			
-			JMenuItem edition = new JMenuItem("Editer");
-			edition.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					if(!left.isGraph()){
-						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
-					}else{
-
-						((GSGraphicGraph)igg).switchEditMode();
-					}
-				}
-			});
-			menuVisualisation.add(edition);
-			
-			JMenuItem ajouterArgument = new JMenuItem("Ajout d'un Argument");
-			ajouterArgument.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					if(!left.isGraph()){
-						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
-					}else{
-						String argumentId = JOptionPane.showInputDialog("Entrez un id pour l'argument");
-						String argumentDesc = JOptionPane.showInputDialog("Entrez une description pour l'argument");
-						Argument toAddArgument = mygraph.addArgument(argumentId, argumentDesc);
-						// Je dois reconnaitre ne pas savoir comment ajouter l'argument au graphe
-						// Il faut faire une autre fenetre pour demander une utilit�� et quels argument il attaque ou d��fends ? avant de pouvoir l'ajouter 
-						// ou on peut le faire apres ? 
-						// Et oui je vais plutot faire un pop up ou on va demander toutes les informations necessaires plutot
-						// que d'avoir une fenetre qui s'ouvre pour chaque informations
-					}
-				}
-			});
-			
-			menuVisualisation.add(ajouterArgument);
-			
-			
-			JMenu menuRun = new JMenu("Execute");
+			JMenu menuRun = new JMenu("Execution");
 			menuBar.add(menuRun);
-			JMenuItem runItem = new JMenuItem("Run",KeyEvent.VK_F1);
+			JMenuItem runItem = new JMenuItem("Lancer",KeyEvent.VK_F1);
 			runItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					if(!left.isGraph()){
@@ -216,13 +179,29 @@ import algo.Algorithm;
 			});
 			menuRun.add(runItem);
 			
-			JMenuItem testsItem = new JMenuItem("multiples tests",KeyEvent.VK_T);
+			JMenuItem testsItem = new JMenuItem("Batterie de tests",KeyEvent.VK_T);
 			testsItem.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					new FrameTests(null, "Réaliser une batterie de tests", true);
 				}
 			});
 			menuRun.add(testsItem);
+			
+			JMenu menuVisualisation = new JMenu("Edition");
+			menuBar.add(menuVisualisation);
+			
+			JMenuItem edition = new JMenuItem("Mode Edition");
+			edition.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					if(!left.isGraph()){
+						JOptionPane.showMessageDialog(null, "Aucun graphe n'a été chargé", "missing graph", JOptionPane.ERROR_MESSAGE);
+					}else{
+
+						((GSGraphicGraph)igg).switchEditMode();
+					}
+				}
+			});
+			menuVisualisation.add(edition);
 			
 			this.add(mainWindow);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
