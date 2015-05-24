@@ -24,4 +24,8 @@ public interface Argument {
 	public double getWeight();
 	public void setWeight(double value);
 	public boolean hasWeight();
+	
+	public void setAttr(String key, Object value);
+	public Object getAttr(String key);
+	public void removeAttr(String key);
 }

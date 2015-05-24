@@ -179,6 +179,18 @@ public class GSAGraph implements AGraph{
 		}
 		return args;
 	}
+	@Override
+	public void setAttr(String key, Object value) {
+		this.cvaGraph.setAttribute(key, value);
+	}
+	@Override
+	public Object getAttr(String key) {
+		return this.cvaGraph.getAttribute(key);
+	}
+	@Override
+	public void removeAttr(String key) {
+		this.cvaGraph.removeAttribute(key);
+	}
 
 
 	

@@ -89,6 +89,21 @@ public class GSArgument extends SingleNode implements Argument{
 	public AEdge getAttack(String id) {
 		return this.getEdgeToward(id);
 	}
+
+	@Override
+	public void setAttr(String key, Object value) {
+		this.setAttribute(key, value);
+	}
+
+	@Override
+	public Object getAttr(String key) {
+		return this.getAttribute(key);
+	}
+
+	@Override
+	public void removeAttr(String key) {
+		this.removeAttribute(key);
+	}
 	
 
 }

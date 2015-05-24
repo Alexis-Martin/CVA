@@ -26,5 +26,9 @@ public interface AGraph {
 	public Argument getArgument(String argument);
 
 	public Collection<Argument> getArgumentsWithoutWeight();
+	
+	public void setAttr(String attribute, Object values);
+	public Object getAttr(String attribute);
+	public void removeAttr(String attribute);
 
 }

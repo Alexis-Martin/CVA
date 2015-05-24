@@ -11,4 +11,8 @@ public interface AEdge {
 	public Argument getSource();
 	public Argument getTarget();
 	public String getId();
+	
+	public void setAttr(String attribute, Object values);
+	public Object getAttr(String attribute);
+	public void removeAttr(String attribute);
 }

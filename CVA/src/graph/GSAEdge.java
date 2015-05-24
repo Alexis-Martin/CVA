@@ -7,13 +7,11 @@ public class GSAEdge extends AbstractEdge implements AEdge {
 
 	public GSAEdge(String id, AbstractNode source, AbstractNode target, boolean directed) {
 		super(id, source, target, directed);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void setRole(String role) {
 		this.addAttribute("role", role);
-		// TODO Auto-generated method stub
 
 	}
 
@@ -45,8 +43,24 @@ public class GSAEdge extends AbstractEdge implements AEdge {
 	public Argument getTarget() {
 		return this.getTargetNode();
 	}
+	
+	@Override
 	public String getId(){
 		return super.getId();
 	}
 
+	@Override
+	public void setAttr(String attribute, Object values) {
+		this.setAttribute(attribute, values);
+	}
+
+	@Override
+	public Object getAttr(String attribute) {
+		return this.getAttribute(attribute);
+	}
+
+	@Override
+	public void removeAttr(String attribute) {
+		this.removeAttribute(attribute);
+	}
 }
