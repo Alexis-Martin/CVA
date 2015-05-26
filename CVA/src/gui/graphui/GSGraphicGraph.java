@@ -407,7 +407,7 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 				Edge edge_gs = graphstream.addEdge(edge.getId(),edge.getSource().getId(), edge.getTarget().getId(),true);
 				edge_gs.setAttribute("ui.class", "attack");
 				edge_gs.setAttribute("role", "attack");	
-				edge_gs.setAttribute("ui.label", edge.getId());
+
 			}
 			else if(role.equals("defend")){
 				Edge edge_gs = graphstream.addEdge(edge.getId(),edge.getSource().getId(), edge.getTarget().getId(),true);
