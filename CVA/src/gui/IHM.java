@@ -29,6 +29,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -82,6 +83,11 @@ import algo.Algorithm;
 			
 			left = new LeftComponent(this);
 			mainWindow.add(left, BorderLayout.WEST);
+			
+			JPanel voidPanelGraph = new JPanel(new GridLayout(0,1));
+			JLabel voidLabelGraph = new JLabel("Aucun réseau chargé");
+			voidPanelGraph.add(voidLabelGraph);
+			mainWindow.add(voidPanelGraph, BorderLayout.CENTER);
 			
 			//menu
 			JMenuBar menuBar = new JMenuBar();
@@ -214,7 +220,7 @@ import algo.Algorithm;
 				menuAlgorithmes.add(algoItem);
 			}
 			
-			JMenu menuRun = new JMenu("Execution");
+			JMenu menuRun = new JMenu("Exécution");
 			menuBar.add(menuRun);
 			JMenuItem runItem = new JMenuItem("Lancer",KeyEvent.VK_F1);
 			runItem.addActionListener(new ActionListener(){

@@ -1,7 +1,9 @@
 node{
+  text-alignment:right;
   fill-color: blue;
-  text-style:bold;
-  text-alignment:center;
+  text-background-mode:rounded-box;
+  text-color:black;
+  text-background-color:white;
 }
 node.default{
   fill-color: blue;
@@ -10,7 +12,6 @@ node.select{
 	fill-color:green;
 }
 edge{
-	shape: cubic-curve;
 	fill-color:black;
 }
 edge.attack{

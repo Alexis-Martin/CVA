@@ -55,7 +55,10 @@ public class Main {
 			
 			System.out.print("(" + list.get(i).getId() +", " + list.get(i).getUtility() + ")");
 		}*/
-
+		
+		System.setProperty("org.graphstream.ui.renderer",
+			    "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+		
 		IHM ihm = new IHM();	
 		//ihm.addGraphVisu((Component) ihmgraph.getView());
 

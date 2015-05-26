@@ -153,7 +153,9 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	}
 	
 	@Override
-	public abstract int getCurrentIteration();
+	public int getCurrentIteration() {
+		return 0;
+	}
 	
 	protected void clearSteps(){
 		steps.clear();
@@ -173,6 +175,4 @@ public abstract class AbstractAlgorithm implements Algorithm {
 		}
 		this.steps.add(s);
 	}
-	
-
 }

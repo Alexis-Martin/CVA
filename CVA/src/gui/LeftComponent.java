@@ -52,9 +52,7 @@ public class LeftComponent extends JPanel {
 		this.frame = frame;
 		this.algo = null ;
 		this.mygraph = null;
-		this.setLayout(new BorderLayout());
-		
-		
+		this.setLayout(new BorderLayout());	
 		
 		JPanel nameAndParameters = new JPanel(new BorderLayout()); 
 		//name 
@@ -90,7 +88,6 @@ public class LeftComponent extends JPanel {
 		
 		
 		this.add(resultArea, BorderLayout.CENTER);
-		
 	}
 	
 	// La fonction qui permet de changer l'algorithme courant mais aussi d'en ajouter un au d�part

@@ -11,17 +11,17 @@ import algo.AbstractAlgorithm;
 
 public class RandomWalkSemantic extends AbstractAlgorithm {
 
-	private int nbPath = 5;
-	private double p = 0.1;
+	private int nbPath = 50;
+	private double p = 0.3;
 	private Random rand ;
 	private int iteration = 0;
+	
 	public RandomWalkSemantic() {
 		super("Random Walk Based Semantic");
-		addParam("p",0.1, "Probabilité d'arret");
-		addParam("nbPath",5, "Nombre de chemin");
+		addParam("p",p, "Probabilité d'arret");
+		addParam("nbPath",nbPath, "Nombre de chemin");
 		rand = new Random();
 		rand.setSeed(System.nanoTime());
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class RandomWalkSemantic extends AbstractAlgorithm {
 				this.iteration = k * this.nbPath + i;
 				
 				double random_double = rand.nextDouble();
-				System.out.println("rd "+random_double);
+				//System.out.println("rd "+random_double);
 				boolean acceptation = true;
 				while(random_double > this.p && !current_arg.getAttackers().isEmpty()){
 					ArrayList<Argument> attackers = new ArrayList<Argument>();
@@ -65,10 +65,10 @@ public class RandomWalkSemantic extends AbstractAlgorithm {
 					
 					random_double = rand.nextDouble();
 					current_arg = attackers.get(rand.nextInt(attackers.size()));
-					System.out.println("rd "+random_double);
+					//System.out.println("rd "+random_double);
 				}
 				if(acceptation) accepted++;
-				System.out.println(argument.getId()+" finish on "+current_arg.getId()+" Accepted = "+acceptation);				
+				//System.out.println(argument.getId()+" finish on "+current_arg.getId()+" Accepted = "+acceptation);				
 				
 			}
 

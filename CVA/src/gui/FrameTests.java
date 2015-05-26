@@ -392,17 +392,17 @@ public class FrameTests extends JDialog implements ActionListener{
 							algo.getParam(params.get(l).getName()).setValue(params.get(l).getValue());
 							resData.put(params.get(l).getName(), params.get(l).printVal());
 						}
-
+						
+						System.out.println(list_graph[i].getName());
 						long start = System.currentTimeMillis();
 						algo.execute();
 						long stop = System.currentTimeMillis();
-						System.out.println("end");
 						resData.put("Temps (ms)", (stop - start) +"");
 						resData.put("Temps (h:m:s.ms)", convertTime(stop - start));
 						
 						args = algo.getGraph().getUtilities();
 						String res = args.get(0).getId(); 
-						for(int l = 1; l < Math.min(args.size(), 50); l++){
+						for(int l = 1; l < Math.min(args.size(), 100); l++){
 							if(args.get(l).getUtility() == args.get(l-1).getUtility() )
 								res += " = " + args.get(l).getId();
 							else
