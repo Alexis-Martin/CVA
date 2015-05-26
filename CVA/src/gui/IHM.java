@@ -125,7 +125,9 @@ import algo.Algorithm;
 							PrintWriter fichierSortie = new PrintWriter (bw); 
 							fichierSortie.println (dialogue.getSelectedFile().getParentFile().getAbsolutePath()); 
 							fichierSortie.close();
-						
+							
+							System.out.println("Chargement du graphe "+dialogue.getSelectedFile().getAbsolutePath());
+							
 							mygraph = Loader.load(dialogue.getSelectedFile().getAbsolutePath());
 							igg = new GSGraphicGraph(mygraph);
 
@@ -173,7 +175,6 @@ import algo.Algorithm;
 						dialogue.setFileFilter(new FileNameExtensionFilter("DGS file", "dgs", "DGS"));
 
 						int choice = dialogue.showSaveDialog(null);
-						System.out.println("choice "+choice+" "+JFileChooser.SAVE_DIALOG);
 						//si on a choisi un fichier
 						if(choice == JFileChooser.APPROVE_OPTION){
 							if(dialogue.getSelectedFile() == null) return;
@@ -184,11 +185,13 @@ import algo.Algorithm;
 							fichierSortie.close();
 							String[] split = dialogue.getSelectedFile().getAbsolutePath().split("\\.");
 							String ext = split[split.length-1];
-							System.out.println("ext="+ext);
 							if(!ext.equals("dgs")&&!ext.equals("DGS")){
 								JOptionPane.showMessageDialog(null, "Vous ne pouvez sauvegarder qu'avec l'extenssion dgs");
 								return;
 							}
+							
+							System.out.println("Sauvegarde du graphe à "+dialogue.getSelectedFile().getAbsolutePath());
+							
 							Loader.write(dialogue.getSelectedFile().getAbsolutePath(),mygraph);
 
 						}
@@ -214,8 +217,8 @@ import algo.Algorithm;
 			            new ActionListener(){
 			                public void actionPerformed(ActionEvent e)
 			                {
+			                	System.out.println("Chargmenet de l'algo" + algo.getName());
 		                		left.switchAlgo(algo);
-		                		System.out.println("Algo "+algo.getName()+" loaded");
 			                }});
 				menuAlgorithmes.add(algoItem);
 			}
@@ -230,6 +233,7 @@ import algo.Algorithm;
 					}else if(!left.isAlgo()){
 						JOptionPane.showMessageDialog(null, "Aucun algorithme n'a été chargé", "missing algorithm", JOptionPane.ERROR_MESSAGE);
 					}else{
+						System.out.println("Lancement de l'algorithme "+ left.getAlgo().getName());
 						left.run();
 						
 					}

@@ -67,7 +67,6 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 					if(!to_sort.containsKey(score)){
 						to_sort.put(score, new HashSet<Argument>());
 					}
-					//System.out.println(scores);
 					Collection<Argument> y = to_sort.get(score);
 					y.add(arg);
 				}
@@ -81,14 +80,12 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 				if(c_v == 0.||to_sort.get(c_v).size() == 1) this.args_ranked.addAll(to_sort.get(c_v));
 			}
 		}
-		//System.out.println(new_sorted_tab);
 		return new_sorted_tab;
 	}
 
 	@Override
 	public void run() {
 		//In this algorithm we put value from N to 1
-		System.out.println("nbt = "+(nbt++)+" t="+this.t+" it="+this.currentIt);
 		HashMap<Argument,HashSet<Argument>> attackers_previous = null;
 		HashMap<Argument,HashSet<Argument>> attackers_current ;
 		this.args= super.getGraph().getArguments();
@@ -103,21 +100,18 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 		
 		for(int i=0; i<(t)&&args_ranked.size() != nb_nodes; i++){
 			currentIt = i;
-			System.out.println("t="+this.t+" it="+this.currentIt);
 			HashMap<String, Double> s = new HashMap<String, Double>();
 			attackers_current = new HashMap<Argument,HashSet<Argument>>();
 
 
 			for(Argument a : args){
 				//Start
-				//System.out.println("Etape");
 				if( i == 0){
 					HashSet<Argument> args = new HashSet<Argument>();
 					args.add(a);
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
 					attackers_of_an_arg.put(a, attacker_a_c);
 					double a_score = attacker_a_c.size();
-					//System.out.println("Score ici"+a_score);
 					s.put(a.getId(), a_score);
 					attackers_current.put(a, attacker_a_c);
 				}
@@ -143,16 +137,13 @@ public class DiscussionBasedSemantics extends AbstractAlgorithm {
 					}
 					double a_score = attacker_a_c.size();
 					s.put(a.getId(), a_score);
-					//System.out.println("Score ici"+a_score);
 					attackers_current.put(a, attacker_a_c);
 				}
 				
 			}
 			
 			attackers_previous = attackers_current;
-			System.out.println("sepaa");
 			sorted_tab = separe(sorted_tab, s);
-			System.out.println("sepbb");
 			this.addStep(this.current_ranking(sorted_tab));
 			
 		}

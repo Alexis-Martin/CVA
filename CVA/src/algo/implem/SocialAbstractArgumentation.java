@@ -63,7 +63,6 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 				ArrayList<Argument>  attackers = new ArrayList<Argument>();
 
 				attackers.addAll(a.getAttackers());
-			//	System.out.println("arg "+a.getId()+ "  "+attackers);	
 
 				for(int i=0; i<attackers.size();i++){
 	
@@ -77,9 +76,6 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 				}
 
 				double utility = (1.0/(1.0+this.xhi))*result;
-				if(a.getId().equals("a10")){
-					System.out.println("a10 "+utility+ " "+result);
-				}
 				if(super.getLastU(a.getId()) > utility + epsilon || super.getLastU(a.getId()) < utility - epsilon){
 					finish = false;
 				}

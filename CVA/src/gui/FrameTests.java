@@ -334,6 +334,8 @@ public class FrameTests extends JDialog implements ActionListener{
 				String[] titles = new String[6+m_test.getTitles().size()];
 				Algorithm algo = m_test.getAlgo();
 				
+				System.out.println("Test de l'algorithme "+algo.getName());
+				
 				titles[0] = "Graphe";
 				titles[1] = "Nombre d'arguments";
 				titles[2] = "Nombre de relations";
@@ -379,7 +381,8 @@ public class FrameTests extends JDialog implements ActionListener{
 				}
 				algo.setGraph(g);
 				
-
+				System.out.println("Graphe en test : " + list_graph[i].getAbsolutePath());
+				
 					for(int k = 0; k < m_test.size(); k++){
 						List<Parameter> params = m_test.getParameters(k);
 						Map<String, String> resData = new HashMap<String, String>();
@@ -393,7 +396,6 @@ public class FrameTests extends JDialog implements ActionListener{
 							resData.put(params.get(l).getName(), params.get(l).printVal());
 						}
 						
-						System.out.println(list_graph[i].getName());
 						long start = System.currentTimeMillis();
 						algo.execute();
 						long stop = System.currentTimeMillis();
@@ -445,8 +447,6 @@ public class FrameTests extends JDialog implements ActionListener{
 					if(!(parameter instanceof JTextField))
 						continue;
 					
-					
-					System.out.println(((JTextField)parameter).getName());
 					if(((JTextField)parameter).getName().equals("de")){
 						de = Double.parseDouble(((JTextField)parameter).getText());
 					}
@@ -458,8 +458,6 @@ public class FrameTests extends JDialog implements ActionListener{
 						pas = Double.parseDouble(((JTextField)parameter).getText());
 					}
 				}
-				
-				System.out.println(a + " " + de + " " + pas);
 				
 				if(a.doubleValue() < de.doubleValue() || pas.doubleValue() <= 0){
 					JOptionPane.showMessageDialog(null, "impossible d'effectuer ces tests, vérifiez vos paramètres", "Erreur paramètres", JOptionPane.ERROR_MESSAGE);
@@ -473,7 +471,6 @@ public class FrameTests extends JDialog implements ActionListener{
 					}
 				}
 				if(algo.getParam(name_param).getValue() instanceof Integer){
-					System.out.println("integer " + name_param);
 					Parameter p = new Parameter(name_param, de.intValue(), "");
 					list_param.put(name_param, p);
 					for(int k = de.intValue()+pas.intValue(); k < a.intValue(); k += pas.intValue()){

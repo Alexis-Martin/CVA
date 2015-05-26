@@ -69,7 +69,6 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 
         this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
-        System.out.println("constructeur");
         this.updateStyle();
      //   this.fromViewer = viewer.newViewerPipe();
      //   fromViewer.addViewerListener(this);
@@ -230,7 +229,6 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 
 	public void buttonPushed(String arg0) {
 		// TODO Auto-generated method stub
-		System.out.println("button pushed "+arg0);
 	}
 
 
@@ -244,16 +242,17 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 		s_node = arg0;
 		s_style = node_select.getAttribute("ui.class");
 		node_select.addAttribute("ui.class","select");
-		System.out.println("button released "+arg0);
 		
 	}
 	public void switchEditMode(){
 		this.edit = !this.edit;
 		if(this.edit){
+			System.out.println("Mode édition activé");
 			this.GSGGML.setActive(true);
 			this.setAutomaticTopology(false);
 		}
 		else{
+			System.out.println("Mode édition desactivé");
 			this.GSGGML.setActive(false);
 			this.setAutomaticTopology(true);
 		}
@@ -326,7 +325,6 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 		for(String arg : args){
 			GraphicNode gn = viewer.getGraphicGraph().getNode(arg);
 			
-			System.out.println("X = "+gn.getX()+" Y="+gn.getY());
 			Couple coor = new Couple(gn.getX(),gn.getY());
 			this.positions.put(arg,coor);
 			rm_n.add(this.graph.getArgument(arg));
@@ -399,7 +397,6 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 			this.graph.addArgument(arg.getId(), arg.getDescription());
 			node.setAttribute("x", this.positions.get(arg.getId()).getL());
 			node.setAttribute("y", this.positions.get(arg.getId()).getR());
-			System.out.println(this.positions.get(arg.getId()).getR());
 		}
 	}
 	private void addEdges(Collection<Relation> edges){

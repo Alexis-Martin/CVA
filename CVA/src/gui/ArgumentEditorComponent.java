@@ -26,10 +26,8 @@ public class ArgumentEditorComponent extends JPanel implements SelectorListener 
 	@Override
 	public void selected(Collection<String> str) {
 		this.removeAll();
-		System.out.println(str.size());
 		if(str.size() == 1){
 			String node_name = (String) str.toArray()[0];
-			System.out.println("Element selected");
 			JPanel argsArea = new JPanel(new BorderLayout());
 			JTextArea nameArea = new JTextArea();
 			nameArea.setColumns(15);

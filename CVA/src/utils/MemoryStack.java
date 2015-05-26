@@ -26,11 +26,9 @@ public class MemoryStack<T> {
 		return this.ll.get(this.iterator);		
 	}
 	public void cut(int index){
-		System.out.println(this.size()+" "+this.iterator);
 		for(int i = this.ll.size()-1; i>index;i--){
 			this.ll.removeLast();
 		}
-		System.out.println(this.size()+" "+this.iterator);
 	}
 	public void push(T e){
 
@@ -53,11 +51,9 @@ public class MemoryStack<T> {
 		return iterator;
 	}
 	public boolean has_next(){
-		System.out.println(this.size()+" "+this.iterator);
 		return this.ll.size()>this.iterator+1;
 	}
 	public boolean has_previous(){
-		System.out.println(this.size()+" "+this.iterator);
 		return this.iterator>=0;
 	}
 }

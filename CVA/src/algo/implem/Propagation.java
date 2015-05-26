@@ -61,7 +61,6 @@ public class Propagation extends AbstractAlgorithm{
 					if(!to_sort.containsKey(score)){
 						to_sort.put(score, new HashSet<Argument>());
 					}
-					//System.out.println(scores);
 					Collection<Argument> y = to_sort.get(score);
 					y.add(arg);
 				}
@@ -75,7 +74,6 @@ public class Propagation extends AbstractAlgorithm{
 				if(to_sort.get(c_v).size() == 1) this.args_ranked.addAll(to_sort.get(c_v));
 			}
 		}
-		//System.out.println(new_sorted_tab);
 		return new_sorted_tab;
 	}
 	public HashMap<String,Double> current_ranking(ArrayList<Collection<Argument>> sorted_tab){

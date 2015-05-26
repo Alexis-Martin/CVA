@@ -55,7 +55,6 @@ public class RandomWalkSemantic extends AbstractAlgorithm {
 				this.iteration = k * this.nbPath + i;
 				
 				double random_double = rand.nextDouble();
-				//System.out.println("rd "+random_double);
 				boolean acceptation = true;
 				while(random_double > this.p && !current_arg.getAttackers().isEmpty()){
 					ArrayList<Argument> attackers = new ArrayList<Argument>();
@@ -65,10 +64,8 @@ public class RandomWalkSemantic extends AbstractAlgorithm {
 					
 					random_double = rand.nextDouble();
 					current_arg = attackers.get(rand.nextInt(attackers.size()));
-					//System.out.println("rd "+random_double);
 				}
-				if(acceptation) accepted++;
-				//System.out.println(argument.getId()+" finish on "+current_arg.getId()+" Accepted = "+acceptation);				
+				if(acceptation) accepted++;				
 				
 			}
 

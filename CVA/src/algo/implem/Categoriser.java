@@ -36,7 +36,6 @@ public class Categoriser extends AbstractAlgorithm {
 
 	@Override
 	public void run() {
-		//System.out.println("epsilon : "+eps);
 		algo();
 	}
 	

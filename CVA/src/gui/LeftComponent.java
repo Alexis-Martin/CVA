@@ -38,6 +38,10 @@ public class LeftComponent extends JPanel {
 	private static final long serialVersionUID = 7302042201274878731L;
 	private Algorithm algo ;
 	private ArgumentationFramework mygraph; 
+	public ArgumentationFramework getMygraph() {
+		return mygraph;
+	}
+
 	private JLabel algoName ;
 	private JPanel parametersArea ;
 	private List<ParameterType> parameters_type;
@@ -117,6 +121,10 @@ public class LeftComponent extends JPanel {
 		MajInterface();
 	}
 	
+	public Algorithm getAlgo() {
+		return algo;
+	}
+
 	private void setDefaultWeight(){
 		for(Argument arg : mygraph.getArguments()){
 			arg.setWeight(algo.getDefaultInitUtility());
@@ -187,7 +195,6 @@ public class LeftComponent extends JPanel {
 							e.printStackTrace();
 						}
 					}
-					System.out.println("Le calcul est terminé, on refresh");
 						
 					SwingUtilities.invokeLater(new Runnable() {
 						
@@ -220,12 +227,9 @@ public class LeftComponent extends JPanel {
 	// Elle combine la fonction qui mets les r�sultats � jour avec celle qui mets les param�tres � jour
 	public void MajInterface ()
 	{
-		MajName(); 
-		System.out.println("maj param");
+		MajName();
 		MajParametres();
-		System.out.println("majres");
 		MajResultats();
-		System.out.println("fin maj");
 	}
 	
 	private void MajName() 
@@ -262,7 +266,6 @@ public class LeftComponent extends JPanel {
 				param = new ParameterDouble(entry.getValue());
 			}
 			else if(entry.getValue().getValue() instanceof Integer){
-				System.out.println(entry.getValue().getName());
 				param = new ParameterInteger(entry.getValue());
 			}
 			else if(entry.getValue().getValue() instanceof Boolean){
