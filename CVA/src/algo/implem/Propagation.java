@@ -147,8 +147,9 @@ public class Propagation extends AbstractAlgorithm{
 					HashSet<Argument> args = attackers_previous.get(a);
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
 					double a_score = vals.get(a);	
+
 					for(Argument att : attacker_a_c){
-						a_score -= this.delta * v_arg.get(att);
+						a_score -= Math.pow(this.delta, i+1)* v_arg.get(att);
 					}
 					attackers_current.put(a, attacker_a_c);
 					vals.put(a, a_score);
@@ -162,7 +163,7 @@ public class Propagation extends AbstractAlgorithm{
 					HashSet<Argument> attacker_a_c = BreathFirst.listBreath(args, 1);
 					double a_score = vals.get(a);	
 					for(Argument att : attacker_a_c){
-						a_score += this.delta * v_arg.get(att);
+						a_score += Math.pow(this.delta, i+1)* v_arg.get(att);
 					}
 					attackers_current.put(a, attacker_a_c);
 					vals.put(a, a_score);
