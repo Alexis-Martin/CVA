@@ -29,9 +29,9 @@ public class Propagation extends AbstractAlgorithm{
 	public Propagation(){
 		super("Propagation");
 
-		addParam("epsilon", 0.0, "aucune idée");
-		addParam("threshold", 50, "Nombre de tour effectué");
-		addParam("delta", 1., "aucune idée");
+		addParam("epsilon", 0.0, "");
+		addParam("threshold", -1, "Nombre de tour effectué");
+		addParam("delta", 1., "");
 	}
 	
 	@Override

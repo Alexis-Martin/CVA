@@ -35,6 +35,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ToolTipManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import af.ArgumentationFramework;
 import af.Argument;
@@ -144,7 +145,58 @@ import algo.Algorithm;
 					
 	            }
 			});
+			JMenuItem g2 = new JMenuItem("Sauvegarder",KeyEvent.VK_A);
+			g2.addActionListener(new ActionListener() {
+			  public void actionPerformed(ActionEvent e)
+	            {
+				  if(mygraph == null)
+					  return;
+					try {
+						JFileChooser dialogue = new JFileChooser();
+						String dir = null;
+						File directory = null;
+						List<String> temp = FileHelper.readFile("config/pathgraph.conf");
+						if(temp != null && temp.size() >= 1){
+							dir = temp.get(0);
+							directory = new File(dir);
+
+						}
+						if(directory != null && directory.exists() && directory.isDirectory())	
+						
+						dialogue.setCurrentDirectory(directory);
+						dialogue.setFileFilter(new FileNameExtensionFilter("DGS file", "dgs", "DGS"));
+
+						int choice = dialogue.showSaveDialog(null);
+						System.out.println("choice "+choice+" "+JFileChooser.SAVE_DIALOG);
+						//si on a choisi un fichier
+						if(choice == JFileChooser.APPROVE_OPTION){
+							if(dialogue.getSelectedFile() == null) return;
+							FileWriter fw = new FileWriter ("config/pathgraph.conf");
+							BufferedWriter bw = new BufferedWriter (fw);
+							PrintWriter fichierSortie = new PrintWriter (bw); 
+							fichierSortie.println (dialogue.getSelectedFile().getParentFile().getAbsolutePath()); 
+							fichierSortie.close();
+							String[] split = dialogue.getSelectedFile().getAbsolutePath().split("\\.");
+							String ext = split[split.length-1];
+							System.out.println("ext="+ext);
+							if(!ext.equals("dgs")&&!ext.equals("DGS")){
+								JOptionPane.showMessageDialog(null, "Vous ne pouvez sauvegarder qu'avec l'extenssion dgs");
+								return;
+							}
+							Loader.write(dialogue.getSelectedFile().getAbsolutePath(),mygraph);
+
+						}
+						
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (LoadingTypeException e1) {
+						e1.printStackTrace();
+					}
+					
+	            }
+			});
 			menuMenu.add(g1); 
+			menuMenu.add(g2); 
 		
 			JMenu menuAlgorithmes = new JMenu("Algorithme");
 			menuBar.add(menuAlgorithmes);

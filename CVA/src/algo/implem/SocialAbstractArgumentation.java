@@ -20,7 +20,7 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 		super("Social Abstract Argumentation : ISS");
 
 		addParam("epsilon", 0.001, "Précision de calcul de l'algorithme");
-		addParam("xhi", 0.1, "aucune idée");
+		addParam("xhi", 0.1, "");
 	}
 	
 	@Override
@@ -55,17 +55,19 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 			finish = true;
 			
 			HashMap<String, Double> s = new HashMap<String, Double>();
-			HashSet<Argument> argument_computed = new HashSet<Argument>();
-			
+			HashSet<String> argument_computed = new HashSet<String>();
+
 			for(Argument a : graph.getArguments()){
 				double result = 1.0;
 
 				ArrayList<Argument>  attackers = new ArrayList<Argument>();
 
 				attackers.addAll(a.getAttackers());
-				
+			//	System.out.println("arg "+a.getId()+ "  "+attackers);	
+
 				for(int i=0; i<attackers.size();i++){
-					if(argument_computed.contains(attackers.get(i))){
+	
+					if(argument_computed.contains(attackers.get(i).getId())){
 						result *= (1 - s.get(attackers.get(i).getId()));
 					}
 					else{
@@ -75,11 +77,13 @@ public class SocialAbstractArgumentation extends AbstractAlgorithm {
 				}
 
 				double utility = (1.0/(1.0+this.xhi))*result;
-
+				if(a.getId().equals("a10")){
+					System.out.println("a10 "+utility+ " "+result);
+				}
 				if(super.getLastU(a.getId()) > utility + epsilon || super.getLastU(a.getId()) < utility - epsilon){
 					finish = false;
 				}
-				argument_computed.add(a);
+				argument_computed.add(a.getId());
 				s.put(a.getId(), utility);
 			}
 			super.addStep(s);
