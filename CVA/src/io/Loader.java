@@ -22,7 +22,7 @@ public class Loader {
 	public static void write(String path, ArgumentationFramework af)throws IOException, LoadingTypeException{
 		String[] split = path.split("\\.");
 		String ext = split[split.length-1];
-		if(ext.equals("dgs")){
+		if( ext.equals("dgs")){
 			GSGraphIO.write(path,af,GSGraphIO.Type.DGS);
 		}
 	}

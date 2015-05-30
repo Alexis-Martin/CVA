@@ -40,6 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import af.ArgumentationFramework;
 import af.Argument;
+import af.GSArgumentationFramework;
 import algo.AbstractAlgorithm;
 import algo.Algorithm;
 
@@ -95,7 +96,31 @@ import algo.Algorithm;
 			
 			JMenu menuMenu = new JMenu("AF");
 			menuBar.add(menuMenu);
-			
+			JMenuItem g3 = new JMenuItem("Nouveau",KeyEvent.VK_A);
+			g3.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e)
+		    	{
+		    	String graphe_name = JOptionPane.showInputDialog(null, "Choisissez le nom du graphe");
+				System.out.println(graphe_name);
+				if(graphe_name == null) return;
+		    	if(graphe_name == "")
+					mygraph = new GSArgumentationFramework("default_name");
+				mygraph = new GSArgumentationFramework(graphe_name);
+				igg = new GSGraphicGraph(mygraph);
+
+				left.switchGraph(mygraph);
+				
+				if(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER)!=null){
+					mainWindow.remove(((BorderLayout)mainWindow.getLayout()).getLayoutComponent(BorderLayout.CENTER));
+				}
+				JPanel gPanel = new JPanel(new GridLayout(0,1));
+				gPanel.add(igg.getGraphicGraphComponent());
+			//	aeg = new ArgumentEditorComponent(igg,mygraph);
+			//	mainWindow.add(aeg, BorderLayout.EAST);
+				mainWindow.add(gPanel, BorderLayout.CENTER);
+				mainWindow.validate();           
+            	}
+			});
 			JMenuItem g1 = new JMenuItem("Charger",KeyEvent.VK_C);
 			g1.addActionListener(new ActionListener() {
 			  public void actionPerformed(ActionEvent e)
@@ -204,6 +229,7 @@ import algo.Algorithm;
 					
 	            }
 			});
+			menuMenu.add(g3); 
 			menuMenu.add(g1); 
 			menuMenu.add(g2); 
 		
