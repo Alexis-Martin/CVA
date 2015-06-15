@@ -1,9 +1,10 @@
 node{
-  text-alignment:right;
   fill-color: blue;
   text-background-mode:rounded-box;
-  text-color:black;
-  text-background-color:white;
+  text-color:white;
+  text-background-color:blue;
+  text-padding:2px;
+  text-style:bold;
 }
 node.default{
   fill-color: blue;
