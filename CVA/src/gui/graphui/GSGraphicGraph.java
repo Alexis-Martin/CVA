@@ -61,6 +61,8 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 	int current_step = -1;
 	private SelectorListener sl;
 	
+	private static String CSS_PATH = "./config/CVA_default_stylesheet.css";
+	
     public GSGraphicGraph(ArgumentationFramework graph) {
 
     	this.graph = graph;
@@ -70,13 +72,13 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
         this.viewer.enableAutoLayout();
         this.viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
         
-	    File file = new File("./CVA_default_stylesheet.css");
+	    File file = new File(CSS_PATH);
 	      
 	      try {
 			if (file.createNewFile()){
-	    		FileWriter fileWritter = new FileWriter(file.getName(),true);
+	    		FileWriter fileWritter = new FileWriter(CSS_PATH,true);
     	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-    	        String style = "node{  fill-color: blue;  text-background-mode:rounded-box;  text-color:white;  text-background-color:blue;  text-padding:2px;  text-style:bold;}node.default{  fill-color: blue;}node.select{	fill-color:green;}edge{	fill-color:black;}edge.attack{	fill-color:red;}edge.defend{	fill-color:blue;}";
+    	        String style = "node{  fill-color: blue;  text-background-mode:rounded-box; text-alignment:at-right;  text-color:black;  text-background-color:white;  text-style:bold;}node.default{  fill-color: blue;}node.select{	fill-color:green;}edge{	fill-color:black;}edge.attack{	fill-color:red;}edge.defend{	fill-color:blue;}";
     	        bufferWritter.write(style);
     	        bufferWritter.close();
 
@@ -86,9 +88,7 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    System.out.println("sdqyfsdfbjsdjk");
-	    System.out.println(file.getAbsolutePath());
-        this.setDefaultCSS("./CVA_default_stylesheet.css");
+        this.setDefaultCSS(CSS_PATH);
         this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
         this.updateStyle();
