@@ -34,9 +34,9 @@ public class AlgoFinder {
     public static List<Class<Algorithm>> findAlgo() {
     	String scannedPackage = "algo.implem";
         String scannedPath = scannedPackage;//scannedPackage.replace(DOT, SLASH);
-        System.out.println("la "+scannedPath);
+
         URL scannedUrl = Thread.currentThread().getContextClassLoader().getResource(".");
-        System.out.println("icic "+scannedUrl);      
+
         if (scannedUrl == null) {
             throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR, scannedPath, scannedPackage));
         }
@@ -50,7 +50,6 @@ public class AlgoFinder {
     public static List<Class<Algorithm>> findAlgoInJar() {
     	String scannedPackage = "algo.implem";
         String scannedPath = scannedPackage;//scannedPackage.replace(DOT, SLASH);
-        System.out.println("la "+scannedPath);
         URL scannedUrl = null;
 		scannedUrl = Thread.currentThread().getContextClassLoader().getSystemResource("algo/implem");
 		File dir = null;
@@ -64,6 +63,7 @@ public class AlgoFinder {
 		System.out.println(dir.getAbsolutePath());
         List<Class<Algorithm>> classes = new ArrayList<Class<Algorithm>>();
         if(dir.listFiles() == null){
+        
         	String[] str = dir.getAbsolutePath().split("!");
         	classes = getClasseNamesInPackage(str[0].split(":")[1], scannedPackage);
         }
