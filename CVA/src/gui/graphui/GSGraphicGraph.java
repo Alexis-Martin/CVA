@@ -5,6 +5,10 @@ import gui.graphui.listener.GSGraphicGraphMouseListener;
 import gui.graphui.listener.SelectorListener;
 
 import java.awt.Component;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,7 +53,7 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
 	private GSGraphicGraphKeyListener GSGGKL;
 	public HashMap<String,Couple> positions;
 	private int created_c_id = 0;
-	//REMEMBER
+
 	MemoryStack<HashSet<Argument>> removed_nodes ;
 	MemoryStack<HashSet<Relation>> removed_edges;
 	MemoryStack<HashSet<Argument>> added_nodes;
@@ -65,8 +69,26 @@ public class GSGraphicGraph extends Thread implements GraphicGraph, ViewerListen
         this.viewer =  new Viewer(this.graphstream, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         this.viewer.enableAutoLayout();
         this.viewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-        this.setDefaultCSS("style/default.css");
+        
+	    File file = new File("./CVA_default_stylesheet.css");
+	      
+	      try {
+			if (file.createNewFile()){
+	    		FileWriter fileWritter = new FileWriter(file.getName(),true);
+    	        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+    	        String style = "node{  fill-color: blue;  text-background-mode:rounded-box;  text-color:white;  text-background-color:blue;  text-padding:2px;  text-style:bold;}node.default{  fill-color: blue;}node.select{	fill-color:green;}edge{	fill-color:black;}edge.attack{	fill-color:red;}edge.defend{	fill-color:blue;}";
+    	        bufferWritter.write(style);
+    	        bufferWritter.close();
 
+			}
+
+	      }catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    System.out.println("sdqyfsdfbjsdjk");
+	    System.out.println(file.getAbsolutePath());
+        this.setDefaultCSS("./CVA_default_stylesheet.css");
         this.setMinimumNodeSize(10);
         this.setMaximumNodeSize(30);
         this.updateStyle();

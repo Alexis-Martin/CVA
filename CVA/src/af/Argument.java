@@ -6,8 +6,15 @@ import java.util.Iterator;
 
 public interface Argument {
 	
+	/**
+	 *  Permit to get the Id of the argument
+	 * @return id of the argument
+	 */
 	public String getId();
-	
+	/**
+	 *  Permit to set the utility of the argument
+	 * @param utility
+	 */
 	public void setUtility(double utility);
 	
 	public double getUtility();

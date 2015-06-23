@@ -119,7 +119,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	@SuppressWarnings("unchecked")
 	public static List<Algorithm> getAlgos(){
 		List<Algorithm> algos = new ArrayList<Algorithm>();
-		List<Class<Algorithm>> classes = AlgoFinder.findAlgo();
+		List<Class<Algorithm>> classes = AlgoFinder.findAlgoInJar();
 		for(Class<Algorithm> alg : classes){
 			Algorithm algo;
 			try {

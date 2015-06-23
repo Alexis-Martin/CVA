@@ -15,6 +15,11 @@ import af.GSArgument;
 
 public class ArgumentationFrameworkAdapter {
 	static int id = 0;
+	/**
+	 * 
+	 * @param g A graphstream Graph Object
+	 * @return ArgumentationFramwork corresponding to g
+	 */
 	public static ArgumentationFramework graphstreamToAGraph(Graph g){
 		GSArgumentationFramework agraph = new GSArgumentationFramework(g.getId()+"_"+id);
 		id++;
@@ -49,6 +54,12 @@ public class ArgumentationFrameworkAdapter {
 		}
 		return agraph;
 	}	
+	/**
+	 * 
+	 * @param g ArgumentationFramework object to transform into graphstream Object 
+	 * @param name name of the Graph
+	 * @return graphstream Multigraph
+	 */
 	public static Graph agraphToGraphstream(ArgumentationFramework g, String name){
 		MultiGraph gstream = new MultiGraph(name+"_"+id);
 		id++;
