@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import utils.AlgoFinder;
 import af.ArgumentationFramework;
 import af.Argument;
 
@@ -117,6 +118,20 @@ public abstract class AbstractAlgorithm implements Algorithm {
 	
 	@SuppressWarnings("unchecked")
 	public static List<Algorithm> getAlgos(){
+		List<Algorithm> algos = new ArrayList<Algorithm>();
+		List<Class<Algorithm>> classes = AlgoFinder.findAlgo();
+		for(Class<Algorithm> alg : classes){
+			Algorithm algo;
+			try {
+				algo = alg.newInstance();
+				algos.add(algo);
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		/*
 		File dir = FileHelper.getResource("src/algo/implem");
 		List<Algorithm> algos = new ArrayList<Algorithm>();
 		for (final File entryFile : dir.listFiles()){
@@ -139,6 +154,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
 				}
 			}
 		}	
+		*/
 		return algos;
 	}
 	
